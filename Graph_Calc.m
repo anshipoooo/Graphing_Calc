@@ -29,9 +29,9 @@ close all
 
 
 
-deriv1_y=zeros(1,length(x));
+deriv_y=zeros(1,length(x));
     for orig_name = 1:length(x)-1
-        deriv1_y(:,orig_name)=((y(:,orig_name+1))-(y(:,orig_name)));
+        deriv_y(:,orig_name)=((y(:,orig_name+1))-(y(:,orig_name)));
         if y(:,orig_name)>yMax
             y(:,orig_name)=NaN;
         end
@@ -47,8 +47,8 @@ deriv1_y=zeros(1,length(x));
         
         
         true_deriv=diff(y)/0.001;
-        z=deriv1_y/0.001;
-        disp(deriv1_y);
+        z=deriv_y/0.001;
+        disp(deriv_y);
 
         if deriv_q == 'y'
             

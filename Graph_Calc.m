@@ -91,12 +91,17 @@ true_deriv2=deriv2_y/xRange;
         deriv2_q=input('2nd derivative (y/n): ','s');
         if deriv2_q == 'y'
             plot(x(1:length(true_deriv2)-1),true_deriv2(1:length(true_deriv2)-1),'m')
+            disp('Original Function in blue');
+            disp('1st Derivative in green');
+            disp('2nd Derivative in magenta');
             hold on
             
         elseif deriv2_q == 'n'
             plot (x,y,'b');
             hold on
             plot(x(1:length(true_deriv1)-1),true_deriv1(1:length(true_deriv1)-1),'g');
+            disp('Original Function in blue');
+            disp('1st Derivative in green');
         
         end
 %% Set asymptotes for 1st derivative            
@@ -115,8 +120,12 @@ true_deriv2=deriv2_y/xRange;
             plot(x,y,'b');
             plot(x(:,1:length(true_deriv1)-1),true_deriv1(1:length(true_deriv1)-1),'g');
             
+            
+            
+%% No 1st derivative function
         elseif deriv1_q =='n'
             plot(x,y,'b');
+            disp('Original Function in blue');
         end
         
 %% Time to generate the graphs
@@ -124,6 +133,9 @@ true_deriv2=deriv2_y/xRange;
         disp('Time take to generate graph: ')
         disp(secs);
         
+
+
+
         
         
 end

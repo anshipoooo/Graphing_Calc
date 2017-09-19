@@ -2,7 +2,10 @@ clc;
 close all
 clear all
 
-
+%% TO DO
+% Display holes --> use scatter empty circle?
+% Create a start prompt (press enter to continue)
+% Figure out log
 
 while true
 %% User input: Graph max and min
@@ -39,7 +42,7 @@ deriv1_y=zeros(1,length(x));
         deriv1_y(:,orig1_name)=((y(:,orig1_name+1))-(y(:,orig1_name)));
         
         
-%% Set asymptotes
+%% Set f(x) asymptotes
         if y(:,orig1_name)>yMax
             y(:,orig1_name)=NaN;
         end
@@ -62,33 +65,8 @@ deriv1_y=zeros(1,length(x));
             deriv1_y(:,orig1_name)=NaN;
         end
     end
-%% Set asymptotes for 2nd derivative
-true_deriv2=deriv2_y/xRange;
-    for deriv_name = 1:length(true_deriv2)
-                if true_deriv2(:,deriv_name)>yMax
-                    true_deriv2(:,deriv_name)=NaN;
-                end
-                
-                if true_deriv2(:,deriv_name)<yMin
-                    true_deriv2(:,deriv_name)=NaN;
-                end
-                
-            end
-%% Ask for 1st derivative
-        deriv1_q=input('1st derivative (y/n): ','s');
-        
-        
-        
-        
-        
-
-        
-
-        if deriv1_q == 'y'
-            
-            
-
-%% Set asymptotes for 1st derivative            
+    
+%% Set f'(x) asymptotes           
             for deriv_name = 1:length(true_deriv1)
                 if true_deriv1(:,deriv_name)>yMax
                     true_deriv1(:,deriv_name)=NaN;
@@ -100,13 +78,42 @@ true_deriv2=deriv2_y/xRange;
                 
             end
 
+%% Set f''(x) asymptotes
+true_deriv2=deriv2_y/xRange;
+    for deriv_name = 1:length(true_deriv2)
+                if true_deriv2(:,deriv_name)>yMax
+                    true_deriv2(:,deriv_name)=NaN;
+                end
+                
+                if true_deriv2(:,deriv_name)<yMin
+                    true_deriv2(:,deriv_name)=NaN;
+                end
+                
+    end
+        
+%% Ask for derivatives
+        deriv1_q=input('1st derivative (y/n): ','s');
+        deriv2_q=input('2nd derivative (y/n): ','s');
+        
+        
+        
+        
+        
+
+        
+
+    if deriv1_q == 'y'  
+    
 %% Plot original graph and 1st derivative
             grid on
             plot(x,y,'b');
+            hold on
             plot(x(:,1:length(true_deriv1)-1),true_deriv1(1:length(true_deriv1)-1),'g');
             xlim([xMin xMax]);
             ylim([yMin yMax]);
-            
+            hold on
+            disp('Original Function in blue');
+            disp('1st Derivative in green');
             
             
             
@@ -115,12 +122,14 @@ true_deriv2=deriv2_y/xRange;
             plot(x,y,'b');
             xlim([xMin xMax]);
             ylim([yMin yMax]);
+            hold on
             grid on
             disp('Original Function in blue');
         end
         
-        %% Ask for 2nd derivative
-        deriv2_q=input('2nd derivative (y/n): ','s');
+
+%% Plot 2nd derivative
+
         if deriv2_q == 'y'
             plot(x(1:length(true_deriv2)-1),true_deriv2(1:length(true_deriv2)-1),'m');
             xlim([xMin xMax]);
@@ -136,7 +145,6 @@ true_deriv2=deriv2_y/xRange;
             grid on
             hold on
             disp('Original Function in blue');
-            disp('1st Derivative in green');
         
         end
 %% Time to generate the graphs
@@ -146,7 +154,7 @@ true_deriv2=deriv2_y/xRange;
         
 
 
-
-        
-        
 end
+        
+        
+

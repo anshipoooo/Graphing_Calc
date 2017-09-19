@@ -2,7 +2,17 @@ clc;
 close all
 clear all
 
+%% TO DO
+% Display holes --> use scatter empty circle?
+% Create a start prompt (press enter to continue)
+% Figure out log and ln functions
+% Markers for points of inflection
+% Markers for relative max and min
+% Integration !!!!
 
+
+
+% If time permits flip onto a screen?
 
 while true
 %% User input: Graph max and min
@@ -99,11 +109,8 @@ true_deriv2=deriv2_y/xRange;
 
         
 
-        if deriv1_q == 'y'
-            
-            
-
-
+    if deriv1_q == 'y'  
+    
 %% Plot original graph and 1st derivative
             grid on
             plot(x,y,'b');
@@ -154,7 +161,7 @@ true_deriv2=deriv2_y/xRange;
         
 
 
-
-        
-        
 end
+        
+        
+

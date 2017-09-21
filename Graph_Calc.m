@@ -4,6 +4,8 @@ clear all
 
 %% TO DO
 % Display holes --> use scatter empty circle?
+    %Restrict calculation of NaN to graphing space
+    
 % Create a start prompt (press enter to continue)
 % Figure out log and ln functions
 % Markers for points of inflection
@@ -24,10 +26,12 @@ xMin=str2num(xMin_In);
 xMax=str2num(xMax_In);
 xRange=str2num(xRange_In);
 
+
 yMin_In=input('Declare y min: ','s');
 yMax_In=input('Declare y max: ','s');
 yMin=str2num(yMin_In);
 yMax=str2num(yMax_In);
+
 
 
 %% x Range
@@ -119,6 +123,24 @@ true_deriv2=deriv2_y/xRange;
             plot(x(:,1:length(true_deriv1)-1),true_deriv1(1:length(true_deriv1)-1),'g');
             xlim([xMin xMax]);
             ylim([yMin yMax]);
+%% Holes f(x)
+            
+            for hole_orig=2:length(y)-1
+                if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
+                        ~isnan(y(:,hole_orig+1))
+                    y(:,hole_orig)=y(:,hole_orig-1);
+                    scatter(x(:,hole_orig),y(:,hole_orig),'o','b');
+                end
+            end
+%% Holes f'(x)
+            for hole_first=2:length(true_deriv1)-1
+                if isnan(true_deriv1(:,hole_first)) && ~isnan(true_deriv1...
+                        (:,hole_first-1)) && ~isnan(true_deriv1(:,hole_first +1))
+                    true_deriv1(:,hole_first)=true_deriv1(:,hole_first-1);
+                    scatter(x(:,hole_first),true_deriv1(:,hole_first),'o','g');
+                end
+            end
+            
             hold on
             disp('Original Function in blue');
             disp('1st Derivative in green');
@@ -131,6 +153,15 @@ true_deriv2=deriv2_y/xRange;
             xlim([xMin xMax]);
             ylim([yMin yMax]);
             hold on
+            
+%% Holes for f'(x)
+            for hole_first=2:length(true_deriv1)-1
+                if isnan(true_deriv1(:,hole_first)) && ~isnan(true_deriv1...
+                        (:,hole_first-1)) && ~isnan(true_deriv1(:,hole_first +1))
+                    true_deriv1(:,hole_first)=true_deriv1(:,hole_first-1);
+                    scatter(x(:,hole_first),true_deriv1(:,hole_first),'o','g');
+                end
+            end
             grid on
             disp('Original Function in blue');
         end
@@ -146,10 +177,31 @@ true_deriv2=deriv2_y/xRange;
             grid on
             hold on
             
+%% Holes for f''(x)
+            for hole_second=2:length(true_deriv2)-1
+                if isnan(true_deriv2(:,hole_second)) && ~isnan(true_deriv2...
+                        (:,hole_second-1)) && ~isnan(true_deriv2(:,hole_second+1))
+                    true_deriv2(:,hole_second)=true_deriv2(:,hole_second-1);
+                    scatter(x(:,hole_second),true_deriv2(:,hole_second),'o','m');
+                end
+            end
+            
+            
+            
         elseif deriv2_q == 'n'
             plot (x,y,'b');
             xlim([xMin xMax]);
             ylim([yMin yMax]);
+
+%% Hole for f(x)
+            for hole_orig=2:length(y)
+                if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1))...
+                        && ~isnan(y(:,hole_orig+1))
+                    y(:,hole_orig)=y(:,hole_orig-1);
+                    scatter(x(:,hole_orig),y(:,hole_orig),'o','b');
+                end
+            end
+            
             grid on
             hold on
             disp('Original Function in blue');

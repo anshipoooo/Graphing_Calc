@@ -3,8 +3,6 @@ close all
 clear all
 
 %% TO DO
-% Display holes --> use scatter empty circle?
-    %Restrict calculation of NaN to graphing space
     
 % Create a start prompt (press enter to continue)
 % Figure out log and ln functions
@@ -17,7 +15,12 @@ clear all
 
 % If time permits flip onto a screen?
 
-while true
+disp('Welcome to my Graphing Calculator Project');
+WaitSecs(1);
+enter_prompt = input('Type enter to continue: ','s');
+
+
+while enter_prompt=='enter'
 %% User input: Graph max and min
 xMin_In=input('Declare x min: ','s');
 xMax_In=input('Declare x max: ','s');
@@ -125,7 +128,7 @@ true_deriv2=deriv2_y/xRange;
             ylim([yMin yMax]);
 %% Holes f(x)
             
-            for hole_orig=2:length(y)
+            for hole_orig=2:length(y)-1
                 if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
                         ~isnan(y(:,hole_orig+1))
                     y(:,hole_orig)=y(:,hole_orig-1);
@@ -178,7 +181,7 @@ true_deriv2=deriv2_y/xRange;
             hold on
             
 %% Holes for f''(x)
-            for hole_second=2:length(true_deriv2)-1
+            for hole_second=2:length(true_deriv2)-2
                 if isnan(true_deriv2(:,hole_second)) && ~isnan(true_deriv2...
                         (:,hole_second-1)) && ~isnan(true_deriv2(:,hole_second+1))
                     true_deriv2(:,hole_second)=true_deriv2(:,hole_second-1);

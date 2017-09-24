@@ -49,98 +49,124 @@ close all
 
 
 
-%% Calculate 1st derivative of f(x)
-deriv1_y=zeros(1,length(x));
 
 
-    for orig1_name = 1:length(x)-1
-        deriv1_y(:,orig1_name)=((y(:,orig1_name+1))-(y(:,orig1_name)));
-        
-        
-%% Set f(x) asymptotes
-        if y(:,orig1_name)>yMax
-            y(:,orig1_name)=NaN;
-        end
-        if y(:,orig1_name)<yMin
-            y(:,orig1_name)=NaN;
-        end
-        
-    end
 
-            true_deriv1=deriv1_y/xRange;
-%% Calculate 2nd derivative (d/dx (f'(x))
-    deriv2_y=zeros(1,length(deriv1_y));
-    for orig2_name = 1:length(deriv1_y)-1
-        deriv2_y(:,orig2_name)=((true_deriv1(:,orig2_name+1))-(...
-            true_deriv1(:,orig2_name)));
-        if deriv1_y(:,orig1_name)>yMax
-            deriv1_y(:,orig1_name)=NaN;
-        end
-        if deriv1_y(:,orig1_name)<yMin
-            deriv1_y(:,orig1_name)=NaN;
-        end
-    end
-    
-%% Set f'(x) asymptotes           
-            for deriv_name = 1:length(true_deriv1)
-                if true_deriv1(:,deriv_name)>yMax
-                    true_deriv1(:,deriv_name)=NaN;
-                end
-                
-                if true_deriv1(:,deriv_name)<yMin
-                    true_deriv1(:,deriv_name)=NaN;
-                end
-                
-            end
 
-%% Set f''(x) asymptotes
-true_deriv2=deriv2_y/xRange;
-    for deriv_name = 1:length(true_deriv2)
-                if true_deriv2(:,deriv_name)>yMax
-                    true_deriv2(:,deriv_name)=NaN;
-                end
-                
-                if true_deriv2(:,deriv_name)<yMin
-                    true_deriv2(:,deriv_name)=NaN;
-                end
-                
-    end
-        
 %% Ask for derivatives
         deriv1_q=input('1st derivative (y/n): ','s');
         deriv2_q=input('2nd derivative (y/n): ','s');
         
         
         
-        
+%% Real number calc
+num_y=(y==real(y));
+real_orig_y=y(num_y);
+real_orig_x=x(num_y);
+
+%% Calculate 1st derivative of f(x)
+deriv1_y=zeros(1,length(real_orig_x));
+  for orig1_name = 1:length(real_orig_x)-1
+        deriv1_y(:,orig1_name)=((real_orig_y(:,orig1_name+1))-(real_orig_y(:,orig1_name)));
+  end
+true_deriv1=deriv1_y/xRange;  
+
+
+
+num_first=(true_deriv1==real(true_deriv1));
+real_first=true_deriv1(num_first);
+real_first_x=x(num_first);
+
+
+
+%% Calculate 2nd derivative (d/dx (f'(x))
+    deriv2_y=zeros(1,length(real_first));
+    for orig2_name = 1:length(real_first)-1
+        deriv2_y(:,orig2_name)=((real_first(:,orig2_name+1))-(...
+            real_first(:,orig2_name)));
+    end
+
+
+true_deriv2=deriv2_y/xRange;
+
+num_sec=(true_deriv2==real(true_deriv2));
+real_sec=true_deriv2(num_sec);
+real_sec_x=x(num_sec);
         
 
+  for orig1_name = 1:length(real_orig_x)-1
         
+        
+%% Set f(x) asymptotes
+        if real_orig_y(:,orig1_name)>yMax
+            real_orig_y(:,orig1_name)=NaN;
+        end
+        if real_orig_y(:,orig1_name)<yMin
+            real_orig_y(:,orig1_name)=NaN;
+        end
+        
+    end
 
+                    
+
+            
+%% Set f'(x) asymptotes           
+            for deriv_name = 1:length(real_first)
+                if real_first(:,deriv_name)>yMax
+                    real_first(:,deriv_name)=NaN;
+                end
+                
+                if real_first(:,deriv_name)<yMin
+                    real_first(:,deriv_name)=NaN;
+                end
+                
+            end
+
+%% Set f''(x) asymptotes
+
+    for deriv_name = 1:length(real_sec)
+                if real_sec(:,deriv_name)>yMax
+                    real_sec(:,deriv_name)=NaN;
+                end
+                
+                if real_sec(:,deriv_name)<yMin
+                    real_sec(:,deriv_name)=NaN;
+                end
+                
+    end
+            
     if deriv1_q == 'y'  
     
 %% Plot original graph and 1st derivative
-            grid on
-            plot(x,y,'b');
-            hold on
-            plot(x(:,1:length(true_deriv1)-1),true_deriv1(1:length(true_deriv1)-1),'g');
-            xlim([xMin xMax]);
-            ylim([yMin yMax]);
+            real_num=zeros(1,length(num_y));
+            for real_first_plot=1:length(real_orig_y)
+                real_num(:,real_first_plot)=num_y(:,real_first_plot);
+                
+                grid on
+                hold on
+                plot(real_orig_x,real_orig_y,'b');
+                hold on
+                plot(real_orig_x,real_first,'g');
+                xlim([xMin xMax]);
+                ylim([yMin yMax]);
+            end
 %% Holes f(x)
             
-            for hole_orig=2:length(y)-1
-                if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
-                        ~isnan(y(:,hole_orig+1))
-                    y(:,hole_orig)=y(:,hole_orig-1);
-                    scatter(x(:,hole_orig),y(:,hole_orig),'o','b');
+            for hole_orig=2:length(real_orig_y)-1
+                if isnan(real_orig_y(:,hole_orig)) && ~isnan(real_orig_y(:,hole_orig-1)) && ...
+                        ~isnan(real_orig_y(:,hole_orig+1))
+                    real_orig_y(:,hole_orig)=real_orig_y(:,hole_orig-1);
+                    hold on
+                    scatter(real_orig_x(:,hole_orig),real_orig_y(:,hole_orig),'o','b');
                 end
             end
 %% Holes f'(x)
-            for hole_first=2:length(true_deriv1)-1
-                if isnan(true_deriv1(:,hole_first)) && ~isnan(true_deriv1...
-                        (:,hole_first-1)) && ~isnan(true_deriv1(:,hole_first +1))
-                    true_deriv1(:,hole_first)=true_deriv1(:,hole_first-1);
-                    scatter(x(:,hole_first),true_deriv1(:,hole_first),'o','g');
+            for hole_first=2:length(real_first)-1
+                if isnan(real_first(:,hole_first)) && ~isnan(real_first...
+                        (:,hole_first-1)) && ~isnan(real_first(:,hole_first +1))
+                    real_first(:,hole_first)=real_first(:,hole_first-1);
+                    hold on
+                    scatter(real_orig_x(:,hole_first),real_first(:,hole_first),'o','g');
                 end
             end
             
@@ -152,17 +178,18 @@ true_deriv2=deriv2_y/xRange;
             
 %% No 1st derivative function
         elseif deriv1_q =='n'
-            plot(x,y,'b');
-            xlim([xMin xMax]);
-            ylim([yMin yMax]);
-            hold on
+%             for real_orig_plot=
+                plot(real_orig_x,real_orig_y,'b');
+                xlim([xMin xMax]);
+                ylim([yMin yMax]);
+                hold on
             
 %% Holes for f'(x)
-            for hole_first=2:length(true_deriv1)-1
-                if isnan(true_deriv1(:,hole_first)) && ~isnan(true_deriv1...
-                        (:,hole_first-1)) && ~isnan(true_deriv1(:,hole_first +1))
-                    true_deriv1(:,hole_first)=true_deriv1(:,hole_first-1);
-                    scatter(x(:,hole_first),true_deriv1(:,hole_first),'o','g');
+            for hole_first=2:length(real_first)-1
+                if isnan(real_first(:,hole_first)) && ~isnan(real_first...
+                        (:,hole_first-1)) && ~isnan(real_first(:,hole_first +1))
+                    real_first(:,hole_first)=real_first(:,hole_first-1);
+                    scatter(real_orig_x(:,hole_first),real_first(:,hole_first),'o','g');
                 end
             end
             grid on
@@ -173,7 +200,7 @@ true_deriv2=deriv2_y/xRange;
 %% Plot 2nd derivative
 
         if deriv2_q == 'y'
-            plot(x(1:length(true_deriv2)-1),true_deriv2(1:length(true_deriv2)-1),'m');
+            plot(real_orig_x,real_sec,'m');
             xlim([xMin xMax]);
             ylim([yMin yMax]);
             disp('2nd Derivative in magenta');
@@ -181,27 +208,27 @@ true_deriv2=deriv2_y/xRange;
             hold on
             
 %% Holes for f''(x)
-            for hole_second=2:length(true_deriv2)-2
-                if isnan(true_deriv2(:,hole_second)) && ~isnan(true_deriv2...
-                        (:,hole_second-1)) && ~isnan(true_deriv2(:,hole_second+1))
-                    true_deriv2(:,hole_second)=true_deriv2(:,hole_second-1);
-                    scatter(x(:,hole_second),true_deriv2(:,hole_second),'o','m');
+            for hole_second=2:length(real_sec)-2
+                if isnan(real_sec(:,hole_second)) && ~isnan(real_sec...
+                        (:,hole_second-1)) && ~isnan(real_sec(:,hole_second+1))
+                    real_sec(:,hole_second)=real_sec(:,hole_second-1);
+                    scatter(real_orig_x(:,hole_second),real_sec(:,hole_second),'o','m');
                 end
             end
             
             
             
         elseif deriv2_q == 'n'
-            plot (x,y,'b');
+            plot (real_orig_x,real_orig_y,'b');
             xlim([xMin xMax]);
             ylim([yMin yMax]);
 
 %% Hole for f(x)
-            for hole_orig=2:length(y)
-                if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1))...
-                        && ~isnan(y(:,hole_orig+1))
-                    y(:,hole_orig)=y(:,hole_orig-1);
-                    scatter(x(:,hole_orig),y(:,hole_orig),'o','b');
+            for hole_orig=2:length(real_orig_y)
+                if isnan(real_orig_y(:,hole_orig)) && ~isnan(real_orig_y(:,hole_orig-1))...
+                        && ~isnan(real_orig_y(:,hole_orig+1))
+                    real_orig_y(:,hole_orig)=real_orig_y(:,hole_orig-1);
+                    scatter(real_orig_x(:,hole_orig),real_orig_y(:,hole_orig),'o','b');
                 end
             end
             

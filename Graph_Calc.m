@@ -111,15 +111,20 @@ real_sec_x=x(num_sec);
 
             
 %% Set f'(x) asymptotes           
-            for deriv_name = 1:length(real_first)
-                if real_first(:,deriv_name)>yMax
+            for deriv_name = 2:length(real_first)
+%                 if real_first(:,deriv_name)>yMax
+%                     real_first(:,deriv_name)=NaN;
+%                 end
+%                 
+%                 if real_first(:,deriv_name)<yMin
+%                     real_first(:,deriv_name)=NaN;
+%                 end
+                if real_first(:,deriv_name-1)-real_first(:,deriv_name)>1
                     real_first(:,deriv_name)=NaN;
                 end
-                
-                if real_first(:,deriv_name)<yMin
+                if real_first(:,deriv_name-1)-real_first(:,deriv_name)<-1
                     real_first(:,deriv_name)=NaN;
                 end
-                
             end
 
 %% Set f''(x) asymptotes
@@ -134,39 +139,48 @@ real_sec_x=x(num_sec);
                 end
                 
     end
-            
+    
+%% X and Y line
+
+plot([xMin xMax],[0 0],'k');
+hold on
+plot([0 0],[yMin yMax],'k');
+hold on
+    
+%% Start graphing
+
     if deriv1_q == 'y'  
     
 %% Plot original graph and 1st derivative
             real_num=zeros(1,length(num_y));
             for real_first_plot=1:length(real_orig_y)
                 real_num(:,real_first_plot)=num_y(:,real_first_plot);
-                
+            end
                 grid on
                 hold on
                 plot(real_orig_x,real_orig_y,'b');
                 hold on
-                plot(real_orig_x,real_first,'g');
+                plot(real_orig_x(:,1:length(real_first)-1),real_first(:,1:length(real_first)-1),'g');
                 xlim([xMin xMax]);
                 ylim([yMin yMax]);
-            end
+
 %% Holes f(x)
             
-            for hole_orig=2:length(real_orig_y)-1
-                if isnan(real_orig_y(:,hole_orig)) && ~isnan(real_orig_y(:,hole_orig-1)) && ...
-                        ~isnan(real_orig_y(:,hole_orig+1))
-                    real_orig_y(:,hole_orig)=real_orig_y(:,hole_orig-1);
+            for hole_orig=2:length(y)-1
+                if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
+                        ~isnan(y(:,hole_orig+1))
+                    y(:,hole_orig)=y(:,hole_orig-1);
                     hold on
-                    scatter(real_orig_x(:,hole_orig),real_orig_y(:,hole_orig),'o','b');
+                    scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
                 end
             end
 %% Holes f'(x)
-            for hole_first=2:length(real_first)-1
-                if isnan(real_first(:,hole_first)) && ~isnan(real_first...
-                        (:,hole_first-1)) && ~isnan(real_first(:,hole_first +1))
-                    real_first(:,hole_first)=real_first(:,hole_first-1);
+            for hole_first=2:length(true_deriv1)-1
+                if isnan(true_deriv1(:,hole_first)) && ~isnan(true_deriv1...
+                        (:,hole_first-1)) && ~isnan(true_deriv1(:,hole_first +1))
+                    true_deriv1(:,hole_first)=true_deriv1(:,hole_first-1);
                     hold on
-                    scatter(real_orig_x(:,hole_first),real_first(:,hole_first),'o','g');
+                    scatter(real_orig_x(:,hole_first),true_deriv1(:,hole_first),'o','g');
                 end
             end
             
@@ -184,15 +198,16 @@ real_sec_x=x(num_sec);
                 ylim([yMin yMax]);
                 hold on
             
-%% Holes for f'(x)
-            for hole_first=2:length(real_first)-1
-                if isnan(real_first(:,hole_first)) && ~isnan(real_first...
-                        (:,hole_first-1)) && ~isnan(real_first(:,hole_first +1))
-                    real_first(:,hole_first)=real_first(:,hole_first-1);
-                    scatter(real_orig_x(:,hole_first),real_first(:,hole_first),'o','g');
+%% Holes f(x)
+            
+            for hole_orig=2:length(y)-1
+                if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
+                        ~isnan(y(:,hole_orig+1))
+                    y(:,hole_orig)=y(:,hole_orig-1);
+                    hold on
+                    scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
                 end
             end
-            grid on
             disp('Original Function in blue');
         end
         
@@ -208,11 +223,11 @@ real_sec_x=x(num_sec);
             hold on
             
 %% Holes for f''(x)
-            for hole_second=2:length(real_sec)-2
-                if isnan(real_sec(:,hole_second)) && ~isnan(real_sec...
-                        (:,hole_second-1)) && ~isnan(real_sec(:,hole_second+1))
-                    real_sec(:,hole_second)=real_sec(:,hole_second-1);
-                    scatter(real_orig_x(:,hole_second),real_sec(:,hole_second),'o','m');
+            for hole_second=2:length(true_deriv2)-2
+                if isnan(true_deriv2(:,hole_second)) && ~isnan(true_deriv2...
+                        (:,hole_second-1)) && ~isnan(true_deriv2(:,hole_second+1))
+                    true_deriv2(:,hole_second)=true_deriv2(:,hole_second-1);
+                    scatter(real_orig_x(:,hole_second),true_deriv2(:,hole_second),'o','m');
                 end
             end
             
@@ -223,12 +238,14 @@ real_sec_x=x(num_sec);
             xlim([xMin xMax]);
             ylim([yMin yMax]);
 
-%% Hole for f(x)
-            for hole_orig=2:length(real_orig_y)
-                if isnan(real_orig_y(:,hole_orig)) && ~isnan(real_orig_y(:,hole_orig-1))...
-                        && ~isnan(real_orig_y(:,hole_orig+1))
-                    real_orig_y(:,hole_orig)=real_orig_y(:,hole_orig-1);
-                    scatter(real_orig_x(:,hole_orig),real_orig_y(:,hole_orig),'o','b');
+%% Holes f(x)
+            
+            for hole_orig=2:length(y)-1
+                if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
+                        ~isnan(y(:,hole_orig+1))
+                    y(:,hole_orig)=y(:,hole_orig-1);
+                    hold on
+                    scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
                 end
             end
             

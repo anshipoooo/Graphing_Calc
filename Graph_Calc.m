@@ -12,7 +12,6 @@ clear all
 
 
 
-
 % If time permits flip onto a screen?
 
 disp('Welcome to my Graphing Calculator Project');

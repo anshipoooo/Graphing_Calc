@@ -5,7 +5,6 @@ clear all
 %% TO DO
     
 % Create a start prompt (press enter to continue)
-% Figure out log and ln functions
 % Markers for points of inflection
 % Markers for relative max and min
 % Integration !!!!
@@ -14,13 +13,23 @@ clear all
 
 
 % If time permits flip onto a screen?
+% 
+
+KbName('UnifyKeynames');
+enter_code=KbName('y');
+disp('Press ''y'' to continue');
+
+
+[keyIsDown,timeSecs,keyCode]=KbCheck();
+while ~keyCode(enter_code)
+    [keyIsDown,timeSecs,keyCode]=KbCheck();
+end
+
 
 disp('Welcome to my Graphing Calculator Project');
 WaitSecs(1);
-enter_prompt = input('Type enter to continue: ','s');
-
-
-while enter_prompt=='enter'
+clc;
+while keyCode(:,28)==1
 %% User input: Graph max and min
 xMin_In=input('Declare x min: ','s');
 xMax_In=input('Declare x max: ','s');
@@ -44,7 +53,7 @@ x=xMin:xRange:xMax;
 %% Convert user input into function
 y=Graphing_Calc(x);
 close all
-
+tic;
 
 
 
@@ -255,10 +264,7 @@ hold on
         
         end
 %% Time to generate the graphs
-        secs=GetSecs;
-        disp('Time take to generate graph: ')
-        disp(secs);
-        
+        toc
 
 
 end

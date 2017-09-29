@@ -24,12 +24,12 @@ while ~keyCode(enter_code)
     [keyIsDown,timeSecs,keyCode]=KbCheck();
 end
 
-
+clc;
 disp('Welcome to my Graphing Calculator Project');
 WaitSecs(1);
-clc;
 while keyCode(:,28)==1
 %% User input: Graph max and min
+clc;
 xMin_In=input('Declare x min: ','s');
 xMax_In=input('Declare x max: ','s');
 xRange_In=input('Declare space between points: ','s');
@@ -63,7 +63,9 @@ tic;
 
 %% Ask for derivatives
         deriv1_q=input('1st derivative (y/n): ','s');
+        
         deriv2_q=input('2nd derivative (y/n): ','s');
+        
         
         
         
@@ -103,7 +105,7 @@ real_sec_x=x(num_sec);
         
 
   for orig1_name = 1:length(real_orig_x)-1
-        
+   
         
 %% Set f(x) asymptotes
         if real_orig_y(:,orig1_name)>yMax
@@ -120,13 +122,6 @@ real_sec_x=x(num_sec);
             
 %% Set f'(x) asymptotes           
             for deriv_name = 2:length(real_first)
-%                 if real_first(:,deriv_name)>yMax
-%                     real_first(:,deriv_name)=NaN;
-%                 end
-%                 
-%                 if real_first(:,deriv_name)<yMin
-%                     real_first(:,deriv_name)=NaN;
-%                 end
                 if real_first(:,deriv_name-1)-real_first(:,deriv_name)>1
                     real_first(:,deriv_name)=NaN;
                 end
@@ -175,12 +170,19 @@ hold on
 %% Holes f(x)
             
             for hole_orig=2:length(y)-1
+                if isnan(y(:,hole_orig))
+                    scatter(real_orig_x(:,hole_orig),real_first(:,hole_orig),'o','g');
+                    hold on
+                    scatter(real_orig_x(:,hole_orig),real_sec(:,hole_orig),'o','m');
+                    hold on
+                end
                 if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
                         ~isnan(y(:,hole_orig+1))
                     y(:,hole_orig)=y(:,hole_orig-1);
                     hold on
                     scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
                 end
+                
             end
 %% Holes f'(x)
             for hole_first=2:length(true_deriv1)-1

@@ -1,8 +1,4 @@
 
-clc;
-close all
-clear all
-
 
 
 aH = axes;
@@ -14,7 +10,7 @@ aH = axes;
  set(lH,'hittest','off'); % so you can click on the Markers
  hold on; 
  set(aH,'ButtonDownFcn',@getCoord); % Defining what happens when clicking
- uiwait(f) %so multiple clicks can be used
+%  uiwait(f) %so multiple clicks can be used
 
 
 

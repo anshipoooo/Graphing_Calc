@@ -26,21 +26,20 @@ if strcmp(click_type,'normal')
     yp=get(finalH,'Ydata');
     ptH = plot(aH,xp(finalIdx),yp(finalIdx),'k*','MarkerSize',20);
     setappdata(aH,'CurrentPoint',ptH);
-    
+
     fprintf('\n x= ');
     fprintf('%d',xp(finalIdx));
     fprintf('\n');
-    
-    
+
+
     fprintf('\n y=');
     fprintf('%d',yp(finalIdx));
     fprintf('\n');
 %     disp(xp(finalIdx));
 %     disp(yp(finalIdx));
-    
-   
+
 elseif strcmp(click_type,'alt')
-    %do your stuff once your point is selected   
+    %do your stuff once your point is selected
     disp('Done clicking!');
     % HERE IS WHERE YOU CAN PUT YOUR STUFF
 end

@@ -27,14 +27,17 @@ if strcmp(click_type,'normal')
     ptH = plot(aH,xp(finalIdx),yp(finalIdx),'k*','MarkerSize',20);
     setappdata(aH,'CurrentPoint',ptH);
 
-    fprintf('\n x= ');
-    fprintf('%d',xp(finalIdx));
-    fprintf('\n');
+
+    rnd_xp=round(xp,3);
+    rnd_yp=round(yp,3);
 
 
-    fprintf('\n y=');
-    fprintf('%d',yp(finalIdx));
-    fprintf('\n');
+    fprintf('\n (');
+    fprintf('%.3f',rnd_yp(finalIdx));
+    fprintf(',');
+
+    fprintf('%.3f',rnd_yp(finalIdx));
+    fprintf(')\n');
 %     disp(xp(finalIdx));
 %     disp(yp(finalIdx));
 

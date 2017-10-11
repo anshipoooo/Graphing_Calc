@@ -3,7 +3,11 @@ close all
 clear all
 %% TO DO
 % If time permits flip onto a screen?
-% Use getCoord for interactivity
+
+
+
+
+
 % KbName('UnifyKeynames');
 % enter_code=KbName('y');
 % esc_code=KbName('ESCAPE');
@@ -44,10 +48,12 @@ x=xMin:xDist:xMax;
 y=Graphing_Calc(x);
 close all
 tic;
-%% Ask for derivatives
+%% User graph prompts
         deriv1_q=input('1st derivative (y/n): ','s');
 
         deriv2_q=input('2nd derivative (y/n): ','s');
+
+        tracing_input=input('Would you like to trace the graph? (y/n) ','s');
 %% Real number calc
 num_y=(y==real(y));
 real_orig_y=y(num_y);
@@ -75,8 +81,7 @@ real_sec_x=x(num_sec);
 %% Set f(x) asymptotes
         if real_orig_y(:,orig1_name)>yMax
             real_orig_y(:,orig1_name)=NaN;
-        end
-        if real_orig_y(:,orig1_name)<yMin
+        elseif real_orig_y(:,orig1_name)<yMin
             real_orig_y(:,orig1_name)=NaN;
         end
   end
@@ -84,21 +89,23 @@ real_sec_x=x(num_sec);
             for deriv_name = 2:length(real_first)
                 if real_first(:,deriv_name-1)-real_first(:,deriv_name)>1
                     real_first(:,deriv_name)=NaN;
-                end
-                if real_first(:,deriv_name-1)-real_first(:,deriv_name)<-1
-                    real_first(:,deriv_name)=NaN;
+                elseif real_first(:,deriv_name-1)-real_first(:,deriv_name)<-1
+                  real_first(:,deriv_name)=NaN;
                 end
             end
 %% Set f''(x) asymptotes
-    for deriv_name = 1:length(real_sec)
-                if real_sec(:,deriv_name)>yMax
+    for deriv_name = 2:length(real_sec)
+                if real_sec(:,deriv_name-1)-real_sec(:,deriv_name)>yMax
                     real_sec(:,deriv_name)=NaN;
-                end
-
-                if real_sec(:,deriv_name)<yMin
-                    real_sec(:,deriv_name)=NaN;
+                elseif real_sec(:,deriv_name-1)-real_sec(:,deriv_name)<yMin
+                  real_sec(:,deriv_name)=NaN;
                 end
     end
+
+%% axes
+aH=axes;
+xlim([xMin xMax]);
+ylim([yMin yMax]);
 %% Start graphing
     if deriv1_q == 'y'
 %% Plot original graph and 1st derivative
@@ -108,13 +115,17 @@ real_sec_x=x(num_sec);
             end
                 grid on
                 hold on
-                aH=axes;
                 graph(1)=plot(aH,real_orig_x,real_orig_y,'b');
                 hold on
                 graph(2)=plot(aH,real_orig_x(:,1:length(real_first)-1),real_first(:,1:length(real_first)-1),'g');
                 hold on
-                xlim([xMin xMax]);
-                ylim([yMin yMax]);
+%% X and Y line
+        axis([xMin xMax yMin yMax]);
+        plot([xMin xMax],[0 0],'k');
+        hold on
+        plot([0 0],[yMin yMax],'k');
+        hold on
+
 %% Holes f(x)
             for hole_orig=2:length(real_first)-1
                 if isnan(y(:,hole_orig))
@@ -122,8 +133,7 @@ real_sec_x=x(num_sec);
                     hold on
                     scatter(real_orig_x(:,hole_orig),real_sec(:,hole_orig),'o','m');
                     hold on
-                end
-                if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
+                elseif isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
                         ~isnan(y(:,hole_orig+1))
                     y(:,hole_orig)=y(:,hole_orig-1);
                     hold on
@@ -145,12 +155,9 @@ real_sec_x=x(num_sec);
             disp('1st Derivative in green');
 %% No 1st derivative function
         elseif deriv1_q =='n'
-                aH=axes
                 graph(1)=plot(aH,real_orig_x,real_orig_y,'b');
                 hold on
-                xlim([xMin xMax]);
-                ylim([yMin yMax]);
-                hold on
+
 %% Holes f(x)
             for hole_orig=2:length(y)-1
                 if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
@@ -166,8 +173,7 @@ real_sec_x=x(num_sec);
         if deriv2_q == 'y'
             graph(3)=plot(aH,real_orig_x,real_sec,'m');
             hold on
-            xlim([xMin xMax]);
-            ylim([yMin yMax]);
+
             disp('2nd Derivative in magenta');
             grid on
             hold on
@@ -180,11 +186,9 @@ real_sec_x=x(num_sec);
                 end
             end
         elseif deriv2_q == 'n'
-            aH=axes;
             graph(1)=plot(aH,real_orig_x,real_orig_y,'b');
             hold on
-            xlim([xMin xMax]);
-            ylim([yMin yMax]);
+
 %% Holes f(x)
             for hole_orig=2:length(y)-1
                 if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
@@ -208,8 +212,7 @@ for rel_min=2:length(real_sec)-1
     if real_first(:,rel_min-1)>0 && real_first(:,rel_min+1)<0
         hold on
         scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
-    end
-    if real_first(:,rel_min-1)<0 && real_first(:,rel_min+1)>0
+    elseif real_first(:,rel_min-1)<0 && real_first(:,rel_min+1)>0
         hold on
         scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
     end
@@ -220,41 +223,38 @@ for rel_min=2:length(real_sec)-1
     if real_sec(:,rel_min-1)<0 && real_sec(:,rel_min+1)>0
         hold on
         scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
-    end
-
-    if real_sec(:,rel_min-1)>0 && real_sec(:,rel_min+1)<0
+    elseif real_sec(:,rel_min-1)>0 && real_sec(:,rel_min+1)<0
         hold on
         scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
     end
 end
 
-%% X and Y line
-plot([xMin xMax],[0 0],'k');
-hold on
-plot([0 0],[yMin yMax],'k');
-hold on
+
+
+
 
 %% Time to generate the graphs
         toc
 
 %% UI (clicking on points)
- tracing_input=input('Would you like to trace the graph? (y/n) ','s');
- 
+
+
  if tracing_input == 'y'
      hold on
 
-     xlim([xMin xMax]);
-     ylim([yMin yMax]);
+
      set(graph,'hittest','off'); % so you can click on the Markers
      hold on;
      set(aH,'ButtonDownFcn',@getCoord); % Defining what happens when clicking
     %  uiwait(f) %so multiple clicks can be used
+    xlim([xMin xMax]);
+    ylim([yMin yMax]);
 
-    terminate_program=input ('Type ''end'' to restart program','s');
-    if terminate_program=='end'
-      break
+    restart_program=input('Type ''restart'' to restart program: ','s');
+
+    if restart_program=='restart'
+      WaitSecs(0.00000001);
     end
- break
  end
 
 % end

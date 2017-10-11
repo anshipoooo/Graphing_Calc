@@ -2,7 +2,6 @@ clc;
 close all
 clear all
 %% TO DO
-% Figure out axis resizing --> overlapping values right now
 % If time permits flip onto a screen?
 
 
@@ -49,10 +48,12 @@ x=xMin:xDist:xMax;
 y=Graphing_Calc(x);
 close all
 tic;
-%% Ask for derivatives
+%% User graph prompts
         deriv1_q=input('1st derivative (y/n): ','s');
 
         deriv2_q=input('2nd derivative (y/n): ','s');
+
+        tracing_input=input('Would you like to trace the graph? (y/n) ','s');
 %% Real number calc
 num_y=(y==real(y));
 real_orig_y=y(num_y);
@@ -80,8 +81,7 @@ real_sec_x=x(num_sec);
 %% Set f(x) asymptotes
         if real_orig_y(:,orig1_name)>yMax
             real_orig_y(:,orig1_name)=NaN;
-        end
-        if real_orig_y(:,orig1_name)<yMin
+        elseif real_orig_y(:,orig1_name)<yMin
             real_orig_y(:,orig1_name)=NaN;
         end
   end
@@ -101,6 +101,18 @@ real_sec_x=x(num_sec);
                   real_sec(:,deriv_name)=NaN;
                 end
     end
+
+%% axes
+aH=axes;
+xlim([xMin xMax]);
+ylim([yMin yMax]);
+
+%% X and Y line
+axis([xMin xMax yMin yMax]);
+plot([xMin xMax],[0 0],'k');
+hold on
+plot([0 0],[yMin yMax],'k');
+hold on
 %% Start graphing
     if deriv1_q == 'y'
 %% Plot original graph and 1st derivative
@@ -110,13 +122,11 @@ real_sec_x=x(num_sec);
             end
                 grid on
                 hold on
-                aH=axes;
-                xlim([xMin xMax]);
-                ylim([yMin yMax]);
                 graph(1)=plot(aH,real_orig_x,real_orig_y,'b');
                 hold on
                 graph(2)=plot(aH,real_orig_x(:,1:length(real_first)-1),real_first(:,1:length(real_first)-1),'g');
                 hold on
+
 
 %% Holes f(x)
             for hole_orig=2:length(real_first)-1
@@ -125,8 +135,7 @@ real_sec_x=x(num_sec);
                     hold on
                     scatter(real_orig_x(:,hole_orig),real_sec(:,hole_orig),'o','m');
                     hold on
-                end
-                if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
+                elseif isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
                         ~isnan(y(:,hole_orig+1))
                     y(:,hole_orig)=y(:,hole_orig-1);
                     hold on
@@ -148,11 +157,9 @@ real_sec_x=x(num_sec);
             disp('1st Derivative in green');
 %% No 1st derivative function
         elseif deriv1_q =='n'
-                aH=axes;
-                xlim([xMin xMax]);
-                ylim([yMin yMax]);
                 graph(1)=plot(aH,real_orig_x,real_orig_y,'b');
                 hold on
+
 
 %% Holes f(x)
             for hole_orig=2:length(y)-1
@@ -225,12 +232,7 @@ for rel_min=2:length(real_sec)-1
     end
 end
 
-%% X and Y line
-axis([xMin xMax yMin yMax]);
-plot([xMin xMax],[0 0],'k');
-hold on
-plot([0 0],[yMin yMax],'k');
-hold on
+
 
 
 
@@ -238,7 +240,7 @@ hold on
         toc
 
 %% UI (clicking on points)
- tracing_input=input('Would you like to trace the graph? (y/n) ','s');
+
 
  if tracing_input == 'y'
      hold on

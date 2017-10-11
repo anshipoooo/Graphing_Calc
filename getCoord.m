@@ -33,7 +33,7 @@ if strcmp(click_type,'normal')
 
 
     fprintf('\n (');
-    fprintf('%.3f',rnd_yp(finalIdx));
+    fprintf('%.3f',rnd_xp(finalIdx));
     fprintf(',');
 
     fprintf('%.3f',rnd_yp(finalIdx));

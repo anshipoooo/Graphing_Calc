@@ -1,43 +1,24 @@
 clc;
 close all
 clear all
-%% TO DO
-% If time permits flip onto a screen?
+
+%% TODO
+% Absolute Value
+% Slider on the graph --> getCoord function inclusion
 
 
 
-
-
-% KbName('UnifyKeynames');
-% enter_code=KbName('y');
-% esc_code=KbName('ESCAPE');
-% disp('Press ''y'' to continue');
-% [keyIsDown_ent,timeSecs_ent,keyCode_ent]=KbCheck();
-% while ~keyCode_ent(enter_code)
-%     [keyIsDown_ent,timeSecs_ent,keyCode_ent]=KbCheck();
-% end
-% clc;
-% disp('Welcome to my Graphing Calculator Project');
-% WaitSecs(1);
 prompt = input('Type enter to begin: ','s');
 
 
-
+%% Start prompt
 while prompt == 'enter'
-% [keyIsDown_esc,timeSecs_esc,keyCode_esc]=KbCheck();
-% while ~keyCode_ent(enter_code)
-%     [keyIsDown_esc,timeSecs_esc,keyCode_esc]=KbCheck();
-% end
-
-% if keyCode_esc==0
-%% User input: Graph max and min
 clc;
 xMin_In=input('Declare x min: ','s');
 xMax_In=input('Declare x max: ','s');
-xRange_In=input('Declare space between points: ','s');
 xMin=str2num(xMin_In);
 xMax=str2num(xMax_In);
-xDist=str2num(xRange_In);
+xDist=0.001;
 yMin_In=input('Declare y min: ','s');
 yMax_In=input('Declare y max: ','s');
 yMin=str2num(yMin_In);
@@ -176,7 +157,7 @@ hold on
         if deriv2_q == 'y'
             graph(3)=plot(aH,real_orig_x,real_sec,'m');
             hold on
-
+            
             disp('2nd Derivative in magenta');
             grid on
             hold on
@@ -233,7 +214,8 @@ for rel_min=2:length(real_sec)-1
 end
 
 
-
+% %% Title
+% title(Graph_Calc(format_in));
 
 
 %% Time to generate the graphs

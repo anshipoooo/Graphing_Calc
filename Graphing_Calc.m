@@ -2,9 +2,6 @@
 
 function y= myf(x)
     % in=input('Enter equation in terms of x: ','s');
-    div='/';
-    exp='^';
-    mult='*';
 
     %
     % in=strrep(in,div,'./');
@@ -19,11 +16,14 @@ function y= myf(x)
 
     raw_in=input('Enter equation in terms of x: ','s');
 
-    new_in=raw_in;
-
     format_in=strrep(raw_in,'*','.*');
+    format_in=strrep(format_in,'e^','exp');
     format_in=strrep(format_in,'^','.^');
     format_in=strrep(format_in,'/','./');
+
+
+
+
 
     % f=@(x) new_in
     y=eval(format_in);

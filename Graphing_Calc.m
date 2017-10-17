@@ -20,6 +20,9 @@ function y= myf(x)
     format_in=strrep(format_in,'e^','exp');
     format_in=strrep(format_in,'^','.^');
     format_in=strrep(format_in,'/','./');
+    format_in=strrep(format_in,'+-','-');
+    format_in=strrep(format_in,'+(','-(');
+
 
 
 

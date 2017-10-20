@@ -35,8 +35,15 @@ elseif set_points=='n'
 end
 %% x Range
 x=xMin:xDist:xMax;
-%% Convert user input into function
-y=Graphing_Calc(x);
+%% Convert user input into function --> previously Graphing_Calc
+    raw_in=input('Enter equation in terms of x: ','s');
+    format_in=strrep(raw_in,'*','.*');
+    format_in=strrep(format_in,'e^','exp');
+    format_in=strrep(format_in,'^','.^');
+    format_in=strrep(format_in,'/','./');
+    format_in=strrep(format_in,'+-','-');
+    format_in=strrep(format_in,'+(','-(');
+    y=eval(format_in);
 close all
 tic;
 %% User graph prompts
@@ -122,15 +129,15 @@ hold on
 %% Holes f(x)
             for hole_orig=2:length(real_first)-1
                 if isnan(y(:,hole_orig))
-                    scatter(real_orig_x(:,hole_orig),real_first(:,hole_orig),'o','g');
+                    graph(2)=scatter(real_orig_x(:,hole_orig),real_first(:,hole_orig),'o','g');
                     hold on
-                    scatter(real_orig_x(:,hole_orig),real_sec(:,hole_orig),'o','m');
+                    graph(3)=scatter(real_orig_x(:,hole_orig),real_sec(:,hole_orig),'o','m');
                     hold on
                 elseif isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
                         ~isnan(y(:,hole_orig+1))
                     y(:,hole_orig)=y(:,hole_orig-1);
                     hold on
-                    scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
+                    graph(1)=scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
                 end
 
             end
@@ -140,7 +147,7 @@ hold on
                         (:,hole_first-1)) && ~isnan(true_deriv1(:,hole_first +1))
                     true_deriv1(:,hole_first)=true_deriv1(:,hole_first-1);
                     hold on
-                    scatter(real_orig_x(:,hole_first),true_deriv1(:,hole_first),'o','g');
+                    graph(2)=scatter(real_orig_x(:,hole_first),true_deriv1(:,hole_first),'o','g');
                 end
             end
             hold on
@@ -158,7 +165,7 @@ hold on
                         ~isnan(y(:,hole_orig+1))
                     y(:,hole_orig)=y(:,hole_orig-1);
                     hold on
-                    scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
+                    graph(1)=scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
                 end
             end
             disp('Original Function in blue');
@@ -176,7 +183,7 @@ hold on
                 if isnan(true_deriv2(:,hole_second)) && ~isnan(true_deriv2...
                         (:,hole_second-1)) && ~isnan(true_deriv2(:,hole_second+1))
                     true_deriv2(:,hole_second)=true_deriv2(:,hole_second-1);
-                    scatter(real_orig_x(:,hole_second),true_deriv2(:,hole_second),'o','m');
+                    graph(3)=scatter(real_orig_x(:,hole_second),true_deriv2(:,hole_second),'o','m');
                 end
             end
         elseif deriv2_q == 'n'
@@ -189,7 +196,7 @@ hold on
                         ~isnan(y(:,hole_orig+1))
                     y(:,hole_orig)=y(:,hole_orig-1);
                     hold on
-                    scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
+                    graph(1)=scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
                 end
             end
             grid on
@@ -198,19 +205,14 @@ hold on
         end
 
 
-
-
-
-
-
 for rel_min=2:length(real_sec)-1
 %% Relative min/max
     if real_first(:,rel_min-1)>0 && real_first(:,rel_min+1)<0
         hold on
-        scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
+        graph(1)=scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
     elseif real_first(:,rel_min-1)<0 && real_first(:,rel_min+1)>0
         hold on
-        scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
+        graph(1)=scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
     end
 
 
@@ -218,16 +220,16 @@ for rel_min=2:length(real_sec)-1
 %% POI
     if real_sec(:,rel_min-1)<0 && real_sec(:,rel_min+1)>0
         hold on
-        scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
+        graph(1)=scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
     elseif real_sec(:,rel_min-1)>0 && real_sec(:,rel_min+1)<0
         hold on
-        scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
+        graph(1)=scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
     end
 end
 
 
-% %% Title
-% title(Graph_Calc(format_in));
+%% Title
+title(raw_in);
 
 
 %% Time to generate the graphs
@@ -239,11 +241,11 @@ end
  if tracing_input == 'y'
      hold on
 
-
-     set(graph,'hittest','off'); % so you can click on the Markers
+% Click on graph variable points
+     set(graph,'hittest','off'); 
      hold on;
-     set(aH,'ButtonDownFcn',@getCoord); % Defining what happens when clicking
-    %  uiwait(f) %so multiple clicks can be used
+% Initiate getCoord when clicked
+     set(aH,'ButtonDownFcn',@getCoord);
     xlim([xMin xMax]);
     ylim([yMin yMax]);
 

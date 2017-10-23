@@ -236,8 +236,6 @@ title(raw_in);
         toc
 
 %% UI (clicking on points)
-
-
  if tracing_input == 'y'
      hold on
 

@@ -43,9 +43,4 @@ if strcmp(click_type,'normal')
 %     disp(xp(finalIdx));
 %     disp(yp(finalIdx));
 
-elseif strcmp(click_type,'alt')
-    %do your stuff once your point is selected
-    disp('Done clicking!');
-    % HERE IS WHERE YOU CAN PUT YOUR STUFF
 end
-

@@ -13,7 +13,3 @@ aH = axes;
 %  uiwait(f) %so multiple clicks can be used
 
 
-
-
-
-

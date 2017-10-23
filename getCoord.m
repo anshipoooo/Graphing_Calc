@@ -33,7 +33,6 @@ if strcmp(click_type,'normal')
     rnd_xp=round(xp,3);
     rnd_yp=round(yp,3);
 
-
     fprintf('\n (');
     fprintf('%.3f',rnd_xp(finalIdx));
     fprintf(',');

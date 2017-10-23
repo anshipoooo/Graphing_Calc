@@ -6,8 +6,6 @@ clear all
 % Absolute Value
 % Slider on the graph --> getCoord function inclusion
 
-
-
 prompt = input('Type enter to begin: ','s');
 
 %% Skip user inputs
@@ -204,7 +202,6 @@ hold on
             disp('Original Function in blue');
         end
 
-
 for rel_min=2:length(real_sec)-1
 %% Relative min/max
     if real_first(:,rel_min-1)>0 && real_first(:,rel_min+1)<0
@@ -214,8 +211,6 @@ for rel_min=2:length(real_sec)-1
         hold on
         graph(1)=scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
     end
-
-
 
 %% POI
     if real_sec(:,rel_min-1)<0 && real_sec(:,rel_min+1)>0

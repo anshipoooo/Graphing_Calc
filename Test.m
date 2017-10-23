@@ -1,15 +1,17 @@
+clc;
+clear all
+close all
 
 
 
-aH = axes;
- lH(1) = plot(aH,rand(10,1),'bs');
- hold on
- lH(2) = plot(aH,rand(10,1),'ro');
- lH(3) = plot(aH,rand(10,1),'k+');
- lH(4) = plot(aH,rand(10,1),'g^'); % some lines
- set(lH,'hittest','off'); % so you can click on the Markers
- hold on; 
- set(aH,'ButtonDownFcn',@getCoord); % Defining what happens when clicking
-%  uiwait(f) %so multiple clicks can be used
+old_str='|x+2|';
+index=strfind(old_str,'|');
+first=index(1);
+new_str=old_str;
+
+final_str=strrep(old_str(:,first),'|','abs(');
+    % new_str=[new_str(1:first-1),'abs(',new_str(first +length(old_str):end)];
+
+
 
 

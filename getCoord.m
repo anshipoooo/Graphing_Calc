@@ -28,6 +28,8 @@ if strcmp(click_type,'normal')
     setappdata(aH,'CurrentPoint',ptH);
 
 
+
+
     rnd_xp=round(xp,3);
     rnd_yp=round(yp,3);
 

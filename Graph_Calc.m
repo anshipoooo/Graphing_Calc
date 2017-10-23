@@ -253,6 +253,7 @@ title(raw_in);
 
     if restart_program=='restart'
       WaitSecs(0.00000001);
+      close all;
     end
  end
 

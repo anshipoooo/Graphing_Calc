@@ -42,5 +42,4 @@ if strcmp(click_type,'normal')
     fprintf(')\n');
 %     disp(xp(finalIdx));
 %     disp(yp(finalIdx));
-
 end

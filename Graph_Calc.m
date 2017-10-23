@@ -238,7 +238,6 @@ title(raw_in);
 %% UI (clicking on points)
  if tracing_input == 'y'
      hold on
-
 % Click on graph variable points
      set(graph,'hittest','off'); 
      hold on;

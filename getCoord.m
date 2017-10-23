@@ -48,3 +48,4 @@ elseif strcmp(click_type,'alt')
     disp('Done clicking!');
     % HERE IS WHERE YOU CAN PUT YOUR STUFF
 end
+

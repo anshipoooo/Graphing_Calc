@@ -91,11 +91,11 @@ real_sec_x=x(num_sec);
             end
 %% Set f''(x) asymptotes
     for deriv_name = 2:length(real_sec)
-                if real_sec(:,deriv_name-1)-real_sec(:,deriv_name)>yMax
+            if real_sec(:,deriv_name-1)-real_sec(:,deriv_name)>yMax
                     real_sec(:,deriv_name)=NaN;
-                elseif real_sec(:,deriv_name-1)-real_sec(:,deriv_name)<yMin
+            elseif real_sec(:,deriv_name-1)-real_sec(:,deriv_name)<yMin
                   real_sec(:,deriv_name)=NaN;
-                end
+            end
     end
 
 %% axes

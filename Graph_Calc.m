@@ -123,7 +123,6 @@ hold on
                 graph(2)=plot(aH,real_orig_x(:,1:length(real_first)-1),real_first(:,1:length(real_first)-1),'g');
                 hold on
 
-
 %% Holes f(x)
             for hole_orig=2:length(real_first)-1
                 if isnan(y(:,hole_orig))

@@ -17,5 +17,3 @@ new_str=strrep(new_str(:,close_abs),'abs(',')');
     % new_str=[new_str(1:first-1),'abs(',new_str(first +length(old_str):end)];
 
 
-
-

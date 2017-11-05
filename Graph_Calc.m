@@ -9,7 +9,7 @@ clear all
 prompt = input('Type enter to begin: ','s');
 
 %% Skip user inputs
-set_points=input('Would you like to input your own range? (y/n)','s');
+set_points=input('Would you like to input your own range? (y/n) ','s');
 
 %% Start prompt
 while prompt == 'enter'

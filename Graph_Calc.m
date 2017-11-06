@@ -6,13 +6,15 @@ clear all
 % Absolute Value
 % Slider on the graph --> getCoord function inclusion
 
-prompt = input('Type enter to begin: ','s');
+KbName('UnifyKeyNames');
+enter_code=KbName('return');
+[a,b,keyCode]=KbCheck;
 
 %% Skip user inputs
 set_points=input('Would you like to input your own range? (y/n) ','s');
 
 %% Start prompt
-while prompt == 'enter'
+while keyCode(enter_code)==1
 clc;
 if set_points=='y'
     xMin_In=input('Declare x min: ','s');

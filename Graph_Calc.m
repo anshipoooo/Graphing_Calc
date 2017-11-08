@@ -14,7 +14,7 @@ enter_code=KbName('return');
 set_points=input('Would you like to input your own range? (y/n) ','s');
 
 %% Start prompt
-while keyCode(enter_code)==1
+while true
 clc;
 if set_points=='y'
     xMin_In=input('Declare x min: ','s');

@@ -1,6 +1,6 @@
-clc;
-close all
-clear all
+% clc;
+% close all
+% clear all
 
 %% TODO
 % Absolute Value
@@ -15,7 +15,6 @@ set_points=input('Would you like to input your own range? (y/n) ','s');
 
 %% Start prompt
 while true
-clc;
 if set_points=='y'
     xMin_In=input('Declare x min: ','s');
     xMax_In=input('Declare x max: ','s');
@@ -51,7 +50,9 @@ tic;
 
         deriv2_q=input('2nd derivative (y/n): ','s');
 
-        tracing_input=input('Would you like to trace the graph? (y/n) ','s');
+        tracing_input=input('Would you like to trace the graph? (y/n): ','s');
+
+        ftc_input=input('Would you like to calculate the FTC? (y/n): ','s');
 %% Real number calc
 num_y=(y==real(y));
 real_orig_y=y(num_y);
@@ -207,22 +208,30 @@ for rel_min=2:length(real_sec)-1
 %% Relative min/max
     if real_first(:,rel_min-1)>0 && real_first(:,rel_min+1)<0
         hold on
-        graph(1)=scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
+        scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
     elseif real_first(:,rel_min-1)<0 && real_first(:,rel_min+1)>0
         hold on
-        graph(1)=scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
-    end
-
-%% POI
-    if real_sec(:,rel_min-1)<0 && real_sec(:,rel_min+1)>0
-        hold on
-        graph(1)=scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
-    elseif real_sec(:,rel_min-1)>0 && real_sec(:,rel_min+1)<0
-        hold on
-        graph(1)=scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
+        scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'d','b');
     end
 end
+%% POI
+min_threshold=-0.000001;
+max_threshold=0.000001;
 
+if min_threshold<real_sec(1,1)<max_threshold && min_threshold<real_sec(1,2)<max_threshold
+    WaitSecs(0.00000001);
+
+    elseif real_sec(:,rel_min-1)<0 && real_sec(:,rel_min+1)>0
+        hold on
+        scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
+    elseif real_sec(:,rel_min-1)>0 && real_sec(:,rel_min+1)<0
+        scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
+
+end
+
+
+xlim([xMin xMax]);
+ylim([yMin yMax]);
 
 %% Title
 title(raw_in);
@@ -232,23 +241,45 @@ title(raw_in);
         toc
 
 %% UI (clicking on points)
- if tracing_input == 'y'
+if tracing_input == 'y'
      hold on
-% Click on graph variable points
+%% Click on graph variable points
      set(graph,'hittest','off'); 
      hold on;
-% Initiate getCoord when clicked
-     set(aH,'ButtonDownFcn',@getCoord);
+%% Initiate getCoord when clicked
+    set(aH,'ButtonDownFcn',@getCoord);
     xlim([xMin xMax]);
     ylim([yMin yMax]);
+end
+%% FTC Calculations
+    if ftc_input=='y'
+        lower_bound_input=input('Enter your lower bound: ','s');
+        upper_bound_input=input('Enter your upper bound: ','s');
+        lower_bound=str2num(lower_bound_input);
+        upper_bound=str2num(upper_bound_input);
+        ftc_delta_x=0.01;
 
-    restart_program=input('Type ''restart'' to restart program: ','s');
+        bound_locations=lower_bound:ftc_delta_x:upper_bound;
+        for count_bound_locations=1:length(x)
+            if x(:,count_bound_locations)>lower_bound && x(:,count_bound_locations)<upper_bound
+                bound_locations(:,count_bound_locations)=1;
+            else bound_locations(:,count_bound_locations)=0;
+            end
+        end
 
-    if restart_program=='restart'
-      WaitSecs(0.00000001);
-      close all;
+        ftc_vector_area=zeros(1,length(bound_locations));
+        for summation_area=1:length(bound_locations)
+            ftc_vector_area(:,summation_area)=ftc_delta_x.*real_first(:,summation_area);
+
+
+        end
+        ftc_area=sum(ftc_vector_area);
+        disp(ftc_area);
     end
- end
+
+
+    % disp('Press any key to restart the program');
+    % KbWait();
 
 % end
 end

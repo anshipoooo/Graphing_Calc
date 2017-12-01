@@ -6,15 +6,16 @@
 % Absolute Value
 % Slider on the graph --> getCoord function inclusion
 
-KbName('UnifyKeyNames');
-enter_code=KbName('return');
-[a,b,keyCode]=KbCheck;
+% KbName('UnifyKeyNames');
+% enter_code=KbName('return');
+% [a,b,keyCode]=KbCheck;
 
 %% Skip user inputs
 set_points=input('Would you like to input your own range? (y/n) ','s');
 
 %% Start prompt
-while true
+
+clc;
 if set_points=='y'
     xMin_In=input('Declare x min: ','s');
     xMax_In=input('Declare x max: ','s');
@@ -253,33 +254,36 @@ if tracing_input == 'y'
 end
 %% FTC Calculations
     if ftc_input=='y'
-        lower_bound_input=input('Enter your lower bound: ','s');
-        upper_bound_input=input('Enter your upper bound: ','s');
-        lower_bound=str2num(lower_bound_input);
-        upper_bound=str2num(upper_bound_input);
-        ftc_delta_x=0.01;
+        dx=0.00000001
 
-        bound_locations=lower_bound:ftc_delta_x:upper_bound;
-        for count_bound_locations=1:length(x)
-            if x(:,count_bound_locations)>lower_bound && x(:,count_bound_locations)<upper_bound
-                bound_locations(:,count_bound_locations)=1;
-            else bound_locations(:,count_bound_locations)=0;
-            end
-        end
+    low_bound_str=input('Input the lower bound of the integral: ','s')
+    up_bound_str=input('Input the upper bound of the integral: ','s');
+    low_bound=str2num(low_bound_str);
+    up_bound=str2num(up_bound_str);
 
-        ftc_vector_area=zeros(1,length(bound_locations));
-        for summation_area=1:length(bound_locations)
-            ftc_vector_area(:,summation_area)=ftc_delta_x.*real_first(:,summation_area);
+%real_first
+    loc_lower=find(x==low_bound);
+    loc_up=find(x==up_bound);
 
+for new_loop=loc_lower:loc_up
+    new_range=real_first(new_loop);
+end
 
-        end
-        ftc_area=sum(ftc_vector_area);
-        disp(ftc_area);
+mult_ftc=zeros(1,length(new_range)-1);
+
+for loop=1:length(new_range)-1
+
+mult_ftc(loop)=xDist*new_range(loop);
+end
+area_under=sum(mult_ftc)+dx;
+disp(area_under);
     end
 
+while true
+    orig.XDataSource='x';
+    orig.YDataSource='y';
+    
 
-    % disp('Press any key to restart the program');
-    % KbWait();
+    
 
-% end
-end
+

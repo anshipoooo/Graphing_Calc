@@ -27,7 +27,12 @@ gvar.real_first=gvar.true_deriv1(gvar.num_first);
                 elseif gvar.real_first(:,deriv_name-1)-gvar.real_first(:,deriv_name)<gvar.yMin
                   gvar.real_first(:,deriv_name)=NaN;
                 end
-            end
+                if gvar.real_first(:,deriv_name)-gvar.real_first(:,deriv_name-1) < -3
+                    gvar.real_first(:,deriv_name)=NaN;
+                elseif gvar.real_first(:,deriv_name)-gvar.real_first(:,deriv_name-1) > 3
+                    gvar.real_first(:,deriv_name)=NaN;
+                end
+end
 
             if gvar.deriv1_q == 'y'
 %% Plot original graph and 1st derivative

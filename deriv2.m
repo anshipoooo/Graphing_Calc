@@ -38,7 +38,7 @@ gvar.real_sec_x=gvar.real_orig_x(num_sec);
             plot([0 0],[gvar.yMin gvar.yMax],'k');
             hold on
 
-            gvar.graph(3)=plot(gvar.aH,gvar.real_orig_x(1,1:length(gvar.real_sec)),gvar.real_sec,'m');
+            gvar.graph(3)=plot(gvar.aH,gvar.real_orig_x(1,1:length(gvar.real_sec)-1),gvar.real_sec(1,1:length(gvar.real_sec)-1),'m');
             hold on
             
             disp('2nd Derivative in magenta');

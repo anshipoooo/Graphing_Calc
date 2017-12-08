@@ -74,7 +74,7 @@ gvar.real_first=gvar.true_deriv1(gvar.num_first);
 
 
 %% Holes f(x)
-            for hole_orig=2:length(y)-1
+            for hole_orig=2:length(gvar.real_orig_y)-1
                 if isnan(gvar.real_orig_y(:,hole_orig)) && ~isnan(gvar.real_orig_y(:,hole_orig-1)) && ...
                         ~isnan(gvar.real_orig_y(:,hole_orig+1))
                     gvar.real_orig_y(:,hole_orig)=gvar.real_orig_y(:,hole_orig-1);

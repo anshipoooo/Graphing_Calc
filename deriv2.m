@@ -59,7 +59,7 @@ gvar.real_sec_x=gvar.real_orig_x(num_sec);
             plot([0 0],[gvar.yMin gvar.yMax],'k');
             hold on
 
-            gvar.graph(1)=plot(gvar.aH,real_orig_x,real_orig_y,'b');
+            gvar.graph(1)=plot(gvar.aH,gvar.real_orig_x,gvar.real_orig_y,'b');
             hold on
 
 %% Holes f(x)

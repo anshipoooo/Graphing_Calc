@@ -1,14 +1,4 @@
-% clc;
-% close all
-% clear all
 
-%% TODO
-% Absolute Value
-% Slider on the graph --> getCoord function inclusion
-
-% KbName('UnifyKeyNames');
-% enter_code=KbName('return');
-% [a,b,keyCode]=KbCheck;
 clear all
 %% Skip user inputs
 set_points=input('Would you like to input your own range? (y/n) ','s');
@@ -42,7 +32,12 @@ x=gvar.xMin:gvar.xDist:gvar.xMax;
     format_in=strrep(format_in,'^','.^');
     format_in=strrep(format_in,'/','./');
     format_in=strrep(format_in,'+-','-');
-    format_in=strrep(format_in,'+(','-(');
+%% Absolute value change
+    
+    abs_split=strsplit(format_in,'|');
+    abs_in=strcat('abs(',abs_split{2},')');
+    format_in=strcat(abs_split{1},abs_in,abs_split{3});
+
     y=eval(format_in);
 
 %% Real Numbers
@@ -115,16 +110,3 @@ end
 
 %% Calculate the FTC
 FTC();
-
-
-
-
-% 
-% while true
-%     orig.XDataSource='x';
-%     orig.YDataSource='y';
-%     
-% 
-%     
-% 
-

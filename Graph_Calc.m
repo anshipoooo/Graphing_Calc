@@ -47,13 +47,16 @@ x=xMin:xDist:xMax;
 close all
 tic;
 %% User graph prompts
-        deriv1_q=input('1st derivative (y/n): ','s');
+        
 
-        deriv2_q=input('2nd derivative (y/n): ','s');
+        
 
         tracing_input=input('Would you like to trace the graph? (y/n): ','s');
 
         ftc_input=input('Would you like to calculate the FTC? (y/n): ','s');
+
+        deriv1_q=input('Would you like to calculate the first derivative (y/n): ','s');
+        deriv2_q=input('Would you like to calculate the second derivative (y/n): ','s');
 %% Real number calc
 num_y=(y==real(y));
 real_orig_y=y(num_y);
@@ -93,7 +96,7 @@ real_sec_x=x(num_sec);
                   real_first(:,deriv_name)=NaN;
                 end
             end
-%% Set f''(x) asymptotes
+% Set f''(x) asymptotes
     for deriv_name = 2:length(real_sec)
             if real_sec(:,deriv_name-1)-real_sec(:,deriv_name)>yMax
                     real_sec(:,deriv_name)=NaN;
@@ -219,18 +222,17 @@ end
 min_threshold=-0.000001;
 max_threshold=0.000001;
 
-if min_threshold<real_sec(1,1)<max_threshold && min_threshold<real_sec(1,2)<max_threshold
-    WaitSecs(0.00000001);
-
-    elseif real_sec(:,rel_min-1)<0 && real_sec(:,rel_min+1)>0
+% if min_threshold<real_sec(1,1)<max_threshold && min_threshold<real_sec(1,2)<max_threshold
+%     WaitSecs(0.00000001);
+for poi_loc=2:length(real_sec)-1
+    if real_sec(:,poi_loc-1)<0 && real_sec(:,poi_loc+1)>0
         hold on
-        scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
-    elseif real_sec(:,rel_min-1)>0 && real_sec(:,rel_min+1)<0
-        scatter(real_orig_x(:,rel_min),real_orig_y(:,rel_min),'s','b');
+        scatter(real_orig_x(:,poi_loc),real_orig_y(:,poi_loc),'s','b');
+    elseif real_sec(:,poi_loc-1)>0 && real_sec(:,poi_loc+1)<0
+        scatter(real_orig_x(:,poi_loc),real_orig_y(:,poi_loc),'s','b');
 
+    end
 end
-
-
 xlim([xMin xMax]);
 ylim([yMin yMax]);
 
@@ -261,10 +263,11 @@ end
     low_bound=str2num(low_bound_str);
     up_bound=str2num(up_bound_str);
 
-%real_first
+
     loc_lower=find(x==low_bound);
     loc_up=find(x==up_bound);
 
+new_range=zeros(length(loc_lower:1:loc_up),1);
 for new_loop=loc_lower:loc_up
     new_range=real_first(new_loop);
 end
@@ -276,14 +279,15 @@ for loop=1:length(new_range)-1
 mult_ftc(loop)=xDist*new_range(loop);
 end
 area_under=sum(mult_ftc)+dx;
-disp(area_under);
+rnd_area=round(area_under,3);
+disp(rnd_area);
     end
-
-while true
-    orig.XDataSource='x';
-    orig.YDataSource='y';
-    
-
-    
-
+% 
+% while true
+%     orig.XDataSource='x';
+%     orig.YDataSource='y';
+%     
+% 
+%     
+% 
 

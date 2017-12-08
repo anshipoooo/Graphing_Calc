@@ -1,87 +1,85 @@
-function deriv(x,y)
+function deriv1();
 
-xDist=0.01
-deriv1_q = 'y';
-aH=axes;
 
-%%Real numbers
-num_y=(y==real(y));
-real_orig_y=y(num_y);
-real_orig_x=x(num_y);
+
+
+
+
+
+global gvar;
 
 %% Calculate 1st Derivative
-    deriv1_y=zeros(1,length(real_orig_x));
-  for orig1_name = 1:length(real_orig_x)-1
-        deriv1_y(:,orig1_name)=((real_orig_y(:,orig1_name+1))-(real_orig_y(:,orig1_name)));
+    gvar.deriv1_y=zeros(1,length(gvar.real_orig_x));
+  for orig1_name = 1:length(gvar.real_orig_x)-1
+        gvar.deriv1_y(:,orig1_name)=((gvar.real_orig_y(:,orig1_name+1))-(gvar.real_orig_y(:,orig1_name)));
   end
-true_deriv1=deriv1_y/xDist;
-num_first=(true_deriv1==real(true_deriv1));
-real_first=true_deriv1(num_first);
-real_first_x=x(num_first);
+
+%% Find f'(x) reals
+gvar.true_deriv1=gvar.deriv1_y/gvar.xDist;
+gvar.num_first=(gvar.true_deriv1==real(gvar.true_deriv1));
+gvar.real_first=gvar.true_deriv1(gvar.num_first);
 
 
 %% Find asymptotes
- for deriv_name = 2:length(real_first)
-                if real_first(:,deriv_name-1)-real_first(:,deriv_name)>1
-                    real_first(:,deriv_name)=NaN;
-                elseif real_first(:,deriv_name-1)-real_first(:,deriv_name)<-1
-                  real_first(:,deriv_name)=NaN;
+ for deriv_name = 2:length(gvar.real_first)
+                if gvar.real_first(:,deriv_name-1)-gvar.real_first(:,deriv_name)>gvar.yMax
+                    gvar.real_first(:,deriv_name)=NaN;
+                elseif gvar.real_first(:,deriv_name-1)-gvar.real_first(:,deriv_name)<gvar.yMin
+                  gvar.real_first(:,deriv_name)=NaN;
                 end
             end
 
-            if deriv1_q == 'y'
+            if gvar.deriv1_q == 'y'
 %% Plot original graph and 1st derivative
-            real_num=zeros(1,length(num_y));
-            for real_first_plot=1:length(real_orig_y)
-                real_num(:,real_first_plot)=num_y(:,real_first_plot);
-            end
+            % real_num=zeros(1,length(num_y));
+            % for real_first_plot=1:length(real_orig_y)
+            %     real_num(:,real_first_plot)=num_y(:,real_first_plot);
+            % end
                 grid on
                 hold on
-                graph(1)=plot(aH,real_orig_x,real_orig_y,'b');
+                gvar.graph(1)=plot(gvar.aH,gvar.real_orig_x,gvar.real_orig_y,'b');
                 hold on
-                graph(2)=plot(aH,real_orig_x(:,1:length(real_first)-1),real_first(:,1:length(real_first)-1),'g');
+                gvar.graph(2)=plot(gvar.aH,gvar.real_orig_x(:,1:length(gvar.real_first)-1),gvar.real_first(:,1:length(gvar.real_first)-1),'g');
                 hold on
 
 %% Holes f(x)
-            for hole_orig=2:length(real_first)-1
-                if isnan(y(:,hole_orig))
-                    graph(2)=scatter(real_orig_x(:,hole_orig),real_first(:,hole_orig),'o','g');
+            for hole_orig=2:length(gvar.real_first)-1
+                if isnan(gvar.real_orig_y(:,hole_orig))
+                    gvar.graph(2)=scatter(gvar.real_orig_x(:,hole_orig),gvar.real_first(:,hole_orig),'o','g');
                     hold on
-                    graph(3)=scatter(real_orig_x(:,hole_orig),real_sec(:,hole_orig),'o','m');
+                elseif isnan(gvar.real_orig_y(:,hole_orig)) && ~isnan(gvar.real_orig_y(:,hole_orig-1)) && ...
+                        ~isnan(gvar.real_orig_y(:,hole_orig+1))
+                    gvar.real_orig_y(:,hole_orig)=gvar.real_orig_y(:,hole_orig-1);
                     hold on
-                elseif isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
-                        ~isnan(y(:,hole_orig+1))
-                    y(:,hole_orig)=y(:,hole_orig-1);
-                    hold on
-                    graph(1)=scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
+                    gvar.graph(1)=scatter(gvar.real_orig_x(:,hole_orig),gvar.real_orig_y(:,hole_orig),'o','b');
                 end
 
             end
 %% Holes f'(x)
-            for hole_first=2:length(true_deriv1)-1
-                if isnan(true_deriv1(:,hole_first)) && ~isnan(true_deriv1...
-                        (:,hole_first-1)) && ~isnan(true_deriv1(:,hole_first +1))
-                    true_deriv1(:,hole_first)=true_deriv1(:,hole_first-1);
+            for hole_first=2:length(gvar.true_deriv1)-1
+                if isnan(gvar.true_deriv1(:,hole_first)) && ~isnan(gvar.true_deriv1...
+                        (:,hole_first-1)) && ~isnan(gvar.true_deriv1(:,hole_first +1))
+                    gvar.true_deriv1(:,hole_first)=gvar.true_deriv1(:,hole_first-1);
                     hold on
-                    graph(2)=scatter(real_orig_x(:,hole_first),true_deriv1(:,hole_first),'o','g');
+                    gvar.graph(2)=scatter(gvar.real_orig_x(:,hole_first),gvar.true_deriv1(:,hole_first),'o','g');
                 end
             end
             hold on
             disp('Original Function in blue');
             disp('1st Derivative in green');
 %% No 1st derivative function
-        elseif deriv1_q =='n'
-                graph(1)=plot(aH,real_orig_x,real_orig_y,'b');
+        elseif gvar.deriv1_q =='n'
+                gvar.graph(1)=plot(gvar.aH,gvar.real_orig_x,gvar.real_orig_y,'b');
                 hold on
 
 
 %% Holes f(x)
             for hole_orig=2:length(y)-1
-                if isnan(y(:,hole_orig)) && ~isnan(y(:,hole_orig-1)) && ...
-                        ~isnan(y(:,hole_orig+1))
-                    y(:,hole_orig)=y(:,hole_orig-1);
+                if isnan(gvar.real_orig_y(:,hole_orig)) && ~isnan(gvar.real_orig_y(:,hole_orig-1)) && ...
+                        ~isnan(gvar.real_orig_y(:,hole_orig+1))
+                    gvar.real_orig_y(:,hole_orig)=gvar.real_orig_y(:,hole_orig-1);
                     hold on
-                    graph(1)=scatter(real_orig_x(:,hole_orig),y(:,hole_orig),'o','b');
+                    gvar.graph(1)=scatter(gvar.real_orig_x(:,hole_orig),gvar.real_orig_y(:,hole_orig),'o','b');
                 end
             end
             disp('Original Function in blue');

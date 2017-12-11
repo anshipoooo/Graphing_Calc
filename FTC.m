@@ -1,8 +1,14 @@
 function FTC()
 global gvar
+
+if gvar.trial_number==1
+gvar.ftc_input=input('Would you like to calculate the FTC? (y/n): ','s');
+end
+
+threshold=10^-6;
+
 %% FTC Calculations
     if gvar.ftc_input=='y'
-        dx=0.00000001
 
     low_bound_str=input('Input the lower bound of the integral: ','s')
     up_bound_str=input('Input the upper bound of the integral: ','s');
@@ -10,21 +16,27 @@ global gvar
     clc;
     gvar.up_bound=str2num(up_bound_str);
 
-    gvar.loc_lower=find(gvar.real_orig_x==gvar.low_bound);
-    gvar.loc_up=find(gvar.real_orig_x==gvar.up_bound);
+    gvar.low_bound=round(gvar.low_bound,3);
+    gvar.up_bound=round(gvar.up_bound,3);
 
-gvar.new_range=zeros(length(gvar.loc_lower:1:gvar.loc_up),1);
+    gvar.loc_lower=find(abs(gvar.real_orig_x-gvar.low_bound)<threshold);
+    gvar.loc_up=find(abs(gvar.real_orig_x-gvar.up_bound)<threshold);
+
+gvar.new_range=zeros(1,length(gvar.loc_lower:1:gvar.loc_up));
 for new_loop=gvar.loc_lower:gvar.loc_up
-    gvar.new_range=gvar.real_first(new_loop);
+    gvar.new_range(1,new_loop)=gvar.real_first(new_loop);
 end
 
 gvar.mult_ftc=zeros(1,length(gvar.new_range)-1);
 
 for loop=1:length(gvar.new_range)-1
-
-gvar.mult_ftc(loop)=gvar.xDist*gvar.new_range(loop);
+    gvar.mult_ftc(loop)=gvar.xDist*gvar.new_range(loop);
 end
-gvar.area_under=sum(gvar.mult_ftc)+dx;
+gvar.area_under=sum(gvar.mult_ftc);
 gvar.rnd_area=round(gvar.area_under,3);
-disp(gvar.rnd_area);
+clc;
+
+fprintf('\n Area under f''(x) is: ');
+fprintf('%.3f',gvar.rnd_area-gvar.xDist);
+fprintf('\n');
 end

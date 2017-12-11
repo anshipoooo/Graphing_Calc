@@ -25,19 +25,38 @@ elseif set_points=='n'
 end
 %% x Range
 x=gvar.xMin:gvar.xDist:gvar.xMax;
+
+
+%% Initialize trial number
+gvar.trial_number=1;
+
+while true
+
+
 %% Convert user input into function --> previously Graphing_Calc
     raw_in=input('Enter equation in terms of x: ','s');
     format_in=strrep(raw_in,'*','.*');
-    format_in=strrep(format_in,'e^','exp');
+
+    if ~contains(raw_in,'e^')
     format_in=strrep(format_in,'^','.^');
+    end
     format_in=strrep(format_in,'/','./');
     format_in=strrep(format_in,'+-','-');
+
+
+%% Exponential functions
+if contains(raw_in,'e^')
+    exp_split=strsplit(format_in,'e^')
+    exp_in=strcat('exp(',exp_split{2},')')
+    format_in=strcat(exp_split{1},exp_in,exp_split{3});
+end
 %% Absolute value change
-    
+
+if contains(raw_in,'|')
     abs_split=strsplit(format_in,'|');
     abs_in=strcat('abs(',abs_split{2},')');
     format_in=strcat(abs_split{1},abs_in,abs_split{3});
-
+end
     y=eval(format_in);
 
 %% Real Numbers
@@ -48,36 +67,30 @@ gvar.real_orig_x=x(gvar.num_y);
 close all
 
 tic;
-%% User graph prompts
         
-
-        
-
-        gvar.tracing_input=input('Would you like to trace the graph? (y/n): ','s');
-
-        gvar.ftc_input=input('Would you like to calculate the FTC? (y/n): ','s');
-        gvar.deriv1_q=input('1st derivative (y/n): ','s');
-        gvar.deriv2_q=input('2nd derivative (y/n): ','s');
 
 
 %% axes
+% set(0,'DefaultFigureVisible','off');
 gvar.aH=axes;
 xlim([gvar.xMin gvar.xMax]);
 ylim([gvar.yMin gvar.yMax]);
 
-%% X and Y line
-% gvar.axes=axis([gvar.xMin gvar.xMax gvar.yMin gvar.yMax]);
+
+set(gvar.aH,'FontName','Californian FB');
+
+%% Start functions
+
+deriv1();
+
+hold on
+deriv2();
+
+
 gvar.axes=plot([gvar.xMin gvar.xMax],[0 0],'k');
 hold on
 gvar.axes=plot([0 0],[gvar.yMin gvar.yMax],'k');
 hold on
-set(gvar.axes,'Visible','off');
-deriv1();
-set(gvar.graph,'Visible','off');
-hold on
-deriv2();
-set(gvar.graph,'Visible','on');
-set(gvar.axes,'Visible','on');
 
 
 relMinMax();
@@ -95,18 +108,11 @@ title(raw_in);
 
 %% Trace the graph
 
-% trace_graph();
-%% UI (clicking on points)
-if gvar.tracing_input == 'y'
-     hold on
-%% Click on graph variable points
-    %  set(gvar.graph,'hittest','off'); 
-    %  hold on;
-%% Initiate getCoord when clicked
-    set(gvar.aH,'ButtonDownFcn',@getCoord);
-    xlim([gvar.xMin gvar.xMax]);
-    ylim([gvar.yMin gvar.yMax]);
-end
+trace_graph();
 
 %% Calculate the FTC
 FTC();
+
+
+gvar.trial_number=gvar.trial_number+1
+end

@@ -1,7 +1,9 @@
 function trace_graph()
 
 global gvar
-
+if gvar.trial_number==1
+gvar.tracing_input=input('Would you like to trace the graph? (y/n): ','s');
+end
 %% UI (clicking on points)
 if gvar.tracing_input == 'y'
      hold on

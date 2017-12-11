@@ -1,4 +1,4 @@
-function deriv1();
+function deriv1()
 
 
 
@@ -7,6 +7,12 @@ function deriv1();
 
 
 global gvar;
+
+if gvar.trial_number==1
+gvar.deriv1_q=input('1st derivative (y/n): ','s');
+end
+
+
 
 %% Calculate 1st Derivative
     gvar.deriv1_y=zeros(1,length(gvar.real_orig_x));
@@ -42,11 +48,13 @@ end
             % end
                 grid on
                 hold on
+                
+
                 gvar.graph(1)=plot(gvar.aH,gvar.real_orig_x,gvar.real_orig_y,'b');
                 hold on
                 gvar.graph(2)=plot(gvar.aH,gvar.real_orig_x(:,1:length(gvar.real_first)-1),gvar.real_first(:,1:length(gvar.real_first)-1),'g');
                 hold on
-
+                
 %% Holes f(x)
             for hole_orig=2:length(gvar.real_first)-1
                 if isnan(gvar.real_orig_y(:,hole_orig))

@@ -7,6 +7,12 @@ function deriv2()
 hold on 
 global gvar
 
+
+if gvar.trial_number==1
+gvar.deriv2_q=input('2nd derivative (y/n): ','s');
+end
+
+
 %% Calculate 2nd derivative (d/dx (f'(x))
     deriv2_y=zeros(1,length(gvar.real_first));
     for orig2_name = 1:length(gvar.real_first)-1

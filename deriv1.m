@@ -1,17 +1,20 @@
 function deriv1()
 
 
-
-
-
-
-
 global gvar;
 
 if gvar.trial_number==1
 gvar.deriv1_q=input('1st derivative (y/n): ','s');
 end
 
+%% Find f(x) asymptotes
+for orig_asym_loop=2:length(gvar.real_orig_y)
+    if gvar.real_orig_y(:,orig_asym_loop-1)-gvar.real_orig_y(:,orig_asym_loop)>gvar.yMax
+        gvar.real_orig_y(:,orig_asym_loop)=NaN;
+    elseif gvar.real_orig_y(:,orig_asym_loop-1)-gvar.real_orig_y(:,orig_asym_loop)<gvar.yMin
+        gvar.real_orig_y(:,orig_asym_loop)=NaN;
+    end
+end
 
 
 %% Calculate 1st Derivative
@@ -26,18 +29,13 @@ gvar.num_first=(gvar.true_deriv1==real(gvar.true_deriv1));
 gvar.real_first=gvar.true_deriv1(gvar.num_first);
 
 
-%% Find asymptotes
+%% Find f'(x) asymptotes
  for deriv_name = 2:length(gvar.real_first)
-                if gvar.real_first(:,deriv_name-1)-gvar.real_first(:,deriv_name)>gvar.yMax
-                    gvar.real_first(:,deriv_name)=NaN;
-                elseif gvar.real_first(:,deriv_name-1)-gvar.real_first(:,deriv_name)<gvar.yMin
-                  gvar.real_first(:,deriv_name)=NaN;
-                end
-                if gvar.real_first(:,deriv_name)-gvar.real_first(:,deriv_name-1) < -3
-                    gvar.real_first(:,deriv_name)=NaN;
-                elseif gvar.real_first(:,deriv_name)-gvar.real_first(:,deriv_name-1) > 3
-                    gvar.real_first(:,deriv_name)=NaN;
-                end
+    if gvar.real_first(:,deriv_name-1)-gvar.real_first(:,deriv_name)>gvar.yMax
+        gvar.real_first(:,deriv_name)=NaN;
+    elseif gvar.real_first(:,deriv_name-1)-gvar.real_first(:,deriv_name)<gvar.yMin
+        gvar.real_first(:,deriv_name)=NaN;
+    end
 end
 
             if gvar.deriv1_q == 'y'

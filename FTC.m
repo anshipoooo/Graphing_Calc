@@ -10,7 +10,7 @@ threshold=10^-6;
 %% FTC Calculations
     if gvar.ftc_input=='y'
 
-    low_bound_str=input('Input the lower bound of the integral: ','s')
+    low_bound_str=input('Input the lower bound of the integral: ','s');
     up_bound_str=input('Input the upper bound of the integral: ','s');
     gvar.low_bound=str2num(low_bound_str);
     clc;
@@ -32,11 +32,12 @@ gvar.mult_ftc=zeros(1,length(gvar.new_range)-1);
 for loop=1:length(gvar.new_range)-1
     gvar.mult_ftc(loop)=gvar.xDist*gvar.new_range(loop);
 end
-gvar.area_under=sum(gvar.mult_ftc);
+gvar.area_under=sum(gvar.mult_ftc)+gvar.xDist;
 gvar.rnd_area=round(gvar.area_under,3);
+final_value=gvar.rnd_area-gvar.xDist;
 clc;
-
 fprintf('\n Area under f''(x) is: ');
-fprintf('%.3f',gvar.rnd_area-gvar.xDist);
+fprintf('%.3f',final_value);
 fprintf('\n');
+
 end

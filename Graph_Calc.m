@@ -1,5 +1,7 @@
 
-clear all
+function Graph_Calc()
+
+clear all;
 %% Skip user inputs
 set_points=input('Would you like to input your own range? (y/n) ','s');
 
@@ -30,7 +32,7 @@ x=gvar.xMin:gvar.xDist:gvar.xMax;
 %% Initialize trial number
 gvar.trial_number=1;
 
-while true
+% while true
 
 %% Convert user input into function --> previously Graphing_Calc
     raw_in=input('Enter equation in terms of x: ','s');
@@ -111,7 +113,6 @@ trace_graph();
 %% Calculate the FTC
 FTC();
 
-stop printing;
 gvar.trial_number=gvar.trial_number+1
 
-end
+% end

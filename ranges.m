@@ -2,7 +2,7 @@ function ranges()
 
 global gvar
 
-if set_points=='y'
+if gvar.set_points=='y'
     gvar.xMin_In=input('Declare x min: ','s');
     gvar.xMax_In=input('Declare x max: ','s');
     gvar.xMin=str2num(gvar.xMin_In);
@@ -12,7 +12,7 @@ if set_points=='y'
     gvar.yMax_In=input('Declare y max: ','s');
     gvar.yMin=str2num(gvar.yMin_In);
     gvar.yMax=str2num(gvar.yMax_In);
-elseif set_points=='n'
+elseif gvar.set_points=='n'
     gvar.xMin=-10;
     gvar.xMax=10;
     gvar.xDist=0.001;

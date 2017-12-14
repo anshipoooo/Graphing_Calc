@@ -3,7 +3,7 @@ function Graph_Calc()
 
 clear all;
 %% Skip user inputs
-set_points=input('Would you like to input your own range? (y/n) ','s');
+gvar.set_points=input('Would you like to input your own range? (y/n) ','s');
 
 %% Start prompt
 global gvar;
@@ -65,7 +65,7 @@ xlim([gvar.xMin gvar.xMax]);
 ylim([gvar.yMin gvar.yMax]);
 
 %% Title
-title(raw_in);
+title(gvar.raw_in);
 
 
 %% Time to generate the graphs
@@ -78,6 +78,6 @@ trace_graph();
 %% Calculate the FTC
 FTC();
 
-gvar.trial_number=gvar.trial_number+1
+gvar.trial_number=gvar.trial_number+1;
 
 % end

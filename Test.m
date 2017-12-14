@@ -43,13 +43,32 @@ pause;
 % end
 % end
 
+KbName('UnifyKeyNames');
+key_delete=KbName('delete');
+key_return=KbName('return');
+
 g=1;
 while true
 w=waitforbuttonpress;
 if w
 p(:,g)=get(gcf,'CurrentCharacter');
+
+[keyIsDown,timeSecs,keyCode] = KbCheck();
+while ~keyCode(key_return)
+    [keyIsDown,timeSecs,keyCode] = KbCheck();
+end
+
+if keyCode(key_return)==1
+    break
+end
+
+if keyCode(key_delete)==1
+    p(:,g)=[];
+    g=g-1;
+end
 Screen('DrawText',window,['Enter your equation in terms of x: ' p],dimen_x-250,dimen_y);
 Screen('Flip',window);
+
 
 g=g+1
 try

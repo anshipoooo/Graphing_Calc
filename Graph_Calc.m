@@ -1,7 +1,6 @@
 
-function Graph_Calc()
-
 clear all;
+clc;
 %% Skip user inputs
 gvar.set_points=input('Would you like to input your own range? (y/n) ','s');
 
@@ -37,19 +36,14 @@ tic;
 
 %% axes
 % set(0,'DefaultFigureVisible','off');
-gvar.aH=axes;
-xlim([gvar.xMin gvar.xMax]);
-ylim([gvar.yMin gvar.yMax]);
 
-
-set(gvar.aH,'FontName','Californian FB');
 
 %% Start functions
 
 deriv1();
 
 hold on
-deriv2();
+
 
 
 gvar.axes=plot([gvar.xMin gvar.xMax],[0 0],'k');
@@ -61,11 +55,32 @@ hold on
 relMinMax();
 POI();
 
+%% Describing the lines
+
+descr={ 'Plot of the function: ';
+gvar.raw_in;
+
+'f(x) displayed in blue';
+
+'f''(x) displayed in green';
+
+'f''''(x) displayed in magenta';
+
+'Diamond represents';
+'relative min/max';
+
+'Star represents POI';
+
+}
+
+
+
+text(-10,0.6,descr);
+
+
 xlim([gvar.xMin gvar.xMax]);
 ylim([gvar.yMin gvar.yMax]);
 
-%% Title
-title(gvar.raw_in);
 
 
 %% Time to generate the graphs

@@ -34,7 +34,7 @@ gvar.format_in=strrep(gvar.format_in,'+1-1','');
      end
      gvar.format_in=strrep(gvar.format_in,'/','./');
      gvar.format_in=strrep(gvar.format_in,'+-','-');
-
+     gvar.format_in=strrep(gvar.format_in,')(',').*(');
 
  %% Exponential functions
  if contains(gvar.raw_in,'e^(')

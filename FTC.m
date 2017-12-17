@@ -35,6 +35,9 @@ end
 gvar.area_under=sum(gvar.mult_ftc)+gvar.xDist;
 gvar.rnd_area=round(gvar.area_under,3);
 final_value=gvar.rnd_area-gvar.xDist;
+
+% FTC_area();
+
 clc;
 fprintf('\n Area under f''(x) is: ');
 fprintf('%.3f',final_value);

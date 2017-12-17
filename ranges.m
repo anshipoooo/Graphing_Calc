@@ -15,7 +15,7 @@ if gvar.set_points=='y'
 elseif gvar.set_points=='n'
     gvar.xMin=-10;
     gvar.xMax=10;
-    gvar.xDist=0.001;
+    gvar.xDist=0.0001;
     gvar.yMin=-10;
     gvar.yMax=10;
 end

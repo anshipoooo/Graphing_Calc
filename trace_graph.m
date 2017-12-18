@@ -2,10 +2,15 @@ function trace_graph()
 
 global gvar
 if gvar.trial_number==1
-gvar.tracing_input=input('Would you like to trace the graph? (y/n): ','s');
+disp('Would you like to trace the graph? (y/n)');
 end
+[gvar.trace_keyIsDown,gvar.trace_timeSecs,gvar.trace_keyCode] = KbCheck();
+    while ~gvar.trace_keyCode(gvar.keyYes) && ~gvar.trace_keyCode(gvar.keyNo)
+        [gvar.trace_keyIsDown,gvar.trace_timeSecs,gvar.trace_keyCode] = KbCheck();
+    end
+    clc
 %% UI (clicking on points)
-if gvar.tracing_input == 'y'
+if gvar.trace_keyCode(gvar.keyYes)==1
      hold on
 %% Click on graph variable points
      set(gvar.graph,'hittest','off'); 
@@ -15,5 +20,3 @@ if gvar.tracing_input == 'y'
     xlim([gvar.xMin gvar.xMax]);
     ylim([gvar.yMin gvar.yMax]);
 end
-
-

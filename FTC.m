@@ -2,13 +2,17 @@ function FTC()
 global gvar
 
 if gvar.trial_number==1
-gvar.ftc_input=input('Would you like to calculate the FTC? (y/n): ','s');
+disp('Would you like to calculate the FTC? (y/n)');
 end
-
+[gvar.FTC_keyIsDown,gvar.FTC_timeSecs,gvar.FTC_keyCode] = KbCheck();
+    while ~gvar.FTC_keyCode(gvar.keyYes) && ~gvar.FTC_keyCode(gvar.keyNo)
+        [gvar.FTC_keyIsDown,gvar.FTC_timeSecs,gvar.FTC_keyCode] = KbCheck();
+    end
+clc;
 threshold=10^-6;
 
 %% FTC Calculations
-    if gvar.ftc_input=='y'
+    if gvar.FTC_keyCode(gvar.keyYes)==1
 
     low_bound_str=input('Input the lower bound of the integral: ','s');
     up_bound_str=input('Input the upper bound of the integral: ','s');
@@ -38,9 +42,17 @@ final_value=gvar.rnd_area-gvar.xDist;
 
 % FTC_area();
 
+%% Proving FTC using f(x)
+
+orig_area=gvar.real_orig_y(gvar.loc_up)-gvar.real_orig_y(gvar.loc_lower);
+
 clc;
 fprintf('\n Area under f''(x) is: ');
 fprintf('%.3f',final_value);
+fprintf('\n');
+
+fprintf('\n f(b)-f(a) is: ');
+fprintf('%.3f',orig_area);
 fprintf('\n');
 
 end

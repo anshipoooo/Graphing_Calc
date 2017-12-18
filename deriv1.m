@@ -4,13 +4,25 @@ function deriv1()
 global gvar;
 
 if gvar.trial_number==1
-gvar.deriv1_q=input('1st derivative (y/n): ','s');
+disp('1st derivative? (y/n)');
 end
+
+[gvar.deriv1_keyIsDown,gvar.deriv1_timeSecs,gvar.deriv1_keyCode] = KbCheck();
+    while ~gvar.deriv1_keyCode(gvar.keyYes) && ~gvar.deriv1_keyCode(gvar.keyNo)
+        [gvar.deriv1_keyIsDown,gvar.deriv1_timeSecs,gvar.deriv1_keyCode] = KbCheck();
+    end
+
+WaitSecs(0.5);
+clc;
 
 if gvar.trial_number==1
-gvar.deriv2_q=input('2nd derivative (y/n): ','s');
+disp('2nd derivative? (y/n)');
 end
-
+[gvar.deriv2_keyIsDown,gvar.deriv2_timeSecs,gvar.deriv2_keyCode] = KbCheck();
+    while ~gvar.deriv2_keyCode(gvar.keyYes) && ~gvar.deriv2_keyCode(gvar.keyNo)
+        [gvar.deriv2_keyIsDown,gvar.deriv2_timeSecs,gvar.deriv2_keyCode] = KbCheck();
+    end
+clc;
 gvar.aH=axes;
 screen_size=get(0,'ScreenSize');
 set(gvar.aH,'Position',[0.05 0.05 0.9 0.9]);
@@ -50,7 +62,7 @@ grid on
 hold on
 set(gvar.aH,'FontName','Californian FB');
 
-            if gvar.deriv1_q == 'y'
+            if gvar.deriv1_keyCode(gvar.keyYes)==1
 %% Plot original graph and 1st derivative
             % real_num=zeros(1,length(num_y));
             % for real_first_plot=1:length(real_orig_y)
@@ -93,7 +105,7 @@ set(gvar.aH,'FontName','Californian FB');
             disp('Original Function in blue');
             disp('1st Derivative in green');
 %% No 1st derivative function
-        elseif gvar.deriv1_q =='n'
+        elseif gvar.deriv1_keyCode(gvar.keyNo)==1
 
 
 
@@ -140,7 +152,7 @@ gvar.real_sec_x=gvar.real_orig_x(num_sec);
     end
 
     %% Plot 2nd derivative
-        if gvar.deriv2_q == 'y'
+        if  gvar.deriv2_keyCode(gvar.keyYes)==1
             hold on
 
             plot([gvar.xMin gvar.xMax],[0 0],'k');
@@ -162,7 +174,7 @@ gvar.real_sec_x=gvar.real_orig_x(num_sec);
                     gvar.graph(3)=scatter(real_orig_x(:,hole_second),gvar.true_deriv2(:,hole_second),'o','m');
                 end
             end
-        elseif gvar.deriv2_q == 'n'
+        elseif gvar.deriv2_keyCode(gvar.keyNo)==1
             axis([gvar.xMin gvar.xMax gvar.yMin gvar.yMax]);
             plot([gvar.xMin gvar.xMax],[0 0],'k');
             hold on

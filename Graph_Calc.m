@@ -1,8 +1,15 @@
 
 clear all;
 clc;
-%% Skip user inputs
-gvar.set_points=input('Would you like to input your own range? (y/n) ','s');
+
+KbName('UnifyKeyNames');
+gvar.keyEnter=KbName('Return');
+gvar.keyDelete=KbName('DELETE');
+gvar.keyYes=KbName('y');
+gvar.keyNo=KbName('n');
+
+
+
 
 %% Start prompt
 global gvar;
@@ -20,10 +27,18 @@ gvar.trial_number=1;
 % while true
 
 %% Evaluate the function
-
+while true
+try
+WaitSecs(1);
+clc;
 equation_parser();
     y=eval(gvar.format_in);
-
+break
+catch
+clc;
+disp('Incorrect statement. Reenter the function please');
+end
+end
 %% Real Numbers
 gvar.num_y=(y==real(y));
 gvar.real_orig_y=y(gvar.num_y);
@@ -82,14 +97,14 @@ xlim([gvar.xMin gvar.xMax]);
 ylim([gvar.yMin gvar.yMax]);
 
 
-
+clc;
 %% Time to generate the graphs
         toc
 
 %% Trace the graph
 
 trace_graph();
-
+WaitSecs(0.5);
 %% Calculate the FTC
 FTC();
 

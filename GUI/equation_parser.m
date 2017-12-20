@@ -3,8 +3,7 @@
 global gvar
 
 %% Convert user input into function --> previously Graphing_Calc
-    gvar.raw_in=input('Enter equation in terms of x: ','s');
-    
+% gvar.raw_in=input('Enter your function in terms of x: ','s');    
 %% Implicit multiplication
 
     gvar.format_in=strcat(gvar.raw_in,'+1-1');
@@ -35,6 +34,7 @@ gvar.format_in=strrep(gvar.format_in,'+1-1','');
      gvar.format_in=strrep(gvar.format_in,'/','./');
      gvar.format_in=strrep(gvar.format_in,'+-','-');
      gvar.format_in=strrep(gvar.format_in,')(',').*(');
+     gvar.format_in=strrep(gvar.format_in,'ln(','log(');
 
  %% Exponential functions
  if contains(gvar.raw_in,'e^(')

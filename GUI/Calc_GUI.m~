@@ -166,20 +166,14 @@ global gvar
 gvar.graph(1:5)=plot(1,1);
 delete(gvar.graph);
 cla reset;
-try
-    gvar.raw_in=get(handles.Equation_TypeBar,'string');
-catch
-    WaitSecs(0.000001);
-end
+
+gvar.raw_in=get(handles.Equation_TypeBar,'string');
 whos equation
-gvar.xDist=0.001;
-try
-    x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
-    equation_parser()
-    y=eval(gvar.format_in);
-catch
-    WaitSecs(0.000001);
-end
+gvar.xDist=0.0001;
+x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
+equation_parser()
+y=eval(gvar.format_in);
+
 gvar.num_y=(y==real(y));
 gvar.real_orig_y=y(gvar.num_y);
 gvar.real_orig_x=x(gvar.num_y);
@@ -190,8 +184,7 @@ first_derivative();
 second_derivative();
 
 findZeros()
-set(handles.zeros_ListBox,'string',gvar.zeros_str);
-set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
+set(handles.
 relMinMax()
 set(handles.relMinMax_ListBox,'string',gvar.RMM_str)
 set(handles.relMinMax_ListBox,'max',length(gvar.RMM_str));
@@ -517,9 +510,6 @@ function zeros_ListBox_Callback(hObject, eventdata, handles)
 % hObject    handle to zeros_ListBox (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
-global gvar
-set(handles.zeros_ListBox,'string',gvar.zeros_str);
-set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
 
 % Hints: contents = cellstr(get(hObject,'String')) returns zeros_ListBox contents as cell array
 %        contents{get(hObject,'Value')} returns selected item from zeros_ListBox

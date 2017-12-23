@@ -23,7 +23,7 @@ function varargout = Calc_GUI(varargin)
 
 % Edit the above text to modify the response to help Calc_GUI
 
-% Last Modified by GUIDE v2.5 21-Dec-2017 19:14:47
+% Last Modified by GUIDE v2.5 20-Dec-2017 08:42:08
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -163,23 +163,16 @@ function Equation_TypeBar_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global gvar
-gvar.graph(1:5)=plot(1,1);
 delete(gvar.graph);
 cla reset;
-try
-    gvar.raw_in=get(handles.Equation_TypeBar,'string');
-catch
-    WaitSecs(0.000001);
-end
+
+gvar.raw_in=get(handles.Equation_TypeBar,'string');
 whos equation
-gvar.xDist=0.001;
-try
-    x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
-    equation_parser()
-    y=eval(gvar.format_in);
-catch
-    WaitSecs(0.000001);
-end
+gvar.xDist=0.0001;
+x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
+equation_parser()
+y=eval(gvar.format_in);
+
 gvar.num_y=(y==real(y));
 gvar.real_orig_y=y(gvar.num_y);
 gvar.real_orig_x=x(gvar.num_y);
@@ -188,19 +181,8 @@ gvar.real_orig_x=x(gvar.num_y);
 Orig_function();
 first_derivative();
 second_derivative();
-
-findZeros()
-set(handles.zeros_ListBox,'string',gvar.zeros_str);
-set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
-relMinMax()
-set(handles.relMinMax_ListBox,'string',gvar.RMM_str)
-set(handles.relMinMax_ListBox,'max',length(gvar.RMM_str));
+relMinMax();
 POI();
-set(handles.POI_ListBox,'string',gvar.POI_str);
-set(handles.POI_ListBox,'max',length(gvar.POI_str));
-
-% relMinMax();
-% POI();
 % xlim([gvar.domainLower gvar.domainUpper]);
 % ylim([gvar.rangeLower gvar.rangeUpper]);
 axis([gvar.domainLower gvar.domainUpper gvar.rangeLower gvar.rangeUpper]);
@@ -210,8 +192,6 @@ plot([0 0],[gvar.rangeLower gvar.rangeUpper],'k');
 hold on
 set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
 set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
-gvar.valueRMM=0;
-gvar.valuePOI=0;
 
 
 
@@ -294,10 +274,21 @@ function deriv1_CheckBox_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global gvar
-gvar.value1=get(handles.deriv1_CheckBox,'Value');
+value1=get(handles.deriv1_CheckBox,'Value');
 delete(gvar.graph(2));
-if gvar.value1==1
-    first_derivative_plot();
+if value1==1
+gvar.graph(2)=plot(gvar.real_orig_x(:,1:length(gvar.real_first)-1),gvar.real_first(:,1:length(gvar.real_first)-1),'g');
+%% Holes f'(x)
+for hole_first=2:length(gvar.true_deriv1)-1
+    if isnan(gvar.true_deriv1(:,hole_first)) && ~isnan(gvar.true_deriv1...
+            (:,hole_first-1)) && ~isnan(gvar.true_deriv1(:,hole_first +1))
+        gvar.true_deriv1(:,hole_first)=gvar.true_deriv1(:,hole_first-1);
+        hold on
+        gvar.graph(2)=scatter(gvar.real_orig_x(:,hole_first),gvar.true_deriv1(:,hole_first),'o','g');
+    end
+end
+hold on
+
 end
 
 
@@ -311,10 +302,17 @@ function deriv2_CheckBox_Callback(hObject, eventdata, handles)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
 global gvar
-gvar.value2=get(handles.deriv2_CheckBox,'Value');
+value2=get(handles.deriv2_CheckBox,'Value');
     delete(gvar.graph(3));
-if gvar.value2==1
-    second_derivative_plot();
+if value2==1
+gvar.graph(3)=plot(gvar.real_orig_x(1,1:length(gvar.real_sec)-1),gvar.real_sec(1,1:length(gvar.real_sec)-1),'m');
+for hole_second=2:length(gvar.true_deriv2)-2
+    if isnan(gvar.true_deriv2(:,hole_second)) && ~isnan(gvar.true_deriv2...
+            (:,hole_second-1)) && ~isnan(gvar.true_deriv2(:,hole_second+1))
+        gvar.true_deriv2(:,hole_second)=gvar.true_deriv2(:,hole_second-1);
+        gvar.graph(3)=scatter(real_orig_x(:,hole_second),gvar.true_deriv2(:,hole_second),'o','m');
+    end
+end
 end
 %% Holes for f''(x)
 
@@ -424,138 +422,3 @@ function ftcProof_Toggle_Callback(hObject, eventdata, handles)
 global gvar
 set(handles.ftcProof_Toggle,'String',gvar.orig_area);
 % Hint: get(hObject,'Value') returns toggle state of ftcProof_Toggle
-
-
-% --- Executes on button press in relMinMax_CheckBox.
-function relMinMax_CheckBox_Callback(hObject, eventdata, handles)
-% hObject    handle to relMinMax_CheckBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global gvar
-
-gvar.valueRMM=get(handles.relMinMax_CheckBox,'Value');
-if gvar.valueRMM==1
-    relMinMax_plot();
-elseif gvar.valueRMM==0
-    delete(gvar.graph(4));
-%     cla
-%     Orig_function()
-%     axis([gvar.domainLower gvar.domainUpper gvar.rangeLower gvar.rangeUpper]);
-%     plot([gvar.domainLower gvar.domainUpper],[0 0],'k');
-%     hold on
-%     plot([0 0],[gvar.rangeLower gvar.rangeUpper],'k');
-%     if gvar.value1==1
-%         first_derivative_plot();
-%     end
-%     if gvar.value2==1
-%         second_derivative_plot();
-%     end
-%     if gvar.valuePOI==1
-%         POI_plot();
-%     end
-end
-
-% Hint: get(hObject,'Value') returns toggle state of relMinMax_CheckBox
-
-
-
-
-% Hint: get(hObject,'Value') returns toggle state of POI_CheckBox
-
-
-% --- Executes on button press in POI_CheckBox.
-function POI_CheckBox_Callback(hObject, eventdata, handles)
-% hObject    handle to POI_CheckBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global gvar
-gvar.value_POI=get(handles.POI_CheckBox,'Value');
-if gvar.value_POI==1
-    POI_plot();
-elseif gvar.value_POI==0
-    delete(gvar.graph(5));
-end
-
-% % --- Executes on selection change in POI_ListBox.
-function POI_ListBox_Callback(hObject, eventdata, handles)
-% hObject    handle to POI_ListBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global gvar
-
-set(handles.POI_ListBox,'string',gvar.POI_str);
-set(handles.POI_ListBox,'max',length(gvar.POI_str));
-
-
-
-
-
-% Hints: contents = cellstr(get(hObject,'String')) returns POI_ListBox contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from POI_ListBox
-
-
-% --- Executes during object creation, after setting all properties.
-function POI_ListBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to POI_ListBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-% Hint: get(hObject,'Value') returns toggle state of POI_CheckBox
-
-
-
-
-
-% --- Executes on selection change in zeros_ListBox.
-function zeros_ListBox_Callback(hObject, eventdata, handles)
-% hObject    handle to zeros_ListBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-global gvar
-set(handles.zeros_ListBox,'string',gvar.zeros_str);
-set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
-
-% Hints: contents = cellstr(get(hObject,'String')) returns zeros_ListBox contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from zeros_ListBox
-
-
-% --- Executes during object creation, after setting all properties.
-function zeros_ListBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to zeros_ListBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-
-% --- Executes on selection change in relMinMax_ListBox.
-function relMinMax_ListBox_Callback(hObject, eventdata, handles)
-% hObject    handle to relMinMax_ListBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-
-% Hints: contents = cellstr(get(hObject,'String')) returns relMinMax_ListBox contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from relMinMax_ListBox
-
-
-% --- Executes during object creation, after setting all properties.
-function relMinMax_ListBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to relMinMax_ListBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end

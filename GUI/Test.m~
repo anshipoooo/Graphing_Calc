@@ -1,0 +1,15 @@
+global gvar
+
+
+loc=zeros(1,length(gvar.real_sec)-1);
+for i=2:length(gvar.real_sec)-1
+    if gvar.real_sec(:,i-1)>0 && gvar.real_sec(:,i+1)<0
+        
+        loc(:,i)=i;
+        
+        
+    end
+end
+
+loc(loc==0)=[];
+for g=1:

@@ -3,7 +3,7 @@
 global gvar
 
 %% Convert user input into function --> previously Graphing_Calc
-% gvar.raw_in=input('Enter your function in terms of x: ','s');    
+gvar.raw_in=input('Enter your function in terms of x: ','s');    
 %% Implicit multiplication
 
     gvar.format_in=strcat(gvar.raw_in,'+1-1');
@@ -22,7 +22,6 @@ for implicit_loop=1:length(TF)-1
     implicit_after_alpha=extractAfter(gvar.format_in,implicit_loop);
     gvar.format_in=strcat(implicit_before_alpha,'.*',implicit_after_alpha);
     end
-    
 
 end
 gvar.format_in=strrep(gvar.format_in,'+1-1','');
@@ -30,7 +29,7 @@ gvar.format_in=strrep(gvar.format_in,'+1-1','');
 
      
      gvar.format_in=strrep(gvar.format_in,'/','./');
-%      gvar.format_in=strrep(gvar.format_in,'*','.*');
+     gvar.format_in=strrep(gvar.format_in,'*','.*');
      gvar.format_in=strrep(gvar.format_in,'+-','-');
      gvar.format_in=strrep(gvar.format_in,')(',').*(');
      gvar.format_in=strrep(gvar.format_in,'ln(','log(');
@@ -42,14 +41,13 @@ gvar.format_in=strrep(gvar.format_in,'+1-1','');
 %      gvar.format_in=strcat(exp_split{1},exp_in,exp_split{2});
      
      gvar.format_in=strrep(gvar.format_in,'e^(','exp(');
-
+ end
  
- elseif contains(gvar.raw_in,'e^x')
+ if contains(gvar.raw_in,'e^x')
      gvar.format_in=strrep(gvar.format_in,'e^x','exp(x)');
- elseif contains(gvar.raw_in,'^x') || contains(gvar.raw_in,'^(')
+ end
 
  gvar.format_in=strrep(gvar.format_in,'^','.^');
- end
  %% Absolute value change
 
 if contains(gvar.raw_in,'|')

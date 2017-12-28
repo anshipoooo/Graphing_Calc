@@ -497,12 +497,8 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
-
-% --- Executes on button press in Two_RadioButton.
 function Two_RadioButton_Callback(hObject, eventdata, handles)
-% hObject    handle to Two_RadioButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 hold off
 cla
@@ -511,38 +507,17 @@ cla
 uistack(handles.EquationThree_TypeBar,'bottom');
 uistack(handles.EquationTwo_TypeBar,'top');
 
-% set(handles.EquationThree_TypeBar,'Visible',off);
-% set(handles.EquationTwo_TypeBar,'Visible',on);
-
-
-% Hint: get(hObject,'Value') returns toggle state of Two_RadioButton
-
-
-% --- Executes on button press in Three_RadioButton.
 function Three_RadioButton_Callback(hObject, eventdata, handles)
-% hObject    handle to Three_RadioButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 hold off
 cla
 uistack(handles.EquationTwo_TypeBar,'bottom');
 uistack(handles.EquationThree_TypeBar,'top');
 
-% set(handles.EquationTwo_TypeBar,'Visible',off);
-% set(handles.EquationThree_TypeBar,'Visible',on);
-
-    
-
-
-% Hint: get(hObject,'Value') returns toggle state of Three_RadioButton
-
-
 
 function EquationThree_TypeBar_Callback(hObject, eventdata, handles)
-% hObject    handle to EquationThree_TypeBar (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 global funcParse3
 hold off
@@ -550,20 +525,13 @@ hold off
     funcParse3.raw_in=get(handles.EquationThree_TypeBar,'String');
     equation_parser_three();
     r=eval(funcParse3.format_in);
-    gvar.graph(8)=surf(funcParse3.format_in);
+    gvar.graph(8)=ezsurf(funcParse3.format_in);
+end
 
-% Hints: get(hObject,'String') returns contents of EquationThree_TypeBar as text
-%        str2double(get(hObject,'String')) returns contents of EquationThree_TypeBar as a double
+% Gotta remove the things in the listboxes upon clicking
 
-
-% --- Executes during object creation, after setting all properties.
 function EquationThree_TypeBar_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to EquationThree_TypeBar (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end

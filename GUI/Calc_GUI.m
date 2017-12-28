@@ -198,6 +198,17 @@ set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
 set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 gvar.valueRMM=0;
 gvar.valuePOI=0;
+     hold on
+%% Click on graph variable points
+     set(gvar.graph(1),'hittest','off'); 
+     hold on;
+%% Initiate getCoord when clicked
+    set(handles.Axes_GraphAxes,'ButtonDownFcn',@getCoord);
+    set(handles.xCoord_ToggleButton,'String',gvar.xValue);
+    set(handles.yCoord_ToggleButton,'String',gvar.yValue);
+% 
+%     xlim([gvar.xMin gvar.xMax]);
+%     ylim([gvar.yMin gvar.yMax]);
 
 % elseif value3D==1
     
@@ -512,6 +523,9 @@ function Three_RadioButton_Callback(hObject, eventdata, handles)
 global gvar
 hold off
 cla
+set(handles.zeros_ListBox,'String','');
+set(handles.relMinMax_ListBox,'String','');
+set(handles.POI_ListBox,'String','');
 uistack(handles.EquationTwo_TypeBar,'bottom');
 uistack(handles.EquationThree_TypeBar,'top');
 
@@ -524,11 +538,8 @@ hold off
 [x,y]=meshgrid(-8:0.5:8);
     funcParse3.raw_in=get(handles.EquationThree_TypeBar,'String');
     equation_parser_three();
-    r=eval(funcParse3.format_in);
     gvar.graph(8)=ezsurf(funcParse3.format_in);
-end
-
-% Gotta remove the things in the listboxes upon clicking
+    
 
 function EquationThree_TypeBar_CreateFcn(hObject, eventdata, handles)
 

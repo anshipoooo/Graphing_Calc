@@ -6,7 +6,7 @@ global gvar
 
      hold on
 %% Click on graph variable points
-%      set(gvar.graph,'hittest','off'); 
+     set(gvar.graph,'hittest','off'); 
      hold on;
 %% Initiate getCoord when clicked
     set(handles.Axes_GraphAxes,'ButtonDownFcn',@getCoord);

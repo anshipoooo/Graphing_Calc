@@ -49,8 +49,11 @@ for i=1:length(gvar.zeros_final_x)
 end
 
 
-gvar.zeros_str{1,length(gvar.zeros_str)-1}=gvar.zeros_str{1,length(gvar.zeros_str)};
-gvar.zeros_str{1,length(gvar.zeros_str)}=[];
+    if length(gvar.zeros_str)>1
+        gvar.zeros_str{1,length(gvar.zeros_str)-1}=gvar.zeros_str{1,length(gvar.zeros_str)};
+        gvar.zeros_str{1,length(gvar.zeros_str)}=[];
+    end
+
 end
 
 

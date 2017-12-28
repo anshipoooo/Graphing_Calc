@@ -23,7 +23,7 @@ function varargout = Calc_GUI(varargin)
 
 % Edit the above text to modify the response to help Calc_GUI
 
-% Last Modified by GUIDE v2.5 21-Dec-2017 19:14:47
+% Last Modified by GUIDE v2.5 27-Dec-2017 09:26:18
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
@@ -62,67 +62,37 @@ guidata(hObject, handles);
 
 % UIWAIT makes Calc_GUI wait for user response (see UIRESUME)
 uiwait(handles.figure1);
+set(handles.figure1,'Color',[0 0 0]);
 
 
-% --- Outputs from this function are returned to the command line.
 function varargout = Calc_GUI_OutputFcn(hObject, eventdata, handles) 
-% varargout  cell array for returning output args (see VARARGOUT);
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
-% Get default command line output from handles structure
 varargout{1} = handles.output;
 
-
-% --- Executes on button press in Deriv1_PushButton.
 function Deriv1_PushButton_Callback(hObject, eventdata, handles)
-% hObject    handle to Deriv1_PushButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 first_derivative();
 
-
-% --- Executes on button press in Deriv2_PushButton.
 function Deriv2_PushButton_Callback(hObject, eventdata, handles)
-% hObject    handle to Deriv2_PushButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 second_derivative();
 
-
-% --- Executes on button press in FTC_PushButton.
 function FTC_PushButton_Callback(hObject, eventdata, handles)
-% hObject    handle to FTC_PushButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 
 
 
-function domainUpper_Callback(hObject, eventdata, handles)
-% hObject    handle to domainUpper (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+function domainUpper_TextBox_Callback(hObject, eventdata, handles)
+
 global gvar
-gvar.domainUpper=str2num(get(handles.domainUpper,'string'));
+gvar.domainUpper=str2num(get(handles.domainUpper_TextBox,'string'));
 set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper])
 
+function domainUpper_TextBox_CreateFcn(hObject, eventdata, handles)
 
-% Hints: get(hObject,'String') returns contents of domainUpper as text
-%        str2double(get(hObject,'String')) returns contents of domainUpper as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function domainUpper_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to domainUpper (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
    
@@ -131,26 +101,14 @@ global gvar
 
 
 
-function rangeUpper_Callback(hObject, eventdata, handles)
-% hObject    handle to rangeUpper (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+function rangeUpper_TextBox_Callback(hObject, eventdata, handles)
+
 global gvar
-gvar.rangeUpper=str2num(get(handles.rangeUpper,'string'));
+gvar.rangeUpper=str2num(get(handles.rangeUpper_TextBox,'string'));
 set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 
-% Hints: get(hObject,'String') returns contents of rangeUpper as text
-%        str2double(get(hObject,'String')) returns contents of rangeUpper as a double
+function rangeUpper_TextBox_CreateFcn(hObject, eventdata, handles)
 
-
-% --- Executes during object creation, after setting all properties.
-function rangeUpper_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to rangeUpper (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -158,38 +116,70 @@ global gvar
 
 
 
-function Equation_TypeBar_Callback(hObject, eventdata, handles)
-% hObject    handle to Equation_TypeBar (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+function EquationTwo_TypeBar_Callback(hObject, eventdata, handles)
+
 global gvar
-gvar.graph(1:5)=plot(1,1);
+global funcParse2
+gvar.graph(1:8)=plot(1,1);
+gvar.axis_plot(1:2)=plot(1,1);
 delete(gvar.graph);
+delete(gvar.axis_plot);
 cla reset;
-try
-    gvar.raw_in=get(handles.Equation_TypeBar,'string');
-catch
-    WaitSecs(0.000001);
-end
+
+set(handles.Two_RadioButton,'Value',1);
+
+
+
+% if value2D==1
+
 whos equation
 gvar.xDist=0.001;
-try
-    x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
-    equation_parser()
-    y=eval(gvar.format_in);
-catch
-    WaitSecs(0.000001);
-end
+gvar.domainLower=-10;
+gvar.domainUpper=10;
+gvar.rangeLower=-10;
+gvar.rangeUpper=10;
+
+set(handles.domainLower_TextBox,'String',gvar.domainLower);
+set(handles.domainUpper_TextBox,'String',gvar.domainUpper);
+set(handles.rangeLower_TextBox,'String',gvar.rangeLower);
+set(handles.rangeUpper_TextBox,'String',gvar.rangeUpper);
+% while true
+
+        try
+            funcParse2.raw_in=get(handles.EquationTwo_TypeBar,'string');
+        catch
+            WaitSecs(0.000001);
+        end
+        try
+            x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
+            equation_parser_two()
+
+            try
+                y=eval(funcParse2.format_in);
+%                 break
+            catch
+
+                WaitSecs(0.0000001);
+            end
+
+        catch
+            WaitSecs(0.000001);
+        end
+
+% end
+
+
+
 gvar.num_y=(y==real(y));
 gvar.real_orig_y=y(gvar.num_y);
 gvar.real_orig_x=x(gvar.num_y);
-% axes(handles.Axes_GraphAxes);
-% ezplot(gvar.format_in);
+
+
 Orig_function();
 first_derivative();
 second_derivative();
+findZeros();
 
-findZeros()
 set(handles.zeros_ListBox,'string',gvar.zeros_str);
 set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
 relMinMax()
@@ -199,37 +189,25 @@ POI();
 set(handles.POI_ListBox,'string',gvar.POI_str);
 set(handles.POI_ListBox,'max',length(gvar.POI_str));
 
-% relMinMax();
-% POI();
-% xlim([gvar.domainLower gvar.domainUpper]);
-% ylim([gvar.rangeLower gvar.rangeUpper]);
 axis([gvar.domainLower gvar.domainUpper gvar.rangeLower gvar.rangeUpper]);
-plot([gvar.domainLower gvar.domainUpper],[0 0],'k');
+gvar.axis_plot(1)=plot([gvar.domainLower gvar.domainUpper],[0 0],'k');
 hold on
-plot([0 0],[gvar.rangeLower gvar.rangeUpper],'k');
+gvar.axis_plot(2)=plot([0 0],[gvar.rangeLower gvar.rangeUpper],'k');
 hold on
 set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
 set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 gvar.valueRMM=0;
 gvar.valuePOI=0;
 
+% elseif value3D==1
+    
+
+% end
 
 
 
+function EquationTwo_TypeBar_CreateFcn(hObject, eventdata, handles)
 
-
-% Hints: get(hObject,'String') returns contents of Equation_TypeBar as text
-%        str2double(get(hObject,'String')) returns contents of Equation_TypeBar as a double
-
-
-% --- Executes during object creation, after setting all properties.
-function Equation_TypeBar_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to Equation_TypeBar (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -237,62 +215,32 @@ global gvar
 
 
 
-function domainLower_Callback(hObject, eventdata, handles)
-% hObject    handle to domainLower (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+function domainLower_TextBox_Callback(hObject, eventdata, handles)
+
 global gvar
-gvar.domainLower=str2num(get(handles.domainLower,'string'));
+gvar.domainLower=str2num(get(handles.domainLower_TextBox,'string'));
 set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
 
-% Hints: get(hObject,'String') returns contents of domainLower as text
-%        str2double(get(hObject,'String')) returns contents of domainLower as a double
+function domainLower_TextBox_CreateFcn(hObject, eventdata, handles)
 
-
-% --- Executes during object creation, after setting all properties.
-function domainLower_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to domainLower (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
+function rangeLower_TextBox_Callback(hObject, eventdata, handles)
 
-
-function rangeLower_Callback(hObject, eventdata, handles)
-% hObject    handle to rangeLower (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 global gvar
-gvar.rangeLower=str2num(get(handles.rangeLower,'string'));
+gvar.rangeLower=str2num(get(handles.rangeLower_TextBox,'string'));
 set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 
-% Hints: get(hObject,'String') returns contents of rangeLower as text
-%        str2double(get(hObject,'String')) returns contents of rangeLower as a double
+function rangeLower_TextBox_CreateFcn(hObject, eventdata, handles)
 
-
-% --- Executes during object creation, after setting all properties.
-function rangeLower_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to rangeLower (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
-
-% --- Executes on button press in deriv1_CheckBox.
 function deriv1_CheckBox_Callback(hObject, eventdata, handles)
-% hObject    handle to deriv1_CheckBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 gvar.value1=get(handles.deriv1_CheckBox,'Value');
 delete(gvar.graph(2));
@@ -300,49 +248,23 @@ if gvar.value1==1
     first_derivative_plot();
 end
 
-
-
-% Hint: get(hObject,'Value') returns toggle state of deriv1_CheckBox
-
-
-% --- Executes on button press in deriv2_CheckBox.
 function deriv2_CheckBox_Callback(hObject, eventdata, handles)
-% hObject    handle to deriv2_CheckBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 gvar.value2=get(handles.deriv2_CheckBox,'Value');
     delete(gvar.graph(3));
 if gvar.value2==1
     second_derivative_plot();
 end
-%% Holes for f''(x)
-
-
-
-% Hint: get(hObject,'Value') returns toggle state of deriv2_CheckBox
-
-
 
 function FTC_LowBound_TextBox_Callback(hObject, eventdata, handles)
-% hObject    handle to FTC_LowBound_TextBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
+delete(gvar.graph(6));
 gvar.low_bound=str2num(get(handles.FTC_LowBound_TextBox,'string'));
 
-% Hints: get(hObject,'String') returns contents of FTC_LowBound_TextBox as text
-%        str2double(get(hObject,'String')) returns contents of FTC_LowBound_TextBox as a double
-
-
-% --- Executes during object creation, after setting all properties.
 function FTC_LowBound_TextBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to FTC_LowBound_TextBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -350,87 +272,37 @@ end
 
 
 function FTC_UpBound_TextBox_Callback(hObject, eventdata, handles)
-% hObject    handle to FTC_UpBound_TextBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
+delete(gvar.graph(6));
 gvar.up_bound=str2num(get(handles.FTC_UpBound_TextBox,'string'));
 FTC();
 set(handles.areaUnder_Toggle,'Value',1);
 set(handles.ftcProof_Toggle,'Value',1);
 set(handles.areaUnder_Toggle,'String',gvar.final_value);
 set(handles.ftcProof_Toggle,'String',gvar.orig_area);
-% set(handles.areaUnderDeriv1,'string',gvar.final_value);
-% set(handles.ftcProof,'string',gvar.orig_area);
+hold on
+gvar.graph(6)=area(gvar.real_orig_x(1,gvar.loc_lower:gvar.loc_up),...
+    gvar.real_first(1,gvar.loc_lower:gvar.loc_up));
 
-% Hints: get(hObject,'String') returns contents of FTC_UpBound_TextBox as text
-%        str2double(get(hObject,'String')) returns contents of FTC_UpBound_TextBox as a double
-
-
-% --- Executes during object creation, after setting all properties.
 function FTC_UpBound_TextBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to FTC_UpBound_TextBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
-
-
-% Hints: get(hObject,'String') returns contents of areaUnderDeriv1 as text
-%        str2double(get(hObject,'String')) returns contents of areaUnderDeriv1 as a double
-
-
-
-
-
-% Hint: get(hObject,'Value') returns toggle state of relMinMax_CheckBox
-
-
-% --- Executes on button press in POI_CheckBox.
-
-
-% Hint: get(hObject,'Value') returns toggle state of POI_CheckBox
-
-
-
-% Hint: get(hObject,'Value') returns toggle state of holes_CheckBox
-
-
-
-% Hint: get(hObject,'Value') returns toggle state of togglebutton1
-
-
-% --- Executes on button press in areaUnder_Toggle.
 function areaUnder_Toggle_Callback(hObject, eventdata, handles)
-% hObject    handle to areaUnder_Toggle (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 set(handles.areaUnder_Toggle,'String',gvar.final_value);
 
-% Hint: get(hObject,'Value') returns toggle state of areaUnder_Toggle
-
-
-% --- Executes on button press in ftcProof_Toggle.
 function ftcProof_Toggle_Callback(hObject, eventdata, handles)
-% hObject    handle to ftcProof_Toggle (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 set(handles.ftcProof_Toggle,'String',gvar.orig_area);
-% Hint: get(hObject,'Value') returns toggle state of ftcProof_Toggle
 
-
-% --- Executes on button press in relMinMax_CheckBox.
 function relMinMax_CheckBox_Callback(hObject, eventdata, handles)
-% hObject    handle to relMinMax_CheckBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 
 gvar.valueRMM=get(handles.relMinMax_CheckBox,'Value');
@@ -438,36 +310,10 @@ if gvar.valueRMM==1
     relMinMax_plot();
 elseif gvar.valueRMM==0
     delete(gvar.graph(4));
-%     cla
-%     Orig_function()
-%     axis([gvar.domainLower gvar.domainUpper gvar.rangeLower gvar.rangeUpper]);
-%     plot([gvar.domainLower gvar.domainUpper],[0 0],'k');
-%     hold on
-%     plot([0 0],[gvar.rangeLower gvar.rangeUpper],'k');
-%     if gvar.value1==1
-%         first_derivative_plot();
-%     end
-%     if gvar.value2==1
-%         second_derivative_plot();
-%     end
-%     if gvar.valuePOI==1
-%         POI_plot();
-%     end
 end
 
-% Hint: get(hObject,'Value') returns toggle state of relMinMax_CheckBox
-
-
-
-
-% Hint: get(hObject,'Value') returns toggle state of POI_CheckBox
-
-
-% --- Executes on button press in POI_CheckBox.
 function POI_CheckBox_Callback(hObject, eventdata, handles)
-% hObject    handle to POI_CheckBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 gvar.value_POI=get(handles.POI_CheckBox,'Value');
 if gvar.value_POI==1
@@ -476,85 +322,247 @@ elseif gvar.value_POI==0
     delete(gvar.graph(5));
 end
 
-% % --- Executes on selection change in POI_ListBox.
 function POI_ListBox_Callback(hObject, eventdata, handles)
-% hObject    handle to POI_ListBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 
 set(handles.POI_ListBox,'string',gvar.POI_str);
 set(handles.POI_ListBox,'max',length(gvar.POI_str));
 
-
-
-
-
-% Hints: contents = cellstr(get(hObject,'String')) returns POI_ListBox contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from POI_ListBox
-
-
-% --- Executes during object creation, after setting all properties.
 function POI_ListBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to POI_ListBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
-% Hint: get(hObject,'Value') returns toggle state of POI_CheckBox
-
-
-
-
-
-% --- Executes on selection change in zeros_ListBox.
 function zeros_ListBox_Callback(hObject, eventdata, handles)
-% hObject    handle to zeros_ListBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 set(handles.zeros_ListBox,'string',gvar.zeros_str);
 set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
 
-% Hints: contents = cellstr(get(hObject,'String')) returns zeros_ListBox contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from zeros_ListBox
 
-
-% --- Executes during object creation, after setting all properties.
 function zeros_ListBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to zeros_ListBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
 
-% Hint: listbox controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
+function relMinMax_ListBox_Callback(hObject, eventdata, handles)
+global gvar
+
+function relMinMax_ListBox_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function xCoord_ToggleButton_Callback(hObject, eventdata, handles)
+
+global gvar
+set(handles.Axes_GraphAxes,'ButtonDownFcn',@getCoord);
+set(handles.xCoord_ToggleButton,'String',gvar.xValue);
+set(handles.yCoord_ToggleButton,'String',gvar.yValue);
+
+function yCoord_ToggleButton_Callback(hObject, eventdata, handles)
+global gvar
+
+
+function variousGraphs_PopUp_Callback(hObject, eventdata, handles)
+% hObject    handle to variousGraphs_PopUp (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global gvar
+global v
+
+delete(gvar.graph(7));
+v.value=get(handles.variousGraphs_PopUp,'Value');
+hold off
+
+if v.value==2
+    delete(gvar.graph(7));
+    gvar.graph(7)=surf(peaks);
+elseif v.value==3
+    delete(gvar.graph(7));
+    gvar.graph(7)=surf(membrane);
+elseif v.value==4
+    delete(gvar.graph(7));
+    [x,y]=meshgrid(-8:0.5:8);
+    r=sqrt(x.^2+y.^2)+eps;
+    sinc=sin(r)./r;
+    gvar.graph(7)=surf(sinc);
+    
+elseif v.value==5
+    delete(gvar.graph(7));
+    [x,y]=meshgrid(-8:0.5:8);
+    r=sqrt(x.^2+y.^2)+eps;
+    cosc=cos(r)./r;
+    gvar.graph(7)=surf(cosc);
+
+    
+elseif v.value==6
+    delete(gvar.graph(7));
+    setAxes();
+    
+    
+    
+    x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
+    y=gamma(x);
+    
+
+    
+    gvar.graph(7)=plot(x,y);
+    hold on;
+    
+    gvar.num_y=(y==real(y));
+    gvar.real_orig_y=y(gvar.num_y);
+    gvar.real_orig_x=x(gvar.num_y); 
+    
+    first_derivative();
+    second_derivative();
+    
+    findZeros();
+    set(handles.zeros_ListBox,'string',gvar.zeros_str);
+    set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
+    relMinMax()
+    set(handles.relMinMax_ListBox,'string',gvar.RMM_str)
+    set(handles.relMinMax_ListBox,'max',length(gvar.RMM_str));
+    POI();
+    set(handles.POI_ListBox,'string',gvar.POI_str);
+    set(handles.POI_ListBox,'max',length(gvar.POI_str));
+    
+    
+    set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
+    set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
+elseif v.value==7
+    delete(gvar.graph(7));
+
+    
+    x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
+    y=eval('exp(0.15.*x).*(sin(2.*x))-2');
+    
+    gvar.num_y=(y==real(y));
+    gvar.real_orig_y=y(gvar.num_y);
+    gvar.real_orig_x=x(gvar.num_y); 
+
+    
+    gvar.graph(7)=plot(x,y);
+    
+    first_derivative();
+    second_derivative();
+    
+    findZeros();
+    set(handles.zeros_ListBox,'string',gvar.zeros_str);
+    set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
+    relMinMax()
+    set(handles.relMinMax_ListBox,'string',gvar.RMM_str)
+    set(handles.relMinMax_ListBox,'max',length(gvar.RMM_str));
+    POI();
+    set(handles.POI_ListBox,'string',gvar.POI_str);
+    set(handles.POI_ListBox,'max',length(gvar.POI_str));
+    
+    
+    
+    hold on
+    grid on
+    setAxes();
+    set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
+    set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
+elseif v.value==8
+    delete(gvar.graph(7));
+    vibes
+    
+elseif v.value==9
+    delete(gvar.graph(7));
+    teapotdemo;
+    
+elseif v.value==10
+    delete(gvar.graph(7));
+    makevase;
+    
+elseif v.value==11
+    delete(gvar.graph(7));
+    fifteen;
+    
+elseif v.value==12
+    delete(gvar.graph(7));
+    soma;
+
+    
+end
+
+
+function variousGraphs_PopUp_CreateFcn(hObject, eventdata, handles)
+
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 
-% --- Executes on selection change in relMinMax_ListBox.
-function relMinMax_ListBox_Callback(hObject, eventdata, handles)
-% hObject    handle to relMinMax_ListBox (see GCBO)
+% --- Executes on button press in Two_RadioButton.
+function Two_RadioButton_Callback(hObject, eventdata, handles)
+% hObject    handle to Two_RadioButton (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    structure with handles and user data (see GUIDATA)
+global gvar
+hold off
+cla
 
-% Hints: contents = cellstr(get(hObject,'String')) returns relMinMax_ListBox contents as cell array
-%        contents{get(hObject,'Value')} returns selected item from relMinMax_ListBox
+
+uistack(handles.EquationThree_TypeBar,'bottom');
+uistack(handles.EquationTwo_TypeBar,'top');
+
+% set(handles.EquationThree_TypeBar,'Visible',off);
+% set(handles.EquationTwo_TypeBar,'Visible',on);
+
+
+% Hint: get(hObject,'Value') returns toggle state of Two_RadioButton
+
+
+% --- Executes on button press in Three_RadioButton.
+function Three_RadioButton_Callback(hObject, eventdata, handles)
+% hObject    handle to Three_RadioButton (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global gvar
+hold off
+cla
+uistack(handles.EquationTwo_TypeBar,'bottom');
+uistack(handles.EquationThree_TypeBar,'top');
+
+% set(handles.EquationTwo_TypeBar,'Visible',off);
+% set(handles.EquationThree_TypeBar,'Visible',on);
+
+    
+
+
+% Hint: get(hObject,'Value') returns toggle state of Three_RadioButton
+
+
+
+function EquationThree_TypeBar_Callback(hObject, eventdata, handles)
+% hObject    handle to EquationThree_TypeBar (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    structure with handles and user data (see GUIDATA)
+global gvar
+global funcParse3
+hold off
+[x,y]=meshgrid(-8:0.5:8);
+    funcParse3.raw_in=get(handles.EquationThree_TypeBar,'String');
+    equation_parser_three();
+    r=eval(funcParse3.format_in);
+    gvar.graph(8)=surf(funcParse3.format_in);
+
+% Hints: get(hObject,'String') returns contents of EquationThree_TypeBar as text
+%        str2double(get(hObject,'String')) returns contents of EquationThree_TypeBar as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function relMinMax_ListBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to relMinMax_ListBox (see GCBO)
+function EquationThree_TypeBar_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to EquationThree_TypeBar (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
-% Hint: listbox controls usually have a white background on Windows.
+% Hint: edit controls usually have a white background on Windows.
 %       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');

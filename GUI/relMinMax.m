@@ -50,8 +50,10 @@ for i=1:length(gvar.RMM_final_x)
     gvar.RMM_str{1,i}=strcat('(',gvar.RMM_x{1,i},',',gvar.RMM_y{1,i},')');
     
 end
-gvar.RMM_str{1,length(gvar.RMM_str)-1}=gvar.RMM_str{1,length(gvar.RMM_str)};
-gvar.RMM_str{1,length(gvar.RMM_str)}=[];
+if length(gvar.RMM_str)>1
+    gvar.RMM_str{1,length(gvar.RMM_str)-1}=gvar.RMM_str{1,length(gvar.RMM_str)};
+    gvar.RMM_str{1,length(gvar.RMM_str)}=[];
+end
 end
 
 

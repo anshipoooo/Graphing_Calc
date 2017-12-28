@@ -45,8 +45,12 @@ for i=1:length(gvar.POI_final_x)
     gvar.POI_str{1,i}=strcat('(',gvar.POI_x{1,i},',',gvar.POI_y{1,i},')');
     
 end
-gvar.POI_str{1,length(gvar.POI_str)-1}=gvar.POI_str{1,length(gvar.POI_str)};
-gvar.POI_str{1,length(gvar.POI_str)}=[];
+
+    if length(gvar.POI_str)>1
+        gvar.POI_str{1,length(gvar.POI_str)-1}=gvar.POI_str{1,length(gvar.POI_str)};
+        gvar.POI_str{1,length(gvar.POI_str)}=[];
+    end
+
 end
 
 

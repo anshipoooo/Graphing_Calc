@@ -9,7 +9,7 @@ global gvar
 %      set(gvar.graph,'hittest','off'); 
      hold on;
 %% Initiate getCoord when clicked
-%     set(handles.Axes_GraphAxes,'ButtonDownFcn',@getCoord);
+    set(handles.Axes_GraphAxes,'ButtonDownFcn',@getCoord);
     xlim([gvar.xMin gvar.xMax]);
     ylim([gvar.yMin gvar.yMax]);
 end

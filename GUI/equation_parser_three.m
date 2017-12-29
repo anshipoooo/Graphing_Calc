@@ -79,7 +79,10 @@ funcParse3.format_in=strrep(funcParse3.format_in,'?(','sqrt(');
      funcParse3.format_in=strrep(funcParse3.format_in,'y^','y.^');
  end
 
+%% xy operations
 
+funcParse3.format_in=strrep(funcParse3.format_in,'xy','x.*y');
+funcParse3.format_in=strrep(funcParse3.format_in,'x/y','x./y');
 
  %% Absolute value change
 

@@ -6,7 +6,7 @@ global gvar
 %%%%%%%%%%
 
 
-loc=zeros(1,length(gvar.real_sec)-1);
+loc=ones(1,length(gvar.real_sec)-1);
 for i=2:length(gvar.real_sec)-1
     if gvar.real_first(:,i-1)>0 && gvar.real_first(:,i+1)<0
         
@@ -18,7 +18,7 @@ for i=2:length(gvar.real_sec)-1
     end
 end
 
-loc(loc==0)=[];
+loc(loc==1)=[];
 
 RMM_x_matr=zeros(1,length(loc));
 RMM_y_matr=zeros(1,length(loc));

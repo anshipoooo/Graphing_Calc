@@ -143,7 +143,14 @@ set(handles.domainLower_TextBox,'String',gvar.domainLower);
 set(handles.domainUpper_TextBox,'String',gvar.domainUpper);
 set(handles.rangeLower_TextBox,'String',gvar.rangeLower);
 set(handles.rangeUpper_TextBox,'String',gvar.rangeUpper);
-% while true
+
+set(handles.xCoord_ToggleButton,'String','');
+set(handles.yCoord_ToggleButton,'String','');
+
+trial=1;
+
+while true
+    if get(handles.Two_RadioButton,'Value')==1
 
         try
             funcParse2.raw_in=get(handles.EquationTwo_TypeBar,'string');
@@ -199,13 +206,29 @@ set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 gvar.valueRMM=0;
 gvar.valuePOI=0;
      hold on
+     
+     if trial==1
+         set(handles.xCoord_ToggleButton,'String','');
+         set(handles.yCoord_ToggleButton,'String','');
+     end
+
+
 %% Click on graph variable points
      set(gvar.graph(1),'hittest','off'); 
-     hold on;
 %% Initiate getCoord when clicked
     set(handles.Axes_GraphAxes,'ButtonDownFcn',@getCoord);
     set(handles.xCoord_ToggleButton,'String',gvar.xValue);
     set(handles.yCoord_ToggleButton,'String',gvar.yValue);
+    waitforbuttonpress;
+    
+    
+    trial=trial+1;
+    else
+        break
+    end
+end
+
+
 % 
 %     xlim([gvar.xMin gvar.xMax]);
 %     ylim([gvar.yMin gvar.yMax]);
@@ -526,6 +549,8 @@ cla
 set(handles.zeros_ListBox,'String','');
 set(handles.relMinMax_ListBox,'String','');
 set(handles.POI_ListBox,'String','');
+set(handles.xCoord_ToggleButton,'String','');
+set(handles.yCoord_ToggleButton,'String','');
 uistack(handles.EquationTwo_TypeBar,'bottom');
 uistack(handles.EquationThree_TypeBar,'top');
 
@@ -535,7 +560,7 @@ function EquationThree_TypeBar_Callback(hObject, eventdata, handles)
 global gvar
 global funcParse3
 hold off
-[x,y]=meshgrid(-8:0.5:8);
+[x,y]=meshgrid(-8:0.3:8);
     funcParse3.raw_in=get(handles.EquationThree_TypeBar,'String');
     equation_parser_three();
     gvar.graph(8)=ezsurf(funcParse3.format_in);

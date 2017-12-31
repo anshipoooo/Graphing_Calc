@@ -147,7 +147,7 @@ set(handles.rangeUpper_TextBox,'String',gvar.rangeUpper);
 set(handles.xCoord_ToggleButton,'String','');
 set(handles.yCoord_ToggleButton,'String','');
 
-trial=1;
+gvar.trial=1;
 
 while true
     if get(handles.Two_RadioButton,'Value')==1
@@ -207,7 +207,7 @@ gvar.valueRMM=0;
 gvar.valuePOI=0;
      hold on
      
-     if trial==1
+     if gvar.trial==1
          set(handles.xCoord_ToggleButton,'String','');
          set(handles.yCoord_ToggleButton,'String','');
      end
@@ -222,11 +222,12 @@ gvar.valuePOI=0;
     waitforbuttonpress;
     
     
-    trial=trial+1;
+    gvar.trial=gvar.trial+1;
     else
         break
     end
 end
+
 
 
 % 

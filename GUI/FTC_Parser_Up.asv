@@ -1,0 +1,38 @@
+function FTC_Parser_Up()
+
+global gvar
+gvar.init_up_bound=raw_in;
+raw_in=format_in;
+
+TF=isstrprop(raw_in,'digit');
+LF=isstrprop(raw_in,'alpha');
+for implicit_loop=1:length(TF)-1
+    TF=isstrprop(funcParse2.format_in,'digit');
+    if TF(1,implicit_loop)==1 && funcParse2.format_in(:,implicit_loop+1)=='x'
+        funcParse2.implicit_before_dig=extractBefore(funcParse2.format_in,implicit_loop+1);
+        funcParse2.implicit_after_dig=extractAfter(funcParse2.format_in,implicit_loop);
+        funcParse2.format_in=strcat(funcParse2.implicit_before_dig,'.*',funcParse2.implicit_after_dig);
+    end
+    LF=isstrprop(funcParse2.format_in,'alpha');
+    if funcParse2.format_in(:,implicit_loop)=='x' && LF(:,implicit_loop+1)==1
+        funcParse2.implicit_before_alpha=extractBefore(funcParse2.format_in,implicit_loop+1);
+        funcParse2.implicit_after_alpha=extractAfter(funcParse2.format_in,implicit_loop);
+        funcParse2.format_in=strcat(funcParse2.implicit_before_alpha,'.*',funcParse2.implicit_after_alpha);
+    end
+    if funcParse2.format_in(:,implicit_loop)=='^' && LF(:,implicit_loop+1)==1
+        funcParse2.implicit_before_exp=extractBefore(funcParse2.format_in,implicit_loop+1);
+        funcParse2.implicit_after_exp=extractAfter(funcParse2.format_in,implicit_loop);
+        funcParse2.format_in=strcat(funcParse2.implicit_before_exp,'(',funcParse2.implicit_after_exp,')');
+    end
+    
+
+end
+
+
+
+
+
+
+
+end
+

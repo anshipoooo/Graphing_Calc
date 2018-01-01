@@ -207,10 +207,6 @@ gvar.valueRMM=0;
 gvar.valuePOI=0;
      hold on
      
-     if gvar.trial==1
-         set(handles.xCoord_ToggleButton,'String','');
-         set(handles.yCoord_ToggleButton,'String','');
-     end
 
 
 %% Click on graph variable points
@@ -218,6 +214,7 @@ gvar.valuePOI=0;
 %% Initiate getCoord when clicked
     set(handles.Axes_GraphAxes,'ButtonDownFcn',@getCoord);
     set(handles.xCoord_ToggleButton,'String',gvar.xValue);
+    
     set(handles.yCoord_ToggleButton,'String',gvar.yValue);
     waitforbuttonpress;
     
@@ -296,7 +293,20 @@ function FTC_LowBound_TextBox_Callback(hObject, eventdata, handles)
 
 global gvar
 delete(gvar.graph(6));
-gvar.low_bound=str2num(get(handles.FTC_LowBound_TextBox,'string'));
+gvar.init_low_bound=get(handles.FTC_LowBound_TextBox,'string');
+FTC_Parser_Low;
+try
+    FTC();
+    set(handles.areaUnder_Toggle,'Value',1);
+    set(handles.ftcProof_Toggle,'Value',1);
+    set(handles.areaUnder_Toggle,'String',gvar.final_value);
+    set(handles.ftcProof_Toggle,'String',gvar.orig_area);
+    hold on
+gvar.graph(6)=area(gvar.real_orig_x(1,gvar.loc_lower:gvar.loc_up),...
+    gvar.real_first(1,gvar.loc_lower:gvar.loc_up));
+catch 
+    pause(0.00001);
+end
 
 function FTC_LowBound_TextBox_CreateFcn(hObject, eventdata, handles)
 
@@ -310,15 +320,22 @@ function FTC_UpBound_TextBox_Callback(hObject, eventdata, handles)
 
 global gvar
 delete(gvar.graph(6));
-gvar.up_bound=str2num(get(handles.FTC_UpBound_TextBox,'string'));
-FTC();
-set(handles.areaUnder_Toggle,'Value',1);
-set(handles.ftcProof_Toggle,'Value',1);
-set(handles.areaUnder_Toggle,'String',gvar.final_value);
-set(handles.ftcProof_Toggle,'String',gvar.orig_area);
-hold on
-gvar.graph(6)=area(gvar.real_orig_x(1,gvar.loc_lower:gvar.loc_up),...
-    gvar.real_first(1,gvar.loc_lower:gvar.loc_up));
+gvar.init_up_bound=get(handles.FTC_UpBound_TextBox,'string');
+
+FTC_Parser_Up;
+
+try
+    FTC();
+    set(handles.areaUnder_Toggle,'Value',1);
+    set(handles.ftcProof_Toggle,'Value',1);
+    set(handles.areaUnder_Toggle,'String',gvar.final_value);
+    set(handles.ftcProof_Toggle,'String',gvar.orig_area);
+    hold on
+    gvar.graph(6)=area(gvar.real_orig_x(1,gvar.loc_lower:gvar.loc_up),...
+        gvar.real_first(1,gvar.loc_lower:gvar.loc_up));
+catch
+    pause(0.00000001);
+end
 
 function FTC_UpBound_TextBox_CreateFcn(hObject, eventdata, handles)
 

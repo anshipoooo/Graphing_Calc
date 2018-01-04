@@ -1,31 +1,5 @@
 function varargout = Calc_GUI(varargin)
 
-% CALC_GUI MATLAB code for Calc_GUI.fig
-%      CALC_GUI, by itself, creates a new CALC_GUI or raises the existing
-%      singleton*.
-%
-%      H = CALC_GUI returns the handle to a new CALC_GUI or the handle to
-%      the existing singleton*.
-%
-%      CALC_GUI('CALLBACK',hObject,eventData,handles,...) calls the local
-%      function named CALLBACK in CALC_GUI.M with the given input arguments.
-%
-%      CALC_GUI('Property','Value',...) creates a new CALC_GUI or raises the
-%      existing singleton*.  Starting from the left, property value pairs are
-%      applied to the GUI before Calc_GUI_OpeningFcn gets called.  An
-%      unrecognized property name or invalid value makes property application
-%      stop.  All inputs are passed to Calc_GUI_OpeningFcn via varargin.
-%
-%      *See GUI Options on GUIDE's Tools menu.  Choose "GUI allows only one
-%      instance to run (singleton)".
-%
-% See also: GUIDE, GUIDATA, GUIHANDLES
-
-% Edit the above text to modify the response to help Calc_GUI
-
-% Last Modified by GUIDE v2.5 27-Dec-2017 09:26:18
-
-% Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
 gui_State = struct('gui_Name',       mfilename, ...
                    'gui_Singleton',  gui_Singleton, ...
@@ -42,25 +16,17 @@ if nargout
 else
     gui_mainfcn(gui_State, varargin{:});
 end
-% End initialization code - DO NOT EDIT
+% End of initialization code
 
 
-% --- Executes just before Calc_GUI is made visible.
 function Calc_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
-% This function has no output args, see OutputFcn.
-% hObject    handle to figure
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
-% varargin   command line arguments to Calc_GUI (see VARARGIN)
-
-
-% Choose default command line output for Calc_GUI
+% Default command line for the master program
 handles.output = hObject;
 
-% Update handles structure
+% Updates the GUI handle structure
 guidata(hObject, handles);
 
-% UIWAIT makes Calc_GUI wait for user response (see UIRESUME)
+% Wait for user response to execute respective function
 uiwait(handles.figure1);
 set(handles.figure1,'Color',[0 0 0]);
 
@@ -130,7 +96,7 @@ set(handles.Two_RadioButton,'Value',1);
 
 
 
-% if value2D==1
+
 
 whos equation
 gvar.xDist=0.001;
@@ -224,17 +190,6 @@ gvar.valuePOI=0;
         break
     end
 end
-
-
-
-% 
-%     xlim([gvar.xMin gvar.xMax]);
-%     ylim([gvar.yMin gvar.yMax]);
-
-% elseif value3D==1
-    
-
-% end
 
 
 

@@ -178,7 +178,14 @@ gvar.valuePOI=0;
 %% Click on graph variable points
      set(gvar.graph(1),'hittest','off'); 
 %% Initiate getCoord when clicked
+
+
     set(handles.Axes_GraphAxes,'ButtonDownFcn',@getCoord);
+    
+    if gvar.trial==1
+       gvar.xValue=0;
+       gvar.yValue=0;
+    end
     set(handles.xCoord_ToggleButton,'String',gvar.xValue);
     
     set(handles.yCoord_ToggleButton,'String',gvar.yValue);

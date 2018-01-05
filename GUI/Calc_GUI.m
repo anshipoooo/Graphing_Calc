@@ -28,6 +28,8 @@ guidata(hObject, handles);
 
 % Wait for user response to execute respective function
 uiwait(handles.figure1);
+
+%% Sets default colors
 set(handles.figure1,'Color',[0 0 0]);
 
 
@@ -375,9 +377,7 @@ global gvar
 
 
 function variousGraphs_PopUp_Callback(hObject, eventdata, handles)
-% hObject    handle to variousGraphs_PopUp (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
+
 global gvar
 global v
 

@@ -88,6 +88,8 @@ function EquationTwo_TypeBar_Callback(hObject, eventdata, handles)
 
 global gvar
 global funcParse2
+global v
+v.value=1;
 gvar.graph(1:8)=plot(1,1);
 gvar.axis_plot(1:2)=plot(1,1);
 delete(gvar.graph);
@@ -118,7 +120,7 @@ set(handles.yCoord_ToggleButton,'String','');
 gvar.trial=1;
 
 while true
-    if get(handles.Two_RadioButton,'Value')==1
+    if get(handles.Two_RadioButton,'Value')==1 && v.value==1
 
         try
             funcParse2.raw_in=get(handles.EquationTwo_TypeBar,'string');
@@ -195,7 +197,10 @@ gvar.valuePOI=0;
     
     
     gvar.trial=gvar.trial+1;
-    else
+    elseif v.value>1
+        axes(handles.Axes_GraphAxes);
+
+        cla;
         break
     end
 end
@@ -387,6 +392,8 @@ function variousGraphs_PopUp_Callback(hObject, eventdata, handles)
 
 global gvar
 global v
+global funcParse2
+global funcParse3
 
 
 set(handles.EquationTwo_TypeBar,'String','');
@@ -395,23 +402,42 @@ set(handles.EquationThree_TypeBar,'String','');
 
 delete(gvar.graph(7));
 v.value=get(handles.variousGraphs_PopUp,'Value');
+set(handles.EquationTwo_TypeBar,'String','');
+set(handles.EquationThree_TypeBar,'String','');
+
+axes(handles.Axes_GraphAxes);
 hold off
 
-if v.value==2
-    delete(gvar.graph(7));
+if v.value==1
+    
+    if get(handles.Two_RadioButton,'Value')==1
+    set(handles.EquationTwo_TypeBar,'String',funcParse2.format_in);
+    EquationTwo_TypeBar_Callback(handles.EquationTwo_TypeBar,eventdata,handles);
+    end
+    if get(handles.Three_RadioButton,'Value')==1
+    set(handles.EquationThree_TypeBar,'String',funcParse3.format_in);
+    EquationThree_TypeBar_Callback(handles.EquationThree_TypeBar,eventdata,handles);
+    end
+
+
+elseif v.value==2
+%     delete(gvar.graph(7));
+    plot([0 0],[0 0]);
     gvar.graph(7)=surf(peaks);
 elseif v.value==3
-    delete(gvar.graph(7));
+%     delete(gvar.graph(7));
+    plot([0 0],[0 0]);  
     gvar.graph(7)=surf(membrane);
 elseif v.value==4
-    delete(gvar.graph(7));
+%     delete(gvar.graph(7));
+    plot([0 0],[0 0]);
     [x,y]=meshgrid(-8:0.5:8);
     r=sqrt(x.^2+y.^2)+eps;
     sinc=sin(r)./r;
     gvar.graph(7)=surf(sinc);
     
 elseif v.value==5
-    delete(gvar.graph(7));
+%     delete(gvar.graph(7));
     [x,y]=meshgrid(-8:0.5:8);
     r=sqrt(x.^2+y.^2)+eps;
     cosc=cos(r)./r;
@@ -419,7 +445,7 @@ elseif v.value==5
 
     
 elseif v.value==6
-    delete(gvar.graph(7));
+%     delete(gvar.graph(7));
     setAxes();
     
     
@@ -453,7 +479,7 @@ elseif v.value==6
     set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
     set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 elseif v.value==7
-    delete(gvar.graph(7));
+%     delete(gvar.graph(7));
 
     
     x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
@@ -487,11 +513,11 @@ elseif v.value==7
     set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
     set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 elseif v.value==8
-    delete(gvar.graph(7));
+%     delete(gvar.graph(7));
     vibes
     
 elseif v.value==9
-    delete(gvar.graph(7));
+%     delete(gvar.graph(7));
     teapotdemo;
     
 elseif v.value==10
@@ -557,6 +583,10 @@ function EquationThree_TypeBar_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
+<<<<<<< HEAD
 end
 
 
+=======
+end
+>>>>>>> 34c8c93e02dc1bcb6b0755b3210dcecc862b2afc

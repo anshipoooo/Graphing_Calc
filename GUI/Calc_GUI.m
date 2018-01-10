@@ -95,7 +95,7 @@ delete(gvar.axis_plot);
 cla reset;
 
 set(handles.Two_RadioButton,'Value',1);
-
+set(handles.variousGraphs,'Value',1);
 
 
 
@@ -388,6 +388,11 @@ function variousGraphs_PopUp_Callback(hObject, eventdata, handles)
 global gvar
 global v
 
+
+set(handles.EquationTwo_TypeBar,'String','');
+
+set(handles.EquationThree_TypeBar,'String','');
+
 delete(gvar.graph(7));
 v.value=get(handles.variousGraphs_PopUp,'Value');
 hold off
@@ -518,7 +523,7 @@ hold off
 cla
 
 
-uistack(handles.EquationThree_TypeBar,'bottom');
+
 uistack(handles.EquationTwo_TypeBar,'top');
 
 function Three_RadioButton_Callback(hObject, eventdata, handles)
@@ -531,7 +536,7 @@ set(handles.relMinMax_ListBox,'String','');
 set(handles.POI_ListBox,'String','');
 set(handles.xCoord_ToggleButton,'String','');
 set(handles.yCoord_ToggleButton,'String','');
-uistack(handles.EquationTwo_TypeBar,'bottom');
+
 uistack(handles.EquationThree_TypeBar,'top');
 
 
@@ -539,6 +544,8 @@ function EquationThree_TypeBar_Callback(hObject, eventdata, handles)
 
 global gvar
 global funcParse3
+set(handles.Two_RadioButton,'Value',1);
+set(handles.variousGraphs,'Value',1);
 hold off
 [x,y]=meshgrid(-8:0.3:8);
     funcParse3.raw_in=get(handles.EquationThree_TypeBar,'String');
@@ -551,3 +558,5 @@ function EquationThree_TypeBar_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+
+

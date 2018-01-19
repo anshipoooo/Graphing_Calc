@@ -65,17 +65,8 @@ funcParse2.format_in=strrep(funcParse2.format_in,'?(','sqrt(');
  elseif contains(funcParse2.raw_in,'x^')
      funcParse2.format_in=strrep(funcParse2.format_in,'x^','x.^');
  elseif contains(funcParse2.raw_in,'e^sin(')
-     funcParse2.format_in=strrep(funcParse2.format_in,'e^sin(','exp(sin(');
- elseif contains(funcParse2.raw_in,'e^cos(')
-     funcParse2.format_in=strrep(funcParse2.format_in,'e^cos(','exp(cos(');
- elseif contains(funcParse2.raw_in,'e^tan(')
-     funcParse2.format_in=strrep(funcParse2.format_in,'e^tan(','exp(tan(');
- elseif contains(funcParse2.raw_in,'e^csc(')
-     funcParse2.format_in=strrep(funcParse2.format_in,'e^csc(','exp(csc(');
- elseif contains(funcParse2.raw_in,'e^sec(')
-     funcParse2.format_in=strrep(funcParse2.format_in,'e^sec(','exp(sec(');
- elseif contains(funcParse2.raw_in,'e^cot(')
-     funcParse2.format_in=strrep(funcParse2.format_in,'e^cot(','exp(cot(');
+     funcParse2.format_in=strrep(funcParse.format_in,'e^sin(','exp(sin(');
+ elseif contains(funcParse2.f
  end
 
 

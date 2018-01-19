@@ -1,9 +1,7 @@
 function relMinMax()
-
 global gvar
 %% Relative min/max
 
-%%%%%%%%%%
 
 
 loc=ones(1,length(gvar.real_sec)-1);

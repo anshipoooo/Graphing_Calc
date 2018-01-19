@@ -101,7 +101,7 @@ cla reset;
 
 %% Allowing 2D graphs to be plotted first
 set(handles.Two_RadioButton,'Value',1);
-set(handles.variousGraphs,'Value',1);
+set(handles.variousGraphs_PopUp,'Value',1);
 
 
 
@@ -434,15 +434,13 @@ global v
 global funcParse2
 global funcParse3
 
-<<<<<<< HEAD
 
 set(handles.EquationTwo_TypeBar,'String','');
 
 set(handles.EquationThree_TypeBar,'String','');
 
-=======
 %% Initialize the new axes to plot on
->>>>>>> master
+
 delete(gvar.graph(7));
 v.value=get(handles.variousGraphs_PopUp,'Value');
 set(handles.EquationTwo_TypeBar,'String','');
@@ -595,13 +593,9 @@ global gvar
 hold off
 cla
 
-<<<<<<< HEAD
-
-
-=======
 %% Put the 2D equation textbox in front
 uistack(handles.EquationThree_TypeBar,'bottom');
->>>>>>> master
+
 uistack(handles.EquationTwo_TypeBar,'top');
 
 function Three_RadioButton_Callback(hObject, eventdata, handles)
@@ -616,12 +610,10 @@ set(handles.relMinMax_ListBox,'String','');
 set(handles.POI_ListBox,'String','');
 set(handles.xCoord_ToggleButton,'String','');
 set(handles.yCoord_ToggleButton,'String','');
-<<<<<<< HEAD
 
-=======
 %% Puts the 3D equation textbox in front
 uistack(handles.EquationTwo_TypeBar,'bottom');
->>>>>>> master
+
 uistack(handles.EquationThree_TypeBar,'top');
 
 
@@ -630,7 +622,7 @@ function EquationThree_TypeBar_Callback(hObject, eventdata, handles)
 global gvar
 global funcParse3
 set(handles.Two_RadioButton,'Value',1);
-set(handles.variousGraphs,'Value',1);
+set(handles.variousGraphs_PopUp,'Value',1);
 hold off
 [x,y]=meshgrid(-8:0.3:8);
 %% Gets the raw user input
@@ -645,10 +637,4 @@ function EquationThree_TypeBar_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
-<<<<<<< HEAD
 end
-
-
-=======
-end
->>>>>>> 34c8c93e02dc1bcb6b0755b3210dcecc862b2afc

@@ -4,25 +4,36 @@ global funcParse2
 
 %% Convert user input into function --> previously Graphing_Calc
 % gvar.raw_in=input('Enter your function in terms of x: ','s');    
-%% Implicit multiplication
 
-    funcParse2.format_in=strcat(funcParse2.raw_in,'+1-1');
-TF=isstrprop(funcParse2.format_in,'digit');
-LF=isstrprop(funcParse2.format_in,'alpha');
-for implicit_loop=1:length(TF)-1
-    TF=isstrprop(funcParse2.format_in,'digit');
-    if TF(1,implicit_loop)==1 && funcParse2.format_in(:,implicit_loop+1)=='x'
+%% Take the user inputted string and add the variable string for easy manipulation
+variable_string='+1-1';
+funcParse2.format_in=strcat(funcParse2.raw_in,variable_string);
+
+%% Create variables that are a vector indicating when a number or letter is present
+DF=isstrprop(funcParse2.format_in,'digit');
+AF=isstrprop(funcParse2.format_in,'alpha');
+
+%% Loop to manipulate implicit equations into MatLab-friendly equations
+for implicit_loop=1:length(DF)-1
+    
+%% Whenever a number is followed by x, place a '.*' between the two
+    DF=isstrprop(funcParse2.format_in,'digit');
+    if DF(1,implicit_loop)==1 && funcParse2.format_in(:,implicit_loop+1)=='x'
         funcParse2.implicit_before_dig=extractBefore(funcParse2.format_in,implicit_loop+1);
         funcParse2.implicit_after_dig=extractAfter(funcParse2.format_in,implicit_loop);
         funcParse2.format_in=strcat(funcParse2.implicit_before_dig,'.*',funcParse2.implicit_after_dig);
     end
-    LF=isstrprop(funcParse2.format_in,'alpha');
-    if funcParse2.format_in(:,implicit_loop)=='x' && LF(:,implicit_loop+1)==1
+    
+%% Whenever there's an x followed by a letter, place a '.*' between the two
+    AF=isstrprop(funcParse2.format_in,'alpha');
+    if funcParse2.format_in(:,implicit_loop)=='x' && AF(:,implicit_loop+1)==1
         funcParse2.implicit_before_alpha=extractBefore(funcParse2.format_in,implicit_loop+1);
         funcParse2.implicit_after_alpha=extractAfter(funcParse2.format_in,implicit_loop);
         funcParse2.format_in=strcat(funcParse2.implicit_before_alpha,'.*',funcParse2.implicit_after_alpha);
     end
-    if funcParse2.format_in(:,implicit_loop)=='^' && LF(:,implicit_loop+1)==1
+    
+%% Whenever there's a carrot followed by a letter, place parentheses around the function
+    if funcParse2.format_in(:,implicit_loop)=='^' && AF(:,implicit_loop+1)==1
         funcParse2.implicit_before_exp=extractBefore(funcParse2.format_in,implicit_loop+1);
         funcParse2.implicit_after_exp=extractAfter(funcParse2.format_in,implicit_loop);
         funcParse2.format_in=strcat(funcParse2.implicit_before_exp,'(',funcParse2.implicit_after_exp,')');
@@ -30,15 +41,17 @@ for implicit_loop=1:length(TF)-1
     
 
 end
-funcParse2.format_in=strrep(funcParse2.format_in,'+1-1','');
+
+%% Remove the extra variable string after the function
+funcParse2.format_in=strrep(funcParse2.format_in,variable_string,'');
 
 %% Square root function
 funcParse2.format_in=strrep(funcParse2.format_in,'?(','sqrt(');
 
 %% Basic switches
      
+     funcParse2.format_in=strrep(funcParse2.format_in,'x*','x.*');
      funcParse2.format_in=strrep(funcParse2.format_in,'/','./');
-%      gvar.format_in=strrep(gvar.format_in,'*','.*');
      funcParse2.format_in=strrep(funcParse2.format_in,'+-','-');
      funcParse2.format_in=strrep(funcParse2.format_in,')(',').*(');
      funcParse2.format_in=strrep(funcParse2.format_in,'ln(','log(');

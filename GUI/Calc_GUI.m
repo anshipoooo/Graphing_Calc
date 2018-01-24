@@ -134,10 +134,10 @@ set(handles.POI_CheckBox,'Value',0);
 gvar.trial=1;
 
 %% Beginning of the actual graphing
-while true
+
     
 %% Only if the 2D button is selected, the following occurs
-    if get(handles.Two_RadioButton,'Value')==1 && v.value==1
+while get(handles.Two_RadioButton,'Value')==1 && v.value==1
         
 %% Storing the raw string inputted into the textbox into the global variable
         try
@@ -221,13 +221,8 @@ gvar.valuePOI=0;
     
     
     gvar.trial=gvar.trial+1;
-    elseif v.value>1
-        axes(handles.Axes_GraphAxes);
-
-        cla;
-        break
-    end
 end
+
 
 
 
@@ -454,8 +449,7 @@ if v.value==1
     if get(handles.Two_RadioButton,'Value')==1
     set(handles.EquationTwo_TypeBar,'String',funcParse2.format_in);
     EquationTwo_TypeBar_Callback(handles.EquationTwo_TypeBar,eventdata,handles);
-    end
-    if get(handles.Three_RadioButton,'Value')==1
+    elseif get(handles.Three_RadioButton,'Value')==1
     set(handles.EquationThree_TypeBar,'String',funcParse3.format_in);
     EquationThree_TypeBar_Callback(handles.EquationThree_TypeBar,eventdata,handles);
     end

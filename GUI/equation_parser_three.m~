@@ -41,7 +41,6 @@ for implicit_loop=1:length(DF)-1
     end
     
 %% Whenever there's a y followed by a letter, place a '.*' between the two
-    AF=isstrprop(funcParse3.format_in,'alpha');
     if funcParse3.format_in(:,implicit_loop)=='y' && AF(:,implicit_loop+1)==1
         funcParse3.implicit_before_alpha=extractBefore(funcParse3.format_in,implicit_loop+1);
         funcParse3.implicit_after_alpha=extractAfter(funcParse3.format_in,implicit_loop);
@@ -66,8 +65,6 @@ funcParse3.format_in=strrep(funcParse3.format_in,'?(','sqrt(');
 
 %% Basic switches
      
-     funcParse3.format_in=strrep(funcParse3.format_in,'x*','x.*');
-     funcParse3.format_in=strrep(funcParse3.format_in,'y*','y.*');
      funcParse3.format_in=strrep(funcParse3.format_in,'/','./');
      funcParse3.format_in=strrep(funcParse3.format_in,'+-','-');
      funcParse3.format_in=strrep(funcParse3.format_in,')(',').*(');

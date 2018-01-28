@@ -20,17 +20,20 @@ end
 
 
 function Calc_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
-% Default command line for the master program
+%% Default command line for the master program
 handles.output = hObject;
 
-% Updates the GUI handle structure
+
+
+%% Updates the GUI handle structure
 guidata(hObject, handles);
 
-% Wait for user response to execute respective function
+%% Go to correct folder
+% cd ..
+
+%% Wait for user response to execute respective function
 uiwait(handles.figure1);
 
-%% Sets default colors
-set(handles.figure1,'Color',[0 0 0]);
 
 
 function varargout = Calc_GUI_OutputFcn(hObject, eventdata, handles) 
@@ -40,12 +43,16 @@ varargout{1} = handles.output;
 function Deriv1_PushButton_Callback(hObject, eventdata, handles)
 
 global gvar
+cd 'Function';
 first_derivative();
+cd ..
 
 function Deriv2_PushButton_Callback(hObject, eventdata, handles)
 
 global gvar
+cd 'Function'
 second_derivative();
+cd ..
 
 function FTC_PushButton_Callback(hObject, eventdata, handles)
 
@@ -91,6 +98,11 @@ global gvar
 global funcParse2
 global v
 
+%% Get to the right folder
+% currFolder=pwd;
+% if currFolder(end-3:end)=='Main'
+%     cd ..
+% end
 %% Initialization
 v.value=1;
 gvar.graph(1:8)=plot(1,1);
@@ -105,7 +117,7 @@ set(handles.variousGraphs_PopUp,'Value',1);
 
 
 
-%% Giving a set domain and range of ±10
+%% Giving a set domain and range of ï¿½10
 whos equation
 gvar.xDist=0.001;
 gvar.domainLower=-10;
@@ -138,32 +150,31 @@ gvar.trial=1;
     
 %% Only if the 2D button is selected, the following occurs
 while get(handles.Two_RadioButton,'Value')==1 && v.value==1
-        
 %% Storing the raw string inputted into the textbox into the global variable
         try
             funcParse2.raw_in=get(handles.EquationTwo_TypeBar,'string');
         catch
-            WaitSecs(0.000001);
+            pause(0.000001);
         end
-        try
+        
 %% Setting the x value based on the user-inputted domain
-            x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
-            
+        x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
+        
+        
 %% Run the parser function to make raw string decodable for MatLab
-            equation_parser_two()
-
-            try
+        cd 'Parsers'
+        equation_parser_two()
+        cd ..
+        try
 %% Evaluates the MatLab-friendly function
-                y=eval(funcParse2.format_in);
+            y=eval(funcParse2.format_in);
 %                 break
-            catch
-
-                WaitSecs(0.0000001);
-            end
-
         catch
-            WaitSecs(0.000001);
+
+            pause(0.0000001);
         end
+
+
 
 % end
 
@@ -174,12 +185,14 @@ gvar.real_orig_y=y(gvar.num_y);
 gvar.real_orig_x=x(gvar.num_y);
 
 %% Executes functions to find the values of f(x), f'(x), and f''(x) and store in respective variables
+cd 'Function'
 Orig_function();
 first_derivative();
 second_derivative();
 findZeros();
-
+cd ..
 %% Puts the important points in their respective boxes (zeros, RMM, and POI)
+cd 'Important_Points'
 set(handles.zeros_ListBox,'string',gvar.zeros_str);
 set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
 relMinMax()
@@ -188,7 +201,7 @@ set(handles.relMinMax_ListBox,'max',length(gvar.RMM_str));
 POI();
 set(handles.POI_ListBox,'string',gvar.POI_str);
 set(handles.POI_ListBox,'max',length(gvar.POI_str));
-
+cd ..
 %% Sets the axes on the graph
 axis([gvar.domainLower gvar.domainUpper gvar.rangeLower gvar.rangeUpper]);
 gvar.axis_plot(1)=plot([gvar.domainLower gvar.domainUpper],[0 0],'k');
@@ -207,9 +220,9 @@ gvar.valuePOI=0;
      set(gvar.graph(1),'hittest','off'); 
 %% Initiate getCoord when clicked, displayed in the boxes at the botton of the window
 
-
+    cd 'Tracing'
     set(handles.Axes_GraphAxes,'ButtonDownFcn',@getCoord);
-    
+    cd ..
     if gvar.trial==1
        gvar.xValue=0;
        gvar.yValue=0;
@@ -221,7 +234,9 @@ gvar.valuePOI=0;
     
     
     gvar.trial=gvar.trial+1;
+
 end
+
 
 
 
@@ -263,24 +278,29 @@ end
 function deriv1_CheckBox_Callback(hObject, eventdata, handles)
 %% When the first derivative button is checked, plot f'(x)
 global gvar
+cd 'Function'
 gvar.value1=get(handles.deriv1_CheckBox,'Value');
 delete(gvar.graph(2));
 if gvar.value1==1
     first_derivative_plot();
 end
+cd ..
 
 function deriv2_CheckBox_Callback(hObject, eventdata, handles)
 %% When the second derivative button is checked, plot f''(x)
 global gvar
+cd 'Function'
 gvar.value2=get(handles.deriv2_CheckBox,'Value');
     delete(gvar.graph(3));
 if gvar.value2==1
     second_derivative_plot();
 end
+cd ..
 
 function FTC_LowBound_TextBox_Callback(hObject, eventdata, handles)
 %% Finding and plotting the area under f'(x)
 global gvar
+cd 'FTC'
 delete(gvar.graph(6));
 
 %% Get the user input for the lower bound of f'(x)
@@ -302,6 +322,7 @@ gvar.graph(6)=area(gvar.real_orig_x(1,gvar.loc_lower:gvar.loc_up),...
 catch 
     pause(0.00001);
 end
+cd ..
 
 function FTC_LowBound_TextBox_CreateFcn(hObject, eventdata, handles)
 
@@ -314,6 +335,7 @@ end
 function FTC_UpBound_TextBox_Callback(hObject, eventdata, handles)
 %% Finding and plotting area under f'(x)
 global gvar
+cd 'FTC'
 delete(gvar.graph(6));
 
 %% Get user input for the upper bound of f'(x)
@@ -336,6 +358,7 @@ try
 catch
     pause(0.00000001);
 end
+cd ..
 
 function FTC_UpBound_TextBox_CreateFcn(hObject, eventdata, handles)
 
@@ -356,6 +379,7 @@ set(handles.ftcProof_Toggle,'String',gvar.orig_area);
 function relMinMax_CheckBox_Callback(hObject, eventdata, handles)
 
 global gvar
+cd 'Important_Points'
 %% Plot the relative maximums and minimums if the box is checked
 gvar.valueRMM=get(handles.relMinMax_CheckBox,'Value');
 if gvar.valueRMM==1
@@ -363,10 +387,12 @@ if gvar.valueRMM==1
 elseif gvar.valueRMM==0
     delete(gvar.graph(4));
 end
+cd ..
 
 function POI_CheckBox_Callback(hObject, eventdata, handles)
 
 global gvar
+cd 'Important_Points'
 %% Plot the points of inflection if the box is checked
 gvar.value_POI=get(handles.POI_CheckBox,'Value');
 if gvar.value_POI==1
@@ -374,6 +400,7 @@ if gvar.value_POI==1
 elseif gvar.value_POI==0
     delete(gvar.graph(5));
 end
+cd ..
 
 function POI_ListBox_Callback(hObject, eventdata, handles)
 
@@ -414,9 +441,11 @@ function xCoord_ToggleButton_Callback(hObject, eventdata, handles)
 
 global gvar
 %% Set the x and y value if a point is clicked on the graph
+cd 'Tracing'
 set(handles.Axes_GraphAxes,'ButtonDownFcn',@getCoord);
 set(handles.xCoord_ToggleButton,'String',gvar.xValue);
 set(handles.yCoord_ToggleButton,'String',gvar.yValue);
+cd ..
 
 function yCoord_ToggleButton_Callback(hObject, eventdata, handles)
 global gvar
@@ -483,8 +512,9 @@ elseif v.value==5
 %% Graph of y=x!
 elseif v.value==6
 %     delete(gvar.graph(7));
+    cd 'Main'
     setAxes();
-    
+    cd ..
     
     
     x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
@@ -499,9 +529,11 @@ elseif v.value==6
     gvar.real_orig_y=y(gvar.num_y);
     gvar.real_orig_x=x(gvar.num_y); 
     
+    cd 'Function'
     first_derivative();
     second_derivative();
-    
+    cd ..
+    cd 'Important_Points'
     findZeros();
     set(handles.zeros_ListBox,'string',gvar.zeros_str);
     set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
@@ -511,7 +543,7 @@ elseif v.value==6
     POI();
     set(handles.POI_ListBox,'string',gvar.POI_str);
     set(handles.POI_ListBox,'max',length(gvar.POI_str));
-    
+    cd ..
     
     set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
     set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
@@ -529,10 +561,11 @@ elseif v.value==7
 
     
     gvar.graph(7)=plot(x,y);
-    
+    cd 'Function'
     first_derivative();
     second_derivative();
-    
+    cd ..
+    cd 'Important_Points'
     findZeros();
     set(handles.zeros_ListBox,'string',gvar.zeros_str);
     set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
@@ -542,12 +575,14 @@ elseif v.value==7
     POI();
     set(handles.POI_ListBox,'string',gvar.POI_str);
     set(handles.POI_ListBox,'max',length(gvar.POI_str));
-    
+    cd ..
     
     
     hold on
     grid on
+    cd 'Main'
     setAxes();
+    cd ..
     set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
     set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 %% Popup that shows a wave
@@ -622,7 +657,9 @@ hold off
 %% Gets the raw user input
     funcParse3.raw_in=get(handles.EquationThree_TypeBar,'String');
 %% Alters the string to make it MatLab-friendly
+    cd 'Parsers'
     equation_parser_three();
+    cd ..
 %% Graphs the 3D function based on the MatLab-friendly model
     gvar.graph(8)=ezsurf(funcParse3.format_in);
     

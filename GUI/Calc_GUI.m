@@ -1,3 +1,4 @@
+%% Begin Initialization code
 function varargout = Calc_GUI(varargin)
 
 gui_Singleton = 1;
@@ -18,7 +19,7 @@ else
 end
 % End of initialization code
 
-
+%% Executes the following functions before UI control
 function Calc_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 %% Default command line for the master program
 handles.output = hObject;
@@ -28,18 +29,17 @@ handles.output = hObject;
 %% Updates the GUI handle structure
 guidata(hObject, handles);
 
-%% Go to correct folder
-% cd ..
 
 %% Wait for user response to execute respective function
 uiwait(handles.figure1);
 
 
-
+%% Displays all necessary data from opening function
 function varargout = Calc_GUI_OutputFcn(hObject, eventdata, handles) 
 
 varargout{1} = handles.output;
 
+%% Plots first derivative if clicked
 function Deriv1_PushButton_Callback(hObject, eventdata, handles)
 
 global gvar
@@ -47,6 +47,7 @@ cd 'Function';
 first_derivative();
 cd ..
 
+%% Plots second derivative if clicked
 function Deriv2_PushButton_Callback(hObject, eventdata, handles)
 
 global gvar
@@ -54,18 +55,20 @@ cd 'Function'
 second_derivative();
 cd ..
 
+%% FTC Placeholder
 function FTC_PushButton_Callback(hObject, eventdata, handles)
 
 global gvar
 
 
-
+%% Displays the upper domain
 function domainUpper_TextBox_Callback(hObject, eventdata, handles)
 
 global gvar
 gvar.domainUpper=str2num(get(handles.domainUpper_TextBox,'string'));
 set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper])
 
+%% Executes the upper domain textbox
 function domainUpper_TextBox_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
@@ -75,13 +78,14 @@ end
 global gvar
 
 
-
+%% Displays the upper range
 function rangeUpper_TextBox_Callback(hObject, eventdata, handles)
 
 global gvar
 gvar.rangeUpper=str2num(get(handles.rangeUpper_TextBox,'string'));
 set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 
+%% Executes the upper range textbox
 function rangeUpper_TextBox_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
@@ -90,7 +94,7 @@ end
 global gvar
 
 
-
+%% Initiates the graphing when something is typed into the box
 function EquationTwo_TypeBar_Callback(hObject, eventdata, handles)
 
 %% State global variables
@@ -98,12 +102,6 @@ global gvar
 global funcParse2
 global v
 
-%% Get to the right folder
-% currFolder=pwd;
-% if currFolder(end-3:end)=='Main'
-%     cd ..
-% end
-%% Initialization
 v.value=1;
 gvar.graph(1:8)=plot(1,1);
 gvar.axis_plot(1:2)=plot(1,1);
@@ -240,7 +238,7 @@ end
 
 
 
-
+%% Shows to the user whatever is going on in the box
 function EquationTwo_TypeBar_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
@@ -249,7 +247,7 @@ end
 global gvar
 
 
-
+%% Displays the lower domain
 function domainLower_TextBox_Callback(hObject, eventdata, handles)
 
 global gvar
@@ -257,24 +255,28 @@ global gvar
 gvar.domainLower=str2num(get(handles.domainLower_TextBox,'string'));
 set(handles.Axes_GraphAxes,'XLim',[gvar.domainLower gvar.domainUpper]);
 
+%% Executes the lower domain textbox
 function domainLower_TextBox_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
+%% Displays the lower range
 function rangeLower_TextBox_Callback(hObject, eventdata, handles)
 %% Gets the lower range value and stores into a variable
 global gvar
 gvar.rangeLower=str2num(get(handles.rangeLower_TextBox,'string'));
 set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 
+%% Executes the lower range textbox
 function rangeLower_TextBox_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
+%% Plots first derivative upon check
 function deriv1_CheckBox_Callback(hObject, eventdata, handles)
 %% When the first derivative button is checked, plot f'(x)
 global gvar
@@ -286,6 +288,7 @@ if gvar.value1==1
 end
 cd ..
 
+%% Plots second derivative upon check
 function deriv2_CheckBox_Callback(hObject, eventdata, handles)
 %% When the second derivative button is checked, plot f''(x)
 global gvar
@@ -297,6 +300,7 @@ if gvar.value2==1
 end
 cd ..
 
+%% Shows FTC when lower bound is inputted
 function FTC_LowBound_TextBox_Callback(hObject, eventdata, handles)
 %% Finding and plotting the area under f'(x)
 global gvar
@@ -324,6 +328,7 @@ catch
 end
 cd ..
 
+%% Executes FTC
 function FTC_LowBound_TextBox_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
@@ -331,7 +336,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-
+%% Shows FTC when the upper bound is inputted
 function FTC_UpBound_TextBox_Callback(hObject, eventdata, handles)
 %% Finding and plotting area under f'(x)
 global gvar
@@ -360,22 +365,26 @@ catch
 end
 cd ..
 
+%% Executes FTC
 function FTC_UpBound_TextBox_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
+%% Shows the area under f'(x)
 function areaUnder_Toggle_Callback(hObject, eventdata, handles)
 
 global gvar
 set(handles.areaUnder_Toggle,'String',gvar.final_value);
 
+%% Shows f(b)-f(a)
 function ftcProof_Toggle_Callback(hObject, eventdata, handles)
 
 global gvar
 set(handles.ftcProof_Toggle,'String',gvar.orig_area);
 
+%% Plots relative maximums and minimums
 function relMinMax_CheckBox_Callback(hObject, eventdata, handles)
 
 global gvar
@@ -389,6 +398,7 @@ elseif gvar.valueRMM==0
 end
 cd ..
 
+%% Plots points of inflection
 function POI_CheckBox_Callback(hObject, eventdata, handles)
 
 global gvar
@@ -402,6 +412,7 @@ elseif gvar.value_POI==0
 end
 cd ..
 
+%% Display all points of inflection
 function POI_ListBox_Callback(hObject, eventdata, handles)
 
 global gvar
@@ -415,6 +426,7 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 
+%% Display all zeros
 function zeros_ListBox_Callback(hObject, eventdata, handles)
 
 global gvar

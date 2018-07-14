@@ -103,7 +103,7 @@ global funcParse2
 global v
 
 v.value=1;
-gvar.graph(1:8)=plot(1,1);
+gvar.graph(1:9)=plot(1,1);
 gvar.axis_plot(1:2)=plot(1,1);
 delete(gvar.graph);
 delete(gvar.axis_plot);
@@ -546,7 +546,7 @@ elseif v.value==6
     second_derivative();
     cd ..
     cd 'Important_Points'
-    findZeros();
+%     findZeros();
     set(handles.zeros_ListBox,'string',gvar.zeros_str);
     set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
     relMinMax()
@@ -662,7 +662,7 @@ function EquationThree_TypeBar_Callback(hObject, eventdata, handles)
 
 global gvar
 global funcParse3
-set(handles.Two_RadioButton,'Value',1);
+set(handles.Three_RadioButton,'Value',1);
 set(handles.variousGraphs_PopUp,'Value',1);
 hold off
 [x,y]=meshgrid(-8:0.3:8);
@@ -699,15 +699,56 @@ strOutput=num2str(rawOutput);
 set(handles.yValue_ToggleButton,'String',strOutput);
 set(handles.yValue_ToggleButton,'Value',1);
 
+function xValue_TextBox_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+function yValue_ToggleButton_Callback(hObject, eventdata, handles)
+
+function pushbutton5_Callback(hObject, eventdata, handles)
+
+function pushbutton6_Callback(hObject, eventdata, handles)
 
 
-% Hints: get(hObject,'String') returns contents of xValue_TextBox as text
-%        str2double(get(hObject,'String')) returns contents of xValue_TextBox as a double
+
+
+function xDist_TextBox_Callback(hObject, eventdata, handles)
+global gvar
+gvar.xDist = str2num(get(handles.xDist_TextBox,'String'));
+
+function xDist_TextBox_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function xVector_TextBox_Callback(hObject, eventdata, handles)
+global vector
+global gvar
+delete(gvar.graph);
+while get(handles.Vector_RadioButton,'Value')==1
+    try
+        vector.x=sym(get(handles.xVector_TextBox,'String'));
+        vector.F=[vector.x,vector.y,vector.z];
+        cd 'Function'
+        gvar.graph(9)=vectline(F,[vector.x,vector.y,vector.z],[-1,1,-2,3,1,3]);
+        cd ..
+    catch
+        pause(0.0001);
+    end
+end
+
+% Hints: get(hObject,'String') returns contents of xVector_TextBox as text
+%        str2double(get(hObject,'String')) returns contents of xVector_TextBox as a double
 
 
 % --- Executes during object creation, after setting all properties.
-function xValue_TextBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to xValue_TextBox (see GCBO)
+function xVector_TextBox_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to xVector_TextBox (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
 
@@ -718,10 +759,63 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-% --- Executes on button press in yValue_ToggleButton.
-function yValue_ToggleButton_Callback(hObject, eventdata, handles)
-% hObject    handle to yValue_ToggleButton (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    structure with handles and user data (see GUIDATA)
 
-% Hint: get(hObject,'Value') returns toggle state of yValue_ToggleButton
+function yVector_TextBox_Callback(hObject, eventdata, handles)
+global vector
+global gvar
+delete(gvar.graph);
+while get(handles.Vector_RadioButton,'Value')==1
+    try
+        vector.y=sym(get(handles.yVector_TextBox,'String'));
+        vector.F=[vector.x,vector.y,vector.z];
+        cd 'Function'
+        gvar.graph(9)=vectline(F,[vector.x,vector.y,vector.z],[-1,1,-2,3,1,3]);
+        cd ..
+    catch
+        pause(0.0001);
+    end
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function yVector_TextBox_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to yVector_TextBox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function zVector_TextBox_Callback(hObject, eventdata, handles)
+global vector
+global gvar
+delete(gvar.graph);
+while get(handles.Vector_RadioButton,'Value')==1
+    try
+        vector.z=sym(get(handles.zVector_TextBox,'String'));
+        vector.F=[vector.x,vector.y,vector.z];
+        cd 'Function'
+        gvar.graph(9)=vectline(F,[vector.x,vector.y,vector.z],[-1,1,-2,3,1,3]);
+        cd ..
+    catch
+        pause(0.0001);
+    end
+end
+
+
+% --- Executes during object creation, after setting all properties.
+function zVector_TextBox_CreateFcn(hObject, eventdata, handles)
+% hObject    handle to zVector_TextBox (see GCBO)
+% eventdata  reserved - to be defined in a future version of MATLAB
+% handles    empty - handles not created until after all CreateFcns called
+
+% Hint: edit controls usually have a white background on Windows.
+%       See ISPC and COMPUTER.
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end

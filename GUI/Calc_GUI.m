@@ -24,15 +24,11 @@ function Calc_GUI_OpeningFcn(hObject, eventdata, handles, varargin)
 %% Default command line for the master program
 handles.output = hObject;
 
-
-
 %% Updates the GUI handle structure
 guidata(hObject, handles);
 
-
 %% Wait for user response to execute respective function
 uiwait(handles.figure1);
-
 
 %% Displays all necessary data from opening function
 function varargout = Calc_GUI_OutputFcn(hObject, eventdata, handles) 
@@ -157,8 +153,7 @@ while get(handles.Two_RadioButton,'Value')==1 && v.value==1 && get(handles.yValu
         
 %% Setting the x value based on the user-inputted domain
         x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
-        
-        
+            
 %% Run the parser function to make raw string decodable for MatLab
         cd 'Parsers'
         equation_parser_two()
@@ -166,16 +161,10 @@ while get(handles.Two_RadioButton,'Value')==1 && v.value==1 && get(handles.yValu
         try
 %% Evaluates the MatLab-friendly function
             y=eval(funcParse2.format_in);
-%                 break
         catch
 
             pause(0.0000001);
         end
-
-
-
-% end
-
 
 %% Only real numbers allowed
 gvar.num_y=(y==real(y));
@@ -211,8 +200,6 @@ set(handles.Axes_GraphAxes,'YLim',[gvar.rangeLower gvar.rangeUpper]);
 gvar.valueRMM=0;
 gvar.valuePOI=0;
      hold on
-     
-
 
 %% Click on graph variable points
      set(gvar.graph(1),'hittest','off'); 
@@ -230,13 +217,9 @@ gvar.valuePOI=0;
     set(handles.yCoord_ToggleButton,'String',gvar.yValue);
     waitforbuttonpress;
     
-    
     gvar.trial=gvar.trial+1;
 
 end
-
-
-
 
 %% Shows to the user whatever is going on in the box
 function EquationTwo_TypeBar_CreateFcn(hObject, eventdata, handles)
@@ -245,7 +228,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
     set(hObject,'BackgroundColor','white');
 end
 global gvar
-
 
 %% Displays the lower domain
 function domainLower_TextBox_Callback(hObject, eventdata, handles)
@@ -334,7 +316,6 @@ function FTC_LowBound_TextBox_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
 
 %% Shows FTC when the upper bound is inputted
 function FTC_UpBound_TextBox_Callback(hObject, eventdata, handles)
@@ -434,7 +415,6 @@ global gvar
 set(handles.zeros_ListBox,'string',gvar.zeros_str);
 set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
 
-
 function zeros_ListBox_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
@@ -462,14 +442,12 @@ cd ..
 function yCoord_ToggleButton_Callback(hObject, eventdata, handles)
 global gvar
 
-
 function variousGraphs_PopUp_Callback(hObject, eventdata, handles)
 %% Defining the global variables being used in the box that contains interesting graphs
 global gvar
 global v
 global funcParse2
 global funcParse3
-
 
 set(handles.EquationTwo_TypeBar,'String','');
 
@@ -528,11 +506,8 @@ elseif v.value==6
     setAxes();
     cd ..
     
-    
     x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
     y=gamma(x);
-    
-
     
     gvar.graph(7)=plot(x,y);
     hold on;
@@ -562,7 +537,6 @@ elseif v.value==6
 %% Graph of the amplitude modulation function (commonly known as AM radio signal)
 elseif v.value==7
 %     delete(gvar.graph(7));
-
     
     x=gvar.domainLower:gvar.xDist:gvar.domainUpper;
     y=eval('exp(0.15.*x).*(sin(2.*x))-2');
@@ -570,7 +544,6 @@ elseif v.value==7
     gvar.num_y=(y==real(y));
     gvar.real_orig_y=y(gvar.num_y);
     gvar.real_orig_x=x(gvar.num_y); 
-
     
     gvar.graph(7)=plot(x,y);
     cd 'Function'
@@ -588,7 +561,6 @@ elseif v.value==7
     set(handles.POI_ListBox,'string',gvar.POI_str);
     set(handles.POI_ListBox,'max',length(gvar.POI_str));
     cd ..
-    
     
     hold on
     grid on
@@ -617,10 +589,7 @@ elseif v.value==11
 elseif v.value==12
     delete(gvar.graph(7));
     soma;
-
-    
 end
-
 
 function variousGraphs_PopUp_CreateFcn(hObject, eventdata, handles)
 
@@ -657,7 +626,6 @@ uistack(handles.EquationTwo_TypeBar,'bottom');
 
 uistack(handles.EquationThree_TypeBar,'top');
 
-
 function EquationThree_TypeBar_Callback(hObject, eventdata, handles)
 
 global gvar
@@ -674,15 +642,12 @@ hold off
     cd ..
 %% Graphs the 3D function based on the MatLab-friendly model
     gvar.graph(8)=ezsurf(funcParse3.format_in);
-    
 
 function EquationThree_TypeBar_CreateFcn(hObject, eventdata, handles)
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
-
 
 function xValue_TextBox_Callback(hObject, eventdata, handles)
 global gvar
@@ -700,6 +665,7 @@ set(handles.yValue_ToggleButton,'String',strOutput);
 set(handles.yValue_ToggleButton,'Value',1);
 
 function xValue_TextBox_CreateFcn(hObject, eventdata, handles)
+<<<<<<< HEAD
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
@@ -751,13 +717,14 @@ function xVector_TextBox_CreateFcn(hObject, eventdata, handles)
 % hObject    handle to xVector_TextBox (see GCBO)
 % eventdata  reserved - to be defined in a future version of MATLAB
 % handles    empty - handles not created until after all CreateFcns called
+=======
+>>>>>>> c818f92935e4bb927f7ebe13d263431dc8fb1a2b
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
+<<<<<<< HEAD
 
 
 function yVector_TextBox_Callback(hObject, eventdata, handles)
@@ -819,3 +786,7 @@ function zVector_TextBox_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
+=======
+function yValue_ToggleButton_Callback(hObject, eventdata, handles)
+set(handles.yValue_ToggleButton, 'Value', 1);
+>>>>>>> c818f92935e4bb927f7ebe13d263431dc8fb1a2b

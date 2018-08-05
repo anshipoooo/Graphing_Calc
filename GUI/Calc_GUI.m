@@ -727,33 +727,29 @@ end
 
 
 function xVector_TextBox_Callback(hObject, eventdata, handles)
-global vector
+global vect
+global vectorMain
 global gvar
 delete(gvar.graph);
 while get(handles.Vector_RadioButton,'Value')==1
     try
-        vector.x=sym(get(handles.xVector_TextBox,'String'));
-        vector.F=[vector.x,vector.y,vector.z];
-        cd 'Function'
-        gvar.graph(9)=vectline(F,[vector.x,vector.y,vector.z],[-1,1,-2,3,1,3]);
-        cd ..
+        vectx.raw_in=get(handles.xVector_TextBox,'String');
+        cd 'Function\Vector'
+        equation_parser_vect();
+        vectorMain.x=vect.format_in;
+        vector.F=[vectorMain.x,vectorMain.y,vectorMain.z];
+        gvar.graph(9)=vectline(vector.F,[vectorMain.x,vectorMain.y,vectorMain.z],[-1,1,-2,3,1,3]);
+        for i=1:2
+            cd ..
+        end
     catch
         pause(0.0001);
     end
 end
 
-% Hints: get(hObject,'String') returns contents of xVector_TextBox as text
-%        str2double(get(hObject,'String')) returns contents of xVector_TextBox as a double
 
-
-% --- Executes during object creation, after setting all properties.
 function xVector_TextBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to xVector_TextBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -761,30 +757,28 @@ end
 
 
 function yVector_TextBox_Callback(hObject, eventdata, handles)
-global vector
+global vect
+global vectorMain
 global gvar
 delete(gvar.graph);
 while get(handles.Vector_RadioButton,'Value')==1
     try
-        vector.y=sym(get(handles.yVector_TextBox,'String'));
-        vector.F=[vector.x,vector.y,vector.z];
-        cd 'Function'
-        gvar.graph(9)=vectline(F,[vector.x,vector.y,vector.z],[-1,1,-2,3,1,3]);
-        cd ..
+        vectx.raw_in=get(handles.yVector_TextBox,'String');
+        cd 'Function\Vector'
+        equation_parser_vect();
+        vectorMain.y=vect.format_in;
+        vector.F=[vectorMain.x,vectorMain.y,vectorMain.z];
+        gvar.graph(9)=vectline(vector.F,[vectorMain.x,vectorMain.y,vectorMain.z],[-1,1,-2,3,1,3]);
+        for i=1:2
+            cd ..
+        end
     catch
         pause(0.0001);
     end
 end
 
-
-% --- Executes during object creation, after setting all properties.
 function yVector_TextBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to yVector_TextBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
@@ -792,30 +786,28 @@ end
 
 
 function zVector_TextBox_Callback(hObject, eventdata, handles)
-global vector
+global vect
+global vectorMain
 global gvar
 delete(gvar.graph);
 while get(handles.Vector_RadioButton,'Value')==1
     try
-        vector.z=sym(get(handles.zVector_TextBox,'String'));
-        vector.F=[vector.x,vector.y,vector.z];
-        cd 'Function'
-        gvar.graph(9)=vectline(F,[vector.x,vector.y,vector.z],[-1,1,-2,3,1,3]);
-        cd ..
+        vectx.raw_in=get(handles.zVector_TextBox,'String');
+        cd 'Function\Vector'
+        equation_parser_vect();
+        vectorMain.z=vect.format_in;
+        vector.F=[vectorMain.x,vectorMain.y,vectorMain.z];
+        gvar.graph(9)=vectline(vector.F,[vectorMain.x,vectorMain.y,vectorMain.z],[-1,1,-2,3,1,3]);
+        for i=1:2
+            cd ..
+        end
     catch
         pause(0.0001);
     end
 end
 
-
-% --- Executes during object creation, after setting all properties.
 function zVector_TextBox_CreateFcn(hObject, eventdata, handles)
-% hObject    handle to zVector_TextBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
 
-% Hint: edit controls usually have a white background on Windows.
-%       See ISPC and COMPUTER.
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end

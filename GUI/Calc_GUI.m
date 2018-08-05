@@ -99,7 +99,7 @@ global funcParse2
 global v
 
 v.value=1;
-gvar.graph(1:8)=plot(1,1);
+gvar.graph(1:9)=plot(1,1);
 gvar.axis_plot(1:2)=plot(1,1);
 delete(gvar.graph);
 delete(gvar.axis_plot);
@@ -521,7 +521,7 @@ elseif v.value==6
     second_derivative();
     cd ..
     cd 'Important_Points'
-    findZeros();
+%     findZeros();
     set(handles.zeros_ListBox,'string',gvar.zeros_str);
     set(handles.zeros_ListBox,'max',length(gvar.zeros_str));
     relMinMax()
@@ -630,7 +630,7 @@ function EquationThree_TypeBar_Callback(hObject, eventdata, handles)
 
 global gvar
 global funcParse3
-set(handles.Two_RadioButton,'Value',1);
+set(handles.Three_RadioButton,'Value',1);
 set(handles.variousGraphs_PopUp,'Value',1);
 hold off
 [x,y]=meshgrid(-8:0.3:8);
@@ -665,10 +665,122 @@ set(handles.yValue_ToggleButton,'String',strOutput);
 set(handles.yValue_ToggleButton,'Value',1);
 
 function xValue_TextBox_CreateFcn(hObject, eventdata, handles)
+<<<<<<< HEAD
+=======
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
 function yValue_ToggleButton_Callback(hObject, eventdata, handles)
+
+function pushbutton5_Callback(hObject, eventdata, handles)
+
+function pushbutton6_Callback(hObject, eventdata, handles)
+
+
+
+
+function xDist_TextBox_Callback(hObject, eventdata, handles)
+global gvar
+gvar.xDist = str2num(get(handles.xDist_TextBox,'String'));
+
+function xDist_TextBox_CreateFcn(hObject, eventdata, handles)
+>>>>>>> Ansh_Branch
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+<<<<<<< HEAD
+function yValue_ToggleButton_Callback(hObject, eventdata, handles)
 set(handles.yValue_ToggleButton, 'Value', 1);
+=======
+
+
+function xVector_TextBox_Callback(hObject, eventdata, handles)
+global vect
+global vectorMain
+global gvar
+delete(gvar.graph);
+while get(handles.Vector_RadioButton,'Value')==1
+    try
+        vectx.raw_in=get(handles.xVector_TextBox,'String');
+        cd 'Function\Vector'
+        equation_parser_vect();
+        vectorMain.x=vect.format_in;
+        vector.F=[vectorMain.x,vectorMain.y,vectorMain.z];
+        gvar.graph(9)=vectline(vector.F,[vectorMain.x,vectorMain.y,vectorMain.z],[-1,1,-2,3,1,3]);
+        for i=1:2
+            cd ..
+        end
+    catch
+        pause(0.0001);
+    end
+end
+
+
+function xVector_TextBox_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function yVector_TextBox_Callback(hObject, eventdata, handles)
+global vect
+global vectorMain
+global gvar
+delete(gvar.graph);
+while get(handles.Vector_RadioButton,'Value')==1
+    try
+        vectx.raw_in=get(handles.yVector_TextBox,'String');
+        cd 'Function\Vector'
+        equation_parser_vect();
+        vectorMain.y=vect.format_in;
+        vector.F=[vectorMain.x,vectorMain.y,vectorMain.z];
+        gvar.graph(9)=vectline(vector.F,[vectorMain.x,vectorMain.y,vectorMain.z],[-1,1,-2,3,1,3]);
+        for i=1:2
+            cd ..
+        end
+    catch
+        pause(0.0001);
+    end
+end
+
+function yVector_TextBox_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+
+
+
+function zVector_TextBox_Callback(hObject, eventdata, handles)
+global vect
+global vectorMain
+global gvar
+delete(gvar.graph);
+while get(handles.Vector_RadioButton,'Value')==1
+    try
+        vectx.raw_in=get(handles.zVector_TextBox,'String');
+        cd 'Function\Vector'
+        equation_parser_vect();
+        vectorMain.z=vect.format_in;
+        vector.F=[vectorMain.x,vectorMain.y,vectorMain.z];
+        gvar.graph(9)=vectline(vector.F,[vectorMain.x,vectorMain.y,vectorMain.z],[-1,1,-2,3,1,3]);
+        for i=1:2
+            cd ..
+        end
+    catch
+        pause(0.0001);
+    end
+end
+
+function zVector_TextBox_CreateFcn(hObject, eventdata, handles)
+
+if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
+    set(hObject,'BackgroundColor','white');
+end
+>>>>>>> Ansh_Branch

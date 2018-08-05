@@ -665,11 +665,7 @@ set(handles.yValue_ToggleButton,'String',strOutput);
 set(handles.yValue_ToggleButton,'Value',1);
 
 function xValue_TextBox_CreateFcn(hObject, eventdata, handles)
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-=======
->>>>>>> f2e06a12800f30b7ca5b6c3fc666e42ca110f18e
+
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
@@ -689,16 +685,16 @@ global gvar
 gvar.xDist = str2num(get(handles.xDist_TextBox,'String'));
 
 function xDist_TextBox_CreateFcn(hObject, eventdata, handles)
->>>>>>> Ansh_Branch
+
 
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
 
-<<<<<<< HEAD
+
 function yValue_ToggleButton_Callback(hObject, eventdata, handles)
 set(handles.yValue_ToggleButton, 'Value', 1);
-=======
+
 
 
 function xVector_TextBox_Callback(hObject, eventdata, handles)
@@ -724,24 +720,9 @@ end
 
 
 function xVector_TextBox_CreateFcn(hObject, eventdata, handles)
-<<<<<<< HEAD
-=======
-% hObject    handle to xVector_TextBox (see GCBO)
-% eventdata  reserved - to be defined in a future version of MATLAB
-% handles    empty - handles not created until after all CreateFcns called
-=======
->>>>>>> c818f92935e4bb927f7ebe13d263431dc8fb1a2b
->>>>>>> f2e06a12800f30b7ca5b6c3fc666e42ca110f18e
-
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> f2e06a12800f30b7ca5b6c3fc666e42ca110f18e
-
 
 function yVector_TextBox_Callback(hObject, eventdata, handles)
 global vect
@@ -798,11 +779,6 @@ function zVector_TextBox_CreateFcn(hObject, eventdata, handles)
 if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
     set(hObject,'BackgroundColor','white');
 end
-<<<<<<< HEAD
->>>>>>> Ansh_Branch
-=======
-=======
+
 function yValue_ToggleButton_Callback(hObject, eventdata, handles)
 set(handles.yValue_ToggleButton, 'Value', 1);
->>>>>>> c818f92935e4bb927f7ebe13d263431dc8fb1a2b
->>>>>>> f2e06a12800f30b7ca5b6c3fc666e42ca110f18e

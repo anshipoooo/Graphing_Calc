@@ -172,11 +172,12 @@ gvar.real_orig_y=y(gvar.num_y);
 gvar.real_orig_x=x(gvar.num_y);
 
 %% Executes functions to find the values of f(x), f'(x), and f''(x) and store in respective variables
-cd 'Function'
+cd 'Function\2D'
 Orig_function();
 first_derivative();
 second_derivative();
 findZeros();
+cd ..
 cd ..
 %% Puts the important points in their respective boxes (zeros, RMM, and POI)
 cd 'Important_Points'
@@ -263,11 +264,13 @@ function deriv1_CheckBox_Callback(hObject, eventdata, handles)
 %% When the first derivative button is checked, plot f'(x)
 global gvar
 cd 'Function'
+cd '2D'
 gvar.value1=get(handles.deriv1_CheckBox,'Value');
 delete(gvar.graph(2));
 if gvar.value1==1
     first_derivative_plot();
 end
+cd ..
 cd ..
 
 %% Plots second derivative upon check
@@ -275,11 +278,13 @@ function deriv2_CheckBox_Callback(hObject, eventdata, handles)
 %% When the second derivative button is checked, plot f''(x)
 global gvar
 cd 'Function'
+cd '2D'
 gvar.value2=get(handles.deriv2_CheckBox,'Value');
     delete(gvar.graph(3));
 if gvar.value2==1
     second_derivative_plot();
 end
+cd ..
 cd ..
 
 %% Shows FTC when lower bound is inputted
@@ -673,9 +678,6 @@ end
 
 function yValue_ToggleButton_Callback(hObject, eventdata, handles)
 
-function pushbutton5_Callback(hObject, eventdata, handles)
-
-function pushbutton6_Callback(hObject, eventdata, handles)
 
 
 
@@ -692,8 +694,6 @@ if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgr
 end
 
 
-function yValue_ToggleButton_Callback(hObject, eventdata, handles)
-set(handles.yValue_ToggleButton, 'Value', 1);
 
 
 
@@ -704,12 +704,13 @@ global gvar
 delete(gvar.graph);
 while get(handles.Vector_RadioButton,'Value')==1
     try
-        vectx.raw_in=get(handles.xVector_TextBox,'String');
+        vect.raw_in=get(handles.xVector_TextBox,'String');
+        syms x y z;
         cd 'Function\Vector'
         equation_parser_vect();
         vectorMain.x=vect.format_in;
-        vector.F=[vectorMain.x,vectorMain.y,vectorMain.z];
-        gvar.graph(9)=vectline(vector.F,[vectorMain.x,vectorMain.y,vectorMain.z],[-1,1,-2,3,1,3]);
+        vectorMain.F=[vectorMain.x,vectorMain.y,z];
+        gvar.graph(9)=vectline(vector.F,[x,y,z],[-1,1,-2,3,1,3]);
         for i=1:2
             cd ..
         end
@@ -731,12 +732,13 @@ global gvar
 delete(gvar.graph);
 while get(handles.Vector_RadioButton,'Value')==1
     try
-        vectx.raw_in=get(handles.yVector_TextBox,'String');
+        vect.raw_in=get(handles.yVector_TextBox,'String');
+        syms x y z;
         cd 'Function\Vector'
         equation_parser_vect();
         vectorMain.y=vect.format_in;
-        vector.F=[vectorMain.x,vectorMain.y,vectorMain.z];
-        gvar.graph(9)=vectline(vector.F,[vectorMain.x,vectorMain.y,vectorMain.z],[-1,1,-2,3,1,3]);
+        vectorMain.F=[vectorMain.x,vectorMain.y,vectorMain.z];
+        gvar.graph(9)=vectline(vector.F,[x,y,z],[-1,1,-2,3,1,3]);
         for i=1:2
             cd ..
         end
@@ -753,32 +755,7 @@ end
 
 
 
-function zVector_TextBox_Callback(hObject, eventdata, handles)
-global vect
-global vectorMain
-global gvar
-delete(gvar.graph);
-while get(handles.Vector_RadioButton,'Value')==1
-    try
-        vectx.raw_in=get(handles.zVector_TextBox,'String');
-        cd 'Function\Vector'
-        equation_parser_vect();
-        vectorMain.z=vect.format_in;
-        vector.F=[vectorMain.x,vectorMain.y,vectorMain.z];
-        gvar.graph(9)=vectline(vector.F,[vectorMain.x,vectorMain.y,vectorMain.z],[-1,1,-2,3,1,3]);
-        for i=1:2
-            cd ..
-        end
-    catch
-        pause(0.0001);
-    end
-end
-
-function zVector_TextBox_CreateFcn(hObject, eventdata, handles)
-
-if ispc && isequal(get(hObject,'BackgroundColor'), get(0,'defaultUicontrolBackgroundColor'))
-    set(hObject,'BackgroundColor','white');
-end
-
-function yValue_ToggleButton_Callback(hObject, eventdata, handles)
-set(handles.yValue_ToggleButton, 'Value', 1);
+% --- Executes on button press in Vector_RadioButton.
+function Vector_RadioButton_Callback(hObject, eventdata, handles)
+hold off
+cla

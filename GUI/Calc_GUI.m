@@ -172,7 +172,7 @@ gvar.real_orig_y=y(gvar.num_y);
 gvar.real_orig_x=x(gvar.num_y);
 
 %% Executes functions to find the values of f(x), f'(x), and f''(x) and store in respective variables
-cd 'Function\2D'
+cd 'Function/2D'
 Orig_function();
 first_derivative();
 second_derivative();
@@ -646,7 +646,7 @@ hold off
     equation_parser_three();
     cd ..
 %% Graphs the 3D function based on the MatLab-friendly model
-    gvar.graph(8)=ezsurf(funcParse3.format_in);
+    gvar.graph(8)=ezmesh(funcParse3.format_in);
 
 function EquationThree_TypeBar_CreateFcn(hObject, eventdata, handles)
 

@@ -702,21 +702,30 @@ global vect
 global vectorMain
 global gvar
 delete(gvar.graph);
-while get(handles.Vector_RadioButton,'Value')==1
-    try
+if get(handles.Vector_RadioButton,'Value')==1
+%     try
         vect.raw_in=get(handles.xVector_TextBox,'String');
-        syms x y z;
-        cd 'Function\Vector'
+        syms x y z
+        vectorMain.x=sym(x);
+        vectorMain.y=sym(y);
+        vectorMain.z=sym(z);
+        cd 'Function/Vector'
         equation_parser_vect();
-        vectorMain.x=vect.format_in;
-        vectorMain.F=[vectorMain.x,vectorMain.y,z];
-        gvar.graph(9)=vectline(vector.F,[x,y,z],[-1,1,-2,3,1,3]);
         for i=1:2
             cd ..
         end
-    catch
-        pause(0.0001);
-    end
+        vectorMain.xFunc=str2sym(vect.format_in);
+        vectorMain.F=[vectorMain.xFunc,vectorMain.yFunc,vectorMain.z];
+        cd 'Function/Vector'
+        gvar.graph(9)=vectline(vectorMain.F,[vectorMain.x,vectorMain.y,...
+            vectorMain.z],[-1,1,-2,3,1,3]);
+        for i=1:2
+            cd ..
+        end
+        
+%     catch
+%         pause(0.0001);
+%     end
 end
 
 
@@ -730,21 +739,34 @@ global vect
 global vectorMain
 global gvar
 delete(gvar.graph);
-while get(handles.Vector_RadioButton,'Value')==1
-    try
+if get(handles.Vector_RadioButton,'Value')==1
+%     try
         vect.raw_in=get(handles.yVector_TextBox,'String');
-        syms x y z;
-        cd 'Function\Vector'
+        syms x y z
+        vectorMain.x=sym(x);
+        vectorMain.y=sym(y);
+        vectorMain.z=sym(z);
+        cd 'Function/Vector'
+        cd
         equation_parser_vect();
-        vectorMain.y=vect.format_in;
-        vectorMain.F=[vectorMain.x,vectorMain.y,vectorMain.z];
-        gvar.graph(9)=vectline(vector.F,[x,y,z],[-1,1,-2,3,1,3]);
         for i=1:2
             cd ..
         end
-    catch
-        pause(0.0001);
-    end
+        vectorMain.yFunc=str2sym(vect.format_in);
+        vectorMain.F=[vectorMain.xFunc,vectorMain.yFunc,vectorMain.z];
+        cd 'Function/Vector'
+        hold off
+        gvar.graph(9)=vectline(vectorMain.F,[vectorMain.x,vectorMain.y,...
+            vectorMain.z],[-1,1,-2,3,1,3]);
+
+        for i=1:2
+            cd ..
+        end
+        
+        
+%     catch
+%         pause(0.0001);
+%     end
 end
 
 function yVector_TextBox_CreateFcn(hObject, eventdata, handles)

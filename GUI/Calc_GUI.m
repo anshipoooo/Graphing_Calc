@@ -162,7 +162,8 @@ while get(handles.Two_RadioButton,'Value')==1 && v.value==1 && get(handles.yValu
 %% Evaluates the MatLab-friendly function
             y=eval(funcParse2.format_in);
         catch
-
+            
+            error=msgbox('Error in the equation. Please refer to documentation to diagnose', 'Error', 'error');
             pause(0.0000001);
         end
 

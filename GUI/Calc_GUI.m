@@ -647,7 +647,7 @@ hold off
     equation_parser_three();
     cd ..
 %% Graphs the 3D function based on the MatLab-friendly model
-    gvar.graph(8)=ezmesh(funcParse3.format_in);
+    gvar.graph(8)=ezsurf(funcParse3.format_in);
 
 function EquationThree_TypeBar_CreateFcn(hObject, eventdata, handles)
 
